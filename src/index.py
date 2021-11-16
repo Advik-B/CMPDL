@@ -58,9 +58,9 @@ class ModPack():
         return self.links
 
     def clean(self):
-        if self.ini == False:
-            raise ModPackError('ModPack not initialized')
         shutil.rmtree(self.tempfol, ignore_errors=True)
+        self.ini = False
+        self.gotten_links = False
 
     def install(self, path:str):
         if self.ini == False:
