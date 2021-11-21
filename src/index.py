@@ -13,6 +13,7 @@ from clint.textui import progress
 class ModPackError(Exception): pass
 
 class ModPack():
+    
     def __init__(self, path) -> None:
         self.files = []
         self.links = []
@@ -68,17 +69,19 @@ class ModPack():
         elif self.gotten_links == False:
             raise ModPackError('Links not gotten')
         scraper = cloudscraper.create_scraper(allow_brotli=True)
+        re_ = r'href="/minecraft/mc-mods/.+\/files"'
         for i in range(1+1):
             html = scraper.get(self.links[i]).text
-            soup = BeautifulSoup(html, 'html.parser')
-            re_ = r'href="/minecraft/mc-mods/.+\/files"'
             file_link = 'https://curseforge.com'+re.findall(re_, html)[0].replace('href=', '').replace('"', '').replace("'", '')
-            
             mod_name = file_link.split('/')[-2]
             file_id = self.links[i].split('/')[-2]
-            download_link = 'https://www.curseforge.com/minecraft/mc-mods/%s/download/%s' % (mod_name, file_id)
-            scraper_ = cloudscraper.create_scraper(delay=6)
-            r= scraper_.get(download_link, allow_redirects=True, stream=True)
+            accurate_file_link = file_link.__add__('/' + str(file_id))
+            a = scraper.get(accurate_file_link)
+            soup = BeautifulSoup(a.text, 'html.parser')
+            file_name = soup.find_all(class_='text-sm')[3].text
+            new_download_link = 'https://media.forgecdn.net/files/%s/%s/%s' % (file_id[:4], file_id[4:], file_name)
+            
+            r= scraper.get(new_download_link, allow_redirects=True, stream=True)
             pth = os.path.join(path, mod_name+'.jar')
             with open(pth, 'wb') as f:
                     total_length = int(r.headers.get('content-length', 0))
@@ -86,13 +89,18 @@ class ModPack():
                         if chunk:
                             f.write(chunk)
                             f.flush()
-            print('%s installed' % mod_name)
-        
-        
+            msg = f"""\n
+            Mod: {mod_name}
+            File: {file_name}
+            link: {self.links[i]}
+            direct link: {new_download_link}
+            """
+            print(msg)
+            
+
 if __name__ == '__main__':
-    a = ModPack('E:/GitHub-Repos/CMPDL/src/mods.zip')
+    a = ModPack('mods.zip')
     a.init()
     a.get_links()
-    a.install('E:/GitHub-Repos/CMPDL/src/mods')
+    a.install('mods')
     a.clean()
-    
