@@ -1,5 +1,8 @@
 #!bin/env python3
 
+if __name__ == '__main__':
+    raise ImportError('This module is not meant to be run directly.')
+
 import json
 import os
 import tempfile
