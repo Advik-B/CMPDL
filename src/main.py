@@ -55,7 +55,7 @@ elif zip_file is None:
     exit(1)
 else:
     mode = 'cli'
-def log(msg: str, level: str, silent:bool=False, debug:bool=debug):
+def log(msg: str, level: str, silent:bool=silent, debug:bool=debug):
     if silent:
         return
     
