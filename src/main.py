@@ -23,7 +23,7 @@ import os
 from builtins import exit
 from termcolor import cprint, colored
 from itertools import cycle
-from index import ModPack, ModPackError
+from index import ModPack
 
 def banner():
     clrs = cycle(['blue', 'cyan', 'green', 'yellow', 'red', 'magenta'])
@@ -55,7 +55,7 @@ elif zip_file is None:
     exit(1)
 else:
     mode = 'cli'
-def log(msg: str, level: str, silent:bool=False, debug:bool=False):
+def log(msg: str, level: str, silent:bool=False, debug:bool=debug):
     if silent:
         return
     
