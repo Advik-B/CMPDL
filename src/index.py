@@ -73,7 +73,6 @@ class ModPack():
         shutil.rmtree(self.tempfol, ignore_errors=True)
         self.ini = False
         self.gotten_links = False
-        self.func('Done', 'info')
 
     def install(self, path:str, progress_bar:Progressbar=None):
         if self.ini is False:
