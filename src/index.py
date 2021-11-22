@@ -80,7 +80,7 @@ class ModPack():
         self.gotten_links = False
         logger.log('info', 'Cleanup complete')
 
-    def __install(self, path:str, progress_bar:Progressbar=None):
+    def install(self, path:str, progress_bar:Progressbar=None):
         logger.log('info', 'Installing in %s' % path)
         if self.ini is False:
             logger.log('error', 'ModPack not initialized')
@@ -124,10 +124,6 @@ class ModPack():
             logger.log('debug', '-----------------------------------------------------')
             if progress_bar is not None:
                 progress_bar.step(1)
-    
-    def install(self, **args):
-        t= Thread(target=lambda: self.__install(**args))
-        t.start()
 
 if __name__ == '__main__':
     a = ModPack('fab.zip')
