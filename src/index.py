@@ -30,6 +30,17 @@ class ModPack():
         self.mani = os.path.join(self.tempfol, 'manifest.json').replace('\\', '/')
         self.gotten_links = False
         self.func = func
+        self.figlet = r'''
+______           ___       _         _  _            ______ 
+| ___ \         / _ \     | |       (_)| |           | ___ \
+| |_/ / _   _  / /_\ \  __| |__   __ _ | | __ ______ | |_/ /
+| ___ \| | | | |  _  | / _` |\ \ / /| || |/ /|______|| ___ \
+| |_/ /| |_| | | | | || (_| | \ V / | ||   <         | |_/ /
+\____/  \__, | \_| |_/ \__,_|  \_/  |_||_|\_\        \____/ 
+         __/ |                                              
+        |___/ 
+
+'''
 
     def init(self):
         self.func('Initializing ModPack', 'info')
@@ -79,6 +90,8 @@ class ModPack():
             raise ModPackError('ModPack not initialized')
         elif self.gotten_links is False:
             raise ModPackError('Links not gotten')
+        if os.path.isdir(path) is False:
+            os.makedirs(path)
         scraper = cloudscraper.create_scraper(allow_brotli=True)
         re_ = r'href="/minecraft/mc-mods/.+\/files"'
         if progress_bar is not None:
@@ -116,3 +129,4 @@ class ModPack():
         self.func('All mods downloaded', 'info')
         self.clean()
         self.func('===== Done =====', 'info')
+        self.func(self.figlet, 'info')
