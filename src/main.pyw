@@ -221,5 +221,6 @@ class Main(Tk):
         self.mainloop()
         exit(0)
 
-app = Main()
-app.start()
+if __name__ == '__main__':
+    app = Main()
+    app.start()
