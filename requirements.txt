@@ -1,1 +1,4 @@
 cloudscraper
+termcolor
+bs4
+clint
