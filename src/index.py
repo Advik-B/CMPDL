@@ -15,10 +15,6 @@ from bs4 import BeautifulSoup
 from clint.textui import progress
 from tkinter.ttk import Progressbar
 from urllib.parse import quote, unquote
-from logger import Logger
-
-logger = Logger()
-logger.init(telemetry=True)
 
 class ModPackError(Exception): pass
 
