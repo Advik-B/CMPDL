@@ -116,3 +116,4 @@ class ModPack():
             self.func('Downloaded Mod: %s' % mod_name, 'info')
         self.func('All mods downloaded', 'info')
         self.clean()
+        self.func('===== Done =====', 'info')
