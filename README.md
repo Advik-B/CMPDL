@@ -17,7 +17,7 @@ This app will download all the mods to your desired folder from a modpack (zip) 
 
 ### How it works
 
-Every modpack is a zip file, In that zip file... And in that zip file, there is a file called `manifest.json`
+Every modpack is a zip file, In that zip file... there is a file called `manifest.json`
 
 In `manifest.json` there is info about:
 
