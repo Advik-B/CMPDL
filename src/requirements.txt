@@ -1,3 +1,4 @@
 pip
-cloudscraper
+cursepy
+requests
 clint
