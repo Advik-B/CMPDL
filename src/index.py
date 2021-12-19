@@ -11,16 +11,15 @@ import shutil
 import requests
 
 
-class ModPack():
-    
+class ModPack:
+
     def __init__(self, path: str) -> None:
         self.path = path
         self.ini = False
         self.logger = Logger()
         self.log = self.logger.log
-        
 
-    def init(self, path: str=None) -> None:
+    def init(self, path: str = None) -> None:
         if path is None:
             self.outdir_temp = tempfile.mkdtemp(prefix='CMPDL')
 
@@ -43,7 +42,7 @@ class ModPack():
             if mod.get('primary') == True:
                 self.modloader = mod['id']
                 break
-            
+
         self.overrides = self.manifest['overrides']
         self.log(f'Modpack: {self.modpack_name}', 'info')
         self.log(f'Version: {self.modpack_version}', 'info')
@@ -65,21 +64,20 @@ class ModPack():
             self.log(f'Mod FileID: {mod["fileID"]}', 'debug')
             self.download_raw(self.current_mod.file(mod["fileID"]).download_url, output_dir)
             self.log(f'Downloaded {self.current_mod.name} complete', 'info')
-    
+
     def download_raw(self, url: str, output_dir: str) -> None:
         r = requests.get(url, stream=True)
         file_name = unquote(url.split('/')[-1])
         output_path = os.path.join(output_dir, file_name)
         with open(output_path, 'wb') as f:
             for chunk in progress.bar(
-                r.iter_content(chunk_size=1024),
-                expected_size=(int(r.headers['content-length']) / 1024) + 1):
+                    r.iter_content(chunk_size=1024),
+                    expected_size=(int(r.headers['content-length']) / 1024) + 1):
                 if chunk:
                     f.write(chunk)
                     f.flush()
         f.close()
         del r
-                    
 
     def clean(self):
         if self.ini:
@@ -87,6 +85,7 @@ class ModPack():
             shutil.rmtree(self.outdir_temp, ignore_errors=True)
             self.ini = False
             self.log('Cleanup complete', 'info')
+
 
 def test():
     # r = requests.get('https://media.forgecdn.net/files/3571/571/All+the+Mods+7-0.2.6.zip')
@@ -100,7 +99,7 @@ def test():
 
 if __name__ == '__main__':
     test()
-        
+
 # addon = curse.addon(238222)
 # print(addon.name)
 # # print(addon.description)
