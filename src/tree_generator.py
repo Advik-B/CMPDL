@@ -7,7 +7,7 @@ PIPE = "│"
 ELBOW = "└──"
 TEE = "├──"
 PIPE_PREFIX = "│   "
-SPACE_PREFIX = "    "
+SPACE_PREFIX = "  "
 
 class _TreeGenerator:
 
