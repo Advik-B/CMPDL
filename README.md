@@ -7,6 +7,8 @@
 
 ---
 
+**WARNING: Legal-Edition is NOT COMPLETE (yet)**
+
 ## What is CMPDL
 
 CMPDL (CurseForge Modpack Downloader) is an app that helps in downloading mods from a modpack (Not possible by a human)
