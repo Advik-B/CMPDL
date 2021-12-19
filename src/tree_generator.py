@@ -9,6 +9,7 @@ TEE = "├──"
 PIPE_PREFIX = "│   "
 SPACE_PREFIX = "  "
 
+
 class _TreeGenerator:
 
     def __init__(self, root_dir):
@@ -16,7 +17,7 @@ class _TreeGenerator:
         self._root_dir = pathlib.Path(root_dir)
 
         self._tree = []
-    
+
     def _tree_body(self, directory, prefix=""):
 
         entries = directory.iterdir()
@@ -43,9 +44,9 @@ class _TreeGenerator:
 
     def _add_directory(
 
-        self, directory, index, entries_count, prefix, connector
+            self, directory, index, entries_count, prefix, connector
 
-        ):
+    ):
 
         self._tree.append(f"{prefix}{connector} {directory.name}{os.sep}")
 
@@ -59,7 +60,6 @@ class _TreeGenerator:
         )
 
         self._tree.append(prefix.rstrip())
-
 
     def _add_file(self, file, prefix, connector):
 
@@ -79,6 +79,7 @@ class _TreeGenerator:
 
         self._tree.append(PIPE)
 
+
 class DirectoryTree:
     def __init__(self, root_dir):
         self._generator = _TreeGenerator(root_dir)
@@ -87,6 +88,7 @@ class DirectoryTree:
         tree = self._generator.build_tree()
         ents = [f"{i}\n" for i in tree]
         return "".join(ents)
+
 
 def gentree(root_dir):
     tree = DirectoryTree(root_dir)
