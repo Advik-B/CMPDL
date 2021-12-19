@@ -1,14 +1,21 @@
 from cursepy import CurseClient
+from logger import Logger
+from tree_generator import gentree
 import zipfile
 import tempfile
 import os
 import json
+import shutil
+import requests
 
 class ModPack():
     
     def __init__(self, path: str) -> None:
         self.path = path
         self.ini = False
+        self.logger = Logger()
+        self.log = self.logger.log
+
     def init(self, path: str=None) -> None:
         if path is None:
             self.outdir_temp = tempfile.mkdtemp()
@@ -26,18 +33,37 @@ class ModPack():
         # Getting the required info
         self.modpack_name = self.manifest['name']
         self.modpack_version = self.manifest['version']
-        self.modpack_authors = self.manifest['authors']
+        self.modpack_authors = self.manifest['author']
         self.mods = self.manifest['files']
         self.minecraft_version = self.manifest['minecraft']['version']
-        self.modloader = self.manifest['minecraft']['modloader']
+        self.modloader = self.manifest['minecraft']['modLoaders']
+        for mod in self.modloader:
+            if mod.get('primary') == True:
+                self.modloader = mod['id']
+                break
+            
         self.overrides = self.manifest['overrides']
+        self.log(f'Modpack: {self.modpack_name}', 'info')
+        self.log(f'Version: {self.modpack_version}', 'info')
+        self.log(f'Authors: {self.modpack_authors}', 'info')
+        self.log(f'Minecraft version: {self.minecraft_version}', 'info')
+        self.log(f'Modloader: {self.modloader}', 'info')
+        self.log(f'Overrides Folder: {self.overrides}', 'debug')
+        temp_msg = 'Files in modpack:\n%s' % gentree(self.outdir_temp)
+        self.log(temp_msg, 'info')
 
-        
+    def clean(self):
+        if self.ini:
+            self.log('Cleaning up', 'info')
+            shutil.rmtree(self.outdir_temp, ignore_errors=True)
+            self.ini = False
+            self.log('Cleanup complete', 'info')
 
 def test():
     modpack = ModPack('examples/All+the+Mods+7-0.2.6.zip')
     modpack.init()
-    print(modpack.manifest)
+    modpack.clean()
+
 
 if __name__ == '__main__':
     test()
