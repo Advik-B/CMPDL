@@ -191,10 +191,9 @@ class Main(Tk):
         self.textlog.clipboard_append(self.textlog.get(1.0, END))
 
     def download_modpack(self):
-        self.modpack = ModPack(path=self.mdpack.get(), func=self.log)
+        self.modpack = ModPack(path=self.mdpack.get(), loggerfunc=self.log)
         self.modpack.init()
-        self.modpack.get_links()
-        t = Thread(target=self.modpack.install, args=(self.destfol.get(), self.pbar))
+        t = Thread(target=self.modpack.download_mods, args=(self.destfol.get(), self.pbar, ))
         t.daemon = True
         t.start()
         return
