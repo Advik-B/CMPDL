@@ -16,7 +16,10 @@ class Main(Tk):
         self.gm2 = int(self.screen_height * .6)
         self.geometry(f'{self.gm1}x{self.gm2}+{self.gm1 // 3}+{self.gm2 // 4}')
         self.resizable(False, False) #TODO: UNCOMMENT THIS LINE
-        self.iconbitmap('assets/icon.ico')
+        try:
+            self.iconbitmap('assets/icon.ico')
+        except Exception as e:
+            print(e)
         self.configure(background='#1a1a1a')
 
         # Creating the widgets
