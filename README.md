@@ -7,7 +7,6 @@
 
 ---
 
-**WARNING: Legal-Edition is NOT COMPLETE (yet)**
 
 ## What is CMPDL
 
