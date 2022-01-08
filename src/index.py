@@ -3,6 +3,7 @@ from logger import Logger
 from tree_generator import gentree
 from urllib.parse import unquote
 from clint.textui import progress
+from tkinter.ttk import Progressbar
 import zipfile
 import tempfile
 import os
@@ -13,11 +14,13 @@ import requests
 
 class ModPack:
 
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: str, loggerfunc=None) -> None:
         self.path = path
         self.ini = False
         self.logger = Logger()
         self.log = self.logger.log
+        if loggerfunc is not None:
+            self.log = loggerfunc
 
     def init(self, path: str = None) -> None:
         if path is None:
@@ -56,7 +59,8 @@ class ModPack:
         del temp_msg
         self.ini = True
 
-    def download_mods(self, output_dir: str) -> None:
+    def download_mods(self, output_dir: str, pbar: Progressbar) -> None:
+        pbar.config(maximum=len(self.mods))
         for mod in self.mods:
             self.current_mod = self.client.addon(mod['projectID'])
             self.log(f'Downloading {self.current_mod.name}', 'info')
@@ -64,6 +68,7 @@ class ModPack:
             self.log(f'Mod FileID: {mod["fileID"]}', 'debug')
             self.download_raw(self.current_mod.file(mod["fileID"]).download_url, output_dir)
             self.log(f'Downloaded {self.current_mod.name} complete', 'info')
+            pbar.step(1)
 
     def download_raw(self, url: str, output_dir: str) -> None:
         r = requests.get(url, stream=True)
