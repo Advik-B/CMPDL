@@ -2,3 +2,4 @@ pip
 cursepy
 requests
 clint
+termcolor
