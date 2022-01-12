@@ -98,7 +98,7 @@ def test():
     #     f.write(r.content)
     modpack = ModPack('examples/All+the+Mods+7-0.2.6.zip')
     modpack.init()
-    modpack.download_mods('E:\GitHub-Repos\CMPDL\src\downloads')
+    modpack.download_mods(r'E:\GitHub-Repos\CMPDL\src\downloads')
     modpack.clean()
 
 
