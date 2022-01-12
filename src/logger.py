@@ -3,6 +3,7 @@
 import datetime
 from termcolor import colored
 
+
 class Logger:
     def __init__(self):
         date = datetime.datetime.now().strftime('%Y-%m-%d') + '.log'
