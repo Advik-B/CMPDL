@@ -21,6 +21,6 @@ class Logger:
             "error": 'red',
             "debug": 'cyan'
         }
-        format_ = f'[{colored(time, "yellow")}]-[{colored(type_.upper(), types[type_])}]: {
-colored(message, "white")}'
+        format_ = f'[{colored(time, "yellow")}]-[{colored(type_.upper(), types[type_])}]:\
+{colored(message, "white")}'
         print(format_)
