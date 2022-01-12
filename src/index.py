@@ -66,7 +66,10 @@ class ModPack:
             self.log(f'Downloading {self.current_mod.name}', 'info')
             self.log(f'Mod ProjectID: {mod["projectID"]}', 'debug')
             self.log(f'Mod FileID: {mod["fileID"]}', 'debug')
-            self.download_raw(self.current_mod.file(mod["fileID"]).download_url, output_dir)
+            self.download_raw(
+                self.current_mod.file(
+                    mod["fileID"]).download_url,
+                output_dir)
             self.log(f'Downloaded {self.current_mod.name} complete', 'info')
             pbar.step(1)
 
