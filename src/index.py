@@ -80,9 +80,7 @@ class ModPack:
         with open(output_path, 'wb') as f:
             for chunk in progress.bar(
                     r.iter_content(chunk_size=1024),
-                    expected_size=(
-                        int(r.headers['content-length']) / 1024)
-                + 1):
+                    expected_size=(int(r.headers['content-length']) / 1024) + 1):
                 if chunk:
                     f.write(chunk)
                     f.flush()
@@ -98,11 +96,7 @@ class ModPack:
 
 
 def test():
-#     r = requests.get(
-#         'https://media.forgecdn.net/files/3571/571/All+the+Mods+7-0.2.6.zip'
-#     )
-    # with open('All+the+Mods+7-0.2.6.zip', 'wb') as f:
-    #     f.write(r.content)
+    """Will test the functions"""
     modpack = ModPack('examples/All+the+Mods+7-0.2.6.zip')
     modpack.init()
     modpack.download_mods(r'E:\GitHub-Repos\CMPDL\src\downloads')
