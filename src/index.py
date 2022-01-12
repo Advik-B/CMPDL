@@ -96,7 +96,9 @@ class ModPack:
 
 
 def test():
-    # r = requests.get('https://media.forgecdn.net/files/3571/571/All+the+Mods+7-0.2.6.zip')
+#     r = requests.get(
+#         'https://media.forgecdn.net/files/3571/571/All+the+Mods+7-0.2.6.zip'
+#     )
     # with open('All+the+Mods+7-0.2.6.zip', 'wb') as f:
     #     f.write(r.content)
     modpack = ModPack('examples/All+the+Mods+7-0.2.6.zip')
