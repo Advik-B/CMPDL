@@ -8,7 +8,7 @@ class Logger:
     def __init__(self):
         date = datetime.datetime.now().strftime('%Y-%m-%d') + '.log'
         self.log_file = 'logs/' + date
-        
+
     def log(self, message, type_):
         # Get the current time with milliseconds
         # time = datetime.datetime.now().strftime('%H:%M:%S:%f')
