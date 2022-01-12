@@ -1,6 +1,6 @@
 from tkinter import Tk, Text, E, W, END
 from tkinter import ttk, filedialog, messagebox
-from builtins import exit
+from sys import exit
 from index import ModPack
 from threading import Thread
 
@@ -15,8 +15,11 @@ class Main(Tk):
         self.gm1 = int(self.screen_width * .6)
         self.gm2 = int(self.screen_height * .6)
         self.geometry(f'{self.gm1}x{self.gm2}+{self.gm1 // 3}+{self.gm2 // 4}')
-        # self.resizable(False, False) #TODO: UNCOMMENT THIS LINE
-        self.iconbitmap('assets/icon.ico')
+        self.resizable(False, False) #TODO: UNCOMMENT THIS LINE
+        try:
+            self.iconbitmap('assets/icon.ico')
+        except Exception as e:
+            print(e)
         self.configure(background='#1a1a1a')
 
         # Creating the widgets
@@ -191,10 +194,9 @@ class Main(Tk):
         self.textlog.clipboard_append(self.textlog.get(1.0, END))
 
     def download_modpack(self):
-        self.modpack = ModPack(path=self.mdpack.get(), func=self.log)
+        self.modpack = ModPack(path=self.mdpack.get(), loggerfunc=self.log)
         self.modpack.init()
-        self.modpack.get_links()
-        t = Thread(target=self.modpack.install, args=(self.destfol.get(), self.pbar))
+        t = Thread(target=self.modpack.download_mods, args=(self.destfol.get(), self.pbar, ))
         t.daemon = True
         t.start()
         return

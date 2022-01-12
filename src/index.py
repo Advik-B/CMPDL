@@ -1,132 +1,122 @@
-#!bin/env python3
-
-if __name__ == '__main__':
-    raise ImportError('This module is not meant to be run directly.')
-
-import json
-import os
-import tempfile
-import shutil
-import cloudscraper
-import re
-
-from zipfile import ZipFile
-from bs4 import BeautifulSoup
+from cursepy import CurseClient
+from logger import Logger
+from tree_generator import gentree
+from urllib.parse import unquote
 from clint.textui import progress
 from tkinter.ttk import Progressbar
-from urllib.parse import quote, unquote
+import zipfile
+import tempfile
+import os
+import json
+import shutil
+import requests
 
-class ModPackError(Exception): pass
 
-class ModPack():
-    
-    def __init__(self, path, func) -> None:
-        self.files = []
-        self.links = []
-        self.path_to_mods = path
-        self.base_url = 'https://minecraft.curseforge.com/projects/<id>/files/<file>/download'
-        self.tempfol = os.path.join(tempfile.gettempdir(), 'mc.modpack.python').replace('\\', '/')
+class ModPack:
+
+    def __init__(self, path: str, loggerfunc=None) -> None:
+        self.path = path
         self.ini = False
-        self.mani = os.path.join(self.tempfol, 'manifest.json').replace('\\', '/')
-        self.gotten_links = False
-        self.func = func
-        self.figlet = r'''
-______           ___       _         _  _            ______ 
-| ___ \         / _ \     | |       (_)| |           | ___ \
-| |_/ / _   _  / /_\ \  __| |__   __ _ | | __ ______ | |_/ /
-| ___ \| | | | |  _  | / _` |\ \ / /| || |/ /|______|| ___ \
-| |_/ /| |_| | | | | || (_| | \ V / | ||   <         | |_/ /
-\____/  \__, | \_| |_/ \__,_|  \_/  |_||_|\_\        \____/ 
-         __/ |                                              
-        |___/ 
+        self.logger = Logger()
+        self.log = self.logger.log
+        if loggerfunc is not None:
+            self.log = loggerfunc
 
-'''
+    def init(self, path: str = None) -> None:
+        if path is None:
+            self.outdir_temp = tempfile.mkdtemp(prefix='CMPDL')
 
-    def init(self):
-        self.func('Initializing ModPack', 'info')
-        os.makedirs(self.tempfol, exist_ok=True)
-        with ZipFile(self.path_to_mods, 'r') as zip_:
-            zip_.extractall(self.tempfol)
-            self.lst = zip_.namelist()
-            msg = ''.join(line + '\n' for line in self.lst)
-            self.func(f'Files in modPack:\n{msg}', 'debug')
+        with zipfile.ZipFile(self.path, 'r') as zip_ref:
+            zip_ref.extractall(self.outdir_temp)
+            self.modpack_files = zip_ref.namelist()
 
-        for file_ in self.lst:
-            nm = os.path.join(self.tempfol, file_).replace('\\', '/')
-            self.files.append(nm)
+        self.manifest_path = os.path.join(self.outdir_temp, 'manifest.json')
+        with open(self.manifest_path, 'r') as manifest_file:
+            self.manifest = json.load(manifest_file)
+
+        # Getting the required info
+        self.modpack_name = self.manifest['name']
+        self.modpack_version = self.manifest['version']
+        self.modpack_authors = self.manifest['author']
+        self.mods = self.manifest['files']
+        self.minecraft_version = self.manifest['minecraft']['version']
+        self.modloader = self.manifest['minecraft']['modLoaders']
+        for mod in self.modloader:
+            if mod.get('primary') is True:
+                self.modloader = mod['id']
+                break
+
+        self.overrides = self.manifest['overrides']
+        self.log(f'Modpack: {self.modpack_name}', 'info')
+        self.log(f'Version: {self.modpack_version}', 'info')
+        self.log(f'Authors: {self.modpack_authors}', 'info')
+        self.log(f'Minecraft version: {self.minecraft_version}', 'info')
+        self.log(f'Modloader: {self.modloader}', 'info')
+        self.log(f'Overrides Folder: {self.overrides}', 'debug')
+        temp_msg = 'Files in modpack:\n%s' % gentree(self.outdir_temp)
+        self.log(temp_msg, 'info')
+        self.client = CurseClient()
+        del temp_msg
         self.ini = True
-        self.func('Initialized ModPack', 'info')
 
-    def __get_link(self, project_id:int, file_id:int) -> str:
-        if self.ini == False:
-            raise ModPackError('ModPack not initialized')
-        return self.base_url.replace('<id>', str(project_id)).replace('<file>', str(file_id))
+    def download_mods(self, output_dir: str, pbar: Progressbar) -> None:
+        pbar.config(maximum=len(self.mods))
+        for mod in self.mods:
+            self.current_mod = self.client.addon(mod['projectID'])
+            self.log(f'Downloading {self.current_mod.name}', 'info')
+            self.log(f'Mod ProjectID: {mod["projectID"]}', 'debug')
+            self.log(f'Mod FileID: {mod["fileID"]}', 'debug')
+            self.download_raw(
+                self.current_mod.file(
+                    mod["fileID"]).download_url,
+                output_dir)
+            self.log(f'Downloaded {self.current_mod.name} complete', 'info')
+            pbar.step(1)
 
-    def get_links(self):
-        if self.ini == False:
-            raise ModPackError('ModPack not initialized')
-        with open(self.mani, 'r') as f:
-            mainfest = f.read()
-
-        mainfest_dict = json.loads(mainfest)
-        mainfest_files = mainfest_dict['files']
-        
-        for file_ in mainfest_files:
-            project_id = file_['projectID']
-            file_id = file_['fileID']
-            url = self.__get_link(project_id, file_id)
-            self.links.append(url)
-        self.gotten_links = True
-        return self.links
+    def download_raw(self, url: str, output_dir: str) -> None:
+        r = requests.get(url, stream=True)
+        file_name = unquote(url.split('/')[-1])
+        output_path = os.path.join(output_dir, file_name)
+        with open(output_path, 'wb') as f:
+            for chunk in progress.bar(
+                    r.iter_content(chunk_size=1024),
+                    expected_size=(
+                        int(
+                            r.headers[
+                                'content-length'
+                            ]
+                        ) / 1024
+                    ) + 1
+            ):
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
+        f.close()
+        del r
 
     def clean(self):
-        self.func('Cleaning up unnessory files...', 'info')
-        shutil.rmtree(self.tempfol, ignore_errors=True)
-        self.ini = False
-        self.gotten_links = False
+        if self.ini:
+            self.log('Cleaning up', 'info')
+            shutil.rmtree(self.outdir_temp, ignore_errors=True)
+            self.ini = False
+            self.log('Cleanup complete', 'info')
 
-    def install(self, path:str, progress_bar:Progressbar=None):
-        if self.ini is False:
-            raise ModPackError('ModPack not initialized')
-        elif self.gotten_links is False:
-            raise ModPackError('Links not gotten')
-        if os.path.isdir(path) is False:
-            os.makedirs(path)
-        scraper = cloudscraper.create_scraper(allow_brotli=True)
-        re_ = r'href="/minecraft/mc-mods/.+\/files"'
-        if progress_bar is not None:
-            total_file = len(self.links)
-            progress_bar.config(maximum=total_file)
-        for i in self.links:
-            html = scraper.get(i).text
-            file_link = 'https://curseforge.com'+re.findall(re_, html)[0].replace('href=', '').replace('"', '').replace("'", '')
-            mod_name = file_link.split('/')[-2]
-            file_id = i.split('/')[-2]
-            accurate_file_link = file_link.__add__('/' + str(file_id))
-            a = scraper.get(accurate_file_link)
-            soup = BeautifulSoup(a.text, 'html.parser')
-            file_name = quote(soup.find_all(class_='text-sm')[3].text)
-            file_prefix = file_id[4:]
-            if file_prefix.startswith('0'):
-                file_prefix = file_prefix[1:]
 
-            new_download_link = 'https://media.forgecdn.net/files/%s/%s/%s' % (file_id[:4], file_prefix, file_name)
-            project_id = i.split('/')[-4]
-            msh = "\n\tMod name: %s\n\tFile name: %s\n\tLink: %s\n\tDirect download link: %s\n\tProject Id: %s\n\t"
-            self.func('Getting mod with the following details:', 'info')
-            self.func(msh % (mod_name, unquote(file_name), file_link, new_download_link, project_id), 'info')
-            r= scraper.get(new_download_link, allow_redirects=True, stream=True)
-            pth = os.path.join(path, unquote(file_name))
-            with open(pth, 'wb') as f:
-                    total_length = int(r.headers.get('content-length', 0))
-                    for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
-                        if chunk:
-                            f.write(chunk)
-                            f.flush()
-            if progress_bar is not None:
-                progress_bar.step(1)
-            self.func('Downloaded Mod: %s' % mod_name, 'info')
-        self.func('All mods downloaded', 'info')
-        self.clean()
-        self.func('===== Done =====', 'info')
-        self.func(self.figlet, 'info')
+def test():
+    """Will test the functions"""
+    modpack = ModPack('examples/All+the+Mods+7-0.2.6.zip')
+    modpack.init()
+    modpack.download_mods(r'E:\GitHub-Repos\CMPDL\src\downloads')
+    modpack.clean()
+
+
+if __name__ == '__main__':
+    test()
+
+# addon = curse.addon(238222)
+# print(addon.name)
+# # print(addon.description)
+# print(addon.authors[0].name)
+# print(addon.download_count)
+# file = addon.file(file_id=3569553)
+# print(file.download_url)
