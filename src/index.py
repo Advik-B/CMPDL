@@ -42,7 +42,7 @@ class ModPack:
         self.minecraft_version = self.manifest['minecraft']['version']
         self.modloader = self.manifest['minecraft']['modLoaders']
         for mod in self.modloader:
-            if mod.get('primary') == True:
+            if mod.get('primary') is True:
                 self.modloader = mod['id']
                 break
 
