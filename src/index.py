@@ -80,7 +80,15 @@ class ModPack:
         with open(output_path, 'wb') as f:
             for chunk in progress.bar(
                     r.iter_content(chunk_size=1024),
-                    expected_size=(int(r.headers['content-length']) / 1024) + 1):
+                    expected_size=(
+                        int(
+                            r.headers[
+                                'content-length'
+                            ]
+                        ) / 1024
+                    )
+                + 1
+            ):
                 if chunk:
                     f.write(chunk)
                     f.flush()
