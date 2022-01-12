@@ -86,8 +86,7 @@ class ModPack:
                                 'content-length'
                             ]
                         ) / 1024
-                    )
-                + 1
+                    ) + 1
             ):
                 if chunk:
                     f.write(chunk)
