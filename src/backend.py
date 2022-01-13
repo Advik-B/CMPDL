@@ -121,6 +121,7 @@ class ModPack:
                             )
                         self.download_raw(file.download_url, save_path, self.progressbar)
                 self.step(self.progressbar, 1)
+                self.secondry_log('Downloaded %s' % mod.name)
         stop = now()
         self.log("Successfully installed ModPack in %s seconds" % stop - start)
     
