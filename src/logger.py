@@ -37,7 +37,15 @@ class Logger:
 {colored(message, "white")}'
         file_format = f'[{time}]-[{type_.upper()}]: {message}\n'
         print(format_)
-        self.log_file.write(file_format)
+        try:
+            self.log_file.write(file_format)
+        except UnicodeEncodeError:
+            for char in file_format:
+                try:
+                    self.log_file.write(char)
+                except UnicodeEncodeError:
+                    pass
+                
         del format_, file_format
         return f'[{time}]-[{type_.upper()}]: {message}'
     def quit(self):
