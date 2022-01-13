@@ -80,8 +80,10 @@ class ModPack:
     def install(self):
         pass
     
-    
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
+        if not self.ini:
+            raise Exception("ModPack not initialized")
+
         r = requests.get(link, stream=True)
         with open(path, 'wb') as f:
             self.log('LINK: %s' % link, 'debug')
@@ -95,5 +97,3 @@ class ModPack:
                     f.flush()
                     self.step(pbar, 1)
         self.log('Downloaded %s to %s' % (link, path), 'debug')
-        
-        
