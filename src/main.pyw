@@ -1,7 +1,10 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPlainTextEdit, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
 from PyQt5 import uic
 from logger import Logger
+from threading import Thread
+from backend import ModPack
 import sys
+import os
 
 class UI(QMainWindow):
     
@@ -24,7 +27,7 @@ class UI(QMainWindow):
         self.overall_progress = self.findChild(QProgressBar, "progress")
         self.per_mod_progress = self.findChild(QProgressBar, "per_mod_progress")
         self.mod_list = self.findChild(QListWidget, "DownloadList")
-        self.log_box = self.findChild(QPlainTextEdit, "logs_box")
+        self.log_box = self.findChild(QTextEdit, "logbox")
         self.start_download = self.findChild(QPushButton, "start_download_btn")
         self.copy_logs = self.findChild(QPushButton, "copy_logs_btn")
         self.browse_modpack = self.findChild(QPushButton, "browse_modpack")
@@ -61,6 +64,7 @@ class UI(QMainWindow):
         self.browse_modpack.clicked.connect(self.browse__modpack)
         self.output_dir_btn.clicked.connect(self.browse_output_dir)
         self.copy_logs.clicked.connect(self.copy_logs_func)
+        self.start_download.clicked.connect(self.start_payload)
         # show the window
         self.show()
         self.log("Window sucessfully loaded", "info")
@@ -69,8 +73,9 @@ class UI(QMainWindow):
         
         msg = self.logger.log(message, type_)
         try:
+            
             self.log_box.setReadOnly(False)
-            self.log_box.appendPlainText(str(msg))
+            self.log_box.setText(self.log_box.toPlainText() + str(msg)+ '\n')
             self.log_box.setReadOnly(True)
         except AttributeError:
             self.logger.log("Log box not found", "error")
@@ -87,7 +92,9 @@ class UI(QMainWindow):
         file_ = QFileDialog.getOpenFileName(
             self,
             caption="Select modpack or a manifest file",
-            filter="Manifest (*.json);;ModPack (*.zip)"
+            filter="Manifest (*.json);;ModPack (*.zip)",
+            initialFilter="ModPack (*.zip)",
+            directory=os.path.expanduser("~"),
             )
         
         if file_[0]:
@@ -111,6 +118,41 @@ class UI(QMainWindow):
         self.log_box.undo()
         self.log("Logs copied to clipboard", "info")
     
+    def secondry_log(self, message: str):
+        """Secondry log function"""
+        self.log(message, "info")
+        self.mod_list.addItem(message)
+    
+    def start_payload(self):
+        try:
+            kwargs = {
+
+                'log_func': self.log,
+                'secondry_log': self.secondry_log,
+                'pbar': self.overall_progress,
+                'pbar2': self.per_mod_progress,
+                'output_dir': self.output_dir.text(),
+                'download_optional_mods': self.optional_mods.isChecked(),
+                'keep_config': self.keep_config.isChecked(),
+
+            }
+
+            self.log("Starting payload", "info")
+            modpack = ModPack(self.modpack_pth.text(), **kwargs)
+            t = Thread(target=modpack.init())
+            t.daemon = True
+            t.start()
+            while t.is_alive():
+                pass
+            f = Thread(target=modpack.install())
+            f.daemon = True
+            f.start()
+            self.log("Payload finished", "info")
+        except Exception as e:
+            self.log('Error: %s' % e, 'error')
+            self.log("Payload failed", "error")
+            raise e
+
 def main():
     global logger
     logger = Logger()
