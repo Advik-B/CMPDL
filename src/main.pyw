@@ -1,228 +1,91 @@
-from tkinter import Tk, Text, E, W, END
-from tkinter import ttk, filedialog, messagebox
-from sys import exit
-from index import ModPack
-from threading import Thread
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPlainTextEdit, QPushButton
+from PyQt5 import uic
+from PyQt5.Qt import QCloseEvent
+from logger import Logger
+import sys
 
-import os
-import asyncio
-
-class Main(Tk):
-    def init(self):
-        self.title('Curse ModPack Downloader')
-        self.screen_width = self.winfo_screenwidth()
-        self.screen_height = self.winfo_screenheight()
-        self.gm1 = int(self.screen_width * .6)
-        self.gm2 = int(self.screen_height * .6)
-        self.geometry(f'{self.gm1}x{self.gm2}+{self.gm1 // 3}+{self.gm2 // 4}')
-        self.resizable(False, False) #TODO: UNCOMMENT THIS LINE
+class UI(QMainWindow):
+    def __init__(self):
+        super(UI, self).__init__()
+        # Set up the logger
+        self.logger = Logger()
+        
+        # Load the UI
+        uic.loadUi("design.ui", self)
+        # Set up the window title and make it non-resizable
+        self.setWindowTitle("CMPDL by Advik-B")
+        self.setMaximumSize(self.size())
+        # Define widgets from ui file
+        self.title_lbl = self.findChild(QLabel, "title_lbl")
+        self.modpack_pth = self.findChild(QLineEdit, "modpack_pth")
+        self.output_dir = self.findChild(QLineEdit, "download_pth")
+        self.optional_mods = self.findChild(QCheckBox, "optional_mods")
+        self.keep_config = self.findChild(QCheckBox, "keep_config")
+        self.overall_progress = self.findChild(QProgressBar, "progress")
+        self.per_mod_progress = self.findChild(QProgressBar, "per_mod_progress")
+        self.mod_list = self.findChild(QListWidget, "DownloadList")
+        self.log_box = self.findChild(QPlainTextEdit, "logs_box")
+        self.start_download = self.findChild(QPushButton, "start_download_btn")
+        self.copy_logs = self.findChild(QPushButton, "copy_logs_btn")
+        self.browse_modpack = self.findChild(QPushButton, "browse_modpack")
+        self.output_dir_btn = self.findChild(QPushButton, "download_pth_browse")
+        # Create a list of widgets, this is used to check if all widgets are found in the ui file and be deleted later to free up memory
+        self.widgets = [
+            
+            self.title_lbl,
+            self.modpack_pth,
+            self.output_dir,
+            self.optional_mods,
+            self.keep_config,
+            self.overall_progress,
+            self.per_mod_progress,
+            self.mod_list,
+            self.log_box,
+            self.start_download,
+            self.copy_logs,
+            self.browse_modpack,
+            self.output_dir_btn,       
+        ]
+        # Check if all widgets are defined properly
+        # if the code below works then all widgets are defined properly
         try:
-            self.iconbitmap('assets/icon.ico')
-        except Exception as e:
-            print(e)
-        self.configure(background='#1a1a1a')
+            self.log("Checking widgets", "info")
+            self.check_widgets()
+        except AssertionError:
+            self.log("Widget not found", "error")
+            sys.exit(1)
+        # set up the log box
+        self.log_box.setReadOnly(True)
+        # Bind the exit event to the quit function
+        self.closeEvent(self.quit)
+        # show the window
+        self.show()
+        self.log("Window sucessfully loaded", "info")
 
-        # Creating the widgets
-        self.lbl1 = ttk.Label(self, 
-                              text='Choose a ModPack :',
-                              font=('Arial', 12),
-                              background='#1a1a1a',
-                              foreground='#ffffff',
-                              )
-        self.mdpack = ttk.Entry(self,
-                                width=self.gm1 // 15,
-                                font=('Arial', 12),
-                                foreground='#1a1a1a',
-                                background='#ffffff',
-                                # cursor='hand2',
+    def log(self, message: str, type_: str):
         
-            )
-        self.destfol_lbl = ttk.Label(self,
-                                     text='Choose where to download :',
-                                     background='#1a1a1a',
-                                     foreground='#ffffff',
-                                     font=('Arial', 12),)
-        self.destfol = ttk.Entry(self,
-                                 width=self.gm1 // 15,
-                                 font=('Arial', 12),
-                                 foreground='#1a1a1a',
-                                 background='#ffffff',
-            )
-        self.fol_browse = ttk.Button(self,
-                                     command=self.browse_dest,
-                                     width=self.gm1 // 80,
-                                     text='Browse',
-                                     cursor='hand2',
-                                     
-            )
-        self.browse_btn = ttk.Button(self,
-                                     width=self.gm1 // 80,
-                                     text='Browse',
-                                     command=self.browse_file,
-                                     cursor='hand2',
-
-            )     
-        self.pbar = ttk.Progressbar(self,
-                                    length=int(self.gm1 * .604),
-                                    orient='horizontal',
-                                    mode='determinate',
-            )
-        self.p = ttk.Label(self,
-                           text='Downloading Progress : ',
-                            font=('Arial', 12),
-                            background='#1a1a1a',
-                            foreground='#ffffff',
-            )
-        self.textlog = Text(self,
-                            width=self.gm1 // 13,
-                            height=self.gm2 // 30,
-                            background='#1a1a1a',
-                            foreground='#ffffff',
-                            state='disabled')
-        self.start_download_btn = ttk.Button(self,
-                                             command=lambda: asyncio.run(self.start_download()),
-                                             text='Start Download',
-                                             cursor='hand2',
-            )
-        self.logs_lbl = ttk.Label(self,
-                             background='#1a1a1a',
-                             foreground='#ffffff',
-                             font=('Arial', 12),
-                             text='Logs and Debug:',
-            )
-        self.copy_btn = ttk.Button(self,
-                                   text='Copy Logs',
-                                   command=self.copy_logs,
-                                   cursor='hand2',
-            )
-        
-        # Placing the widgets
-        self.lbl1.grid(row=0,
-                       column=0,
-                       pady=10,
-                       sticky=E,
-                       padx=10,
-                       )
-        self.mdpack.grid(row=0,
-                         column=1,
-                         pady=10,
-                         sticky=E,
-                         padx=10,
-            )
-        self.browse_btn.grid(row=0,
-                             column=2,
-                             pady=10,
-                            sticky=W,
-                            padx=10,
-            )
-        self.destfol_lbl.grid(row=1,
-                              column=0,
-                              pady=10,
-                              sticky=W,
-                              padx=10,
-            )
-        self.destfol.grid(row=1,
-                          column=1,
-                          pady=10,
-                          padx=10,
-                          sticky=E,
-            )
-        self.fol_browse.grid(row=1,
-                             column=2,
-                             padx=10,
-                             pady=10,
-            )
-        self.p.grid(row=2,
-                    column=0,
-                    pady=10,
-                    padx=10,
-                    sticky=E,
-            )
-        self.pbar.grid(row=2,
-                       column=1,
-                       pady=10,
-                       padx=10,
-                       sticky=E,
-                       )
-        self.textlog.grid(row=3,
-                          column=1,
-                          pady=10,
-                          padx=10,
-                          )
-        self.logs_lbl.grid(row=3,
-                           column=0,
-                           pady=10,
-                           padx=10,
-            )
-        self.start_download_btn.grid(row=4,
-                                     column=1,
-                                     pady=10,
-                                     padx=10,
-                                    #  columnspan=2,
-                                     sticky=E,
-                                     )
-        self.copy_btn.grid(row=4,
-                           column=1,
-                           padx=10,
-                           pady=10,
-                           sticky=W,
-            )
-        
-    def browse_file(self):
-        file_ = filedialog.askopenfilename(
-            filetypes=[('ModPack', ['*.zip', '*.rar']), ('All Files', ['*.*'])],
-            title='Choose a ModPack',
-            defaultextension='*.zip',
-            initialdir=os.path.expanduser('~'),
-        )
-        if file_:
-            self.mdpack.delete(0, END)
-            self.mdpack.insert(0, file_)
-
-    def browse_dest(self):
-        folder = filedialog.askdirectory(
-            initialdir=os.path.expanduser('~'),
-            title='Choose where to download',
-            mustexist=True,
-        )
-        if folder:
-            self.destfol.delete(0, END)
-            self.destfol.insert(0, folder)
-
-    def copy_logs(self):
-        self.textlog.clipboard_clear()
-        self.textlog.clipboard_append(self.textlog.get(1.0, END))
-
-    def download_modpack(self):
-        self.modpack = ModPack(path=self.mdpack.get(), loggerfunc=self.log)
-        self.modpack.init()
-        t = Thread(target=self.modpack.download_mods, args=(self.destfol.get(), self.pbar, ))
-        t.daemon = True
-        t.start()
-        return
-    
-    async def start_download(self):
-        self.start_download_btn.config(state='disabled')
+        msg = self.logger.log(message, type_)
         try:
-            self.download_modpack()
-        except Exception as e:
-            self.log('Error : {}'.format(e))
-            self.log('Download Failed')
-            messagebox.showerror('Error', f'Download Failed:\n Error: {e}')
-        finally:
-            self.start_download_btn.config(state='!disabled')
-        
-    def log(self, text, type_:str='info'):
-        self.textlog.configure(state='normal')
-        self.textlog.insert(END, f'[ {type_.upper()} ]: '+text+'\n')
-        self.textlog.configure(state='disabled')
-        self.textlog.see(END)
+            self.log_box.setReadOnly(False)
+            self.log_box.appendPlainText(str(msg))
+            self.log_box.setReadOnly(True)
+        except AttributeError:
+            self.logger.log("Log box not found", "error")
+    def check_widgets(self):
+        for widget in self.widgets:
+            self.log(widget, "debug")
+            assert widget is not None, "Widget not found"
+        # Free up memory by deleting the list
+        del self.widgets
     
-    def start(self):
-        self.init()
-        self.mainloop()
-        exit(0)
+    def quit(self, event):
+        self.log("Quitting", "info")
+        sys.exit(0)
+def main():
+    app = QApplication(sys.argv)
+    UIWindow = UI()
+    app.setActiveWindow(UIWindow)
+    app.exec_()
 
-if __name__ == '__main__':
-    app = Main()
-    app.start()
+if __name__ == "__main__":
+    main()
