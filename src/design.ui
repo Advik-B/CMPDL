@@ -16,6 +16,18 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="iconSize">
+   <size>
+    <width>256</width>
+    <height>256</height>
+   </size>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks|QMainWindow::GroupedDragging|QMainWindow::VerticalTabs</set>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="title_lbl">
     <property name="geometry">
@@ -176,7 +188,7 @@
       <property name="title">
        <string>Progress</string>
       </property>
-      <widget class="QProgressBar" name="overallprogress">
+      <widget class="QProgressBar" name="per_mod_progress">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -211,7 +223,7 @@
         <string>Overall Progress</string>
        </property>
       </widget>
-      <widget class="QProgressBar" name="download_progress">
+      <widget class="QProgressBar" name="progress">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -289,9 +301,18 @@
           <rect>
            <x>3</x>
            <y>6</y>
-           <width>401</width>
+           <width>411</width>
            <height>131</height>
           </rect>
+         </property>
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
+         <property name="backgroundVisible">
+          <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string/>
          </property>
         </widget>
        </widget>
