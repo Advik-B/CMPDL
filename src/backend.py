@@ -81,12 +81,47 @@ class ModPack:
         self.log("Installing ModPack...", 'info')
         start = now()
         if self.meth == 'ZIP':
-            if not os.path.isdir(self.override_folder):
-                os.makedirs(self.override_folder)
-            self.log("Extracting overrides to %s" % self.output_dir, 'info')
-            
-            # for mod in self.manifest
-    
+            if os.path.isdir(self.override_folder):
+
+                self.log("Extracting overrides to %s" % self.output_dir, 'info')
+                for file in os.listdir(self.override_folder):
+                    if os.path.isfile(os.path.join(self.override_folder, file)):
+                        shutil.copyfile(os.path.join(self.override_folder, file), self.output_dir)
+                    else:
+                        shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
+                    
+                self.log("Successfully extracted overrides", 'info')
+                os.mkdir(os.path.join(self.output_dir, 'mods'))
+                mods_folder = os.path.join(self.output_dir, 'mods')
+            else:
+                mods_folder = self.output_dir
+            self.log("Downloading mods to %s" % mods_folder, 'info')
+            # Adjust the progress bar(s)
+            self.progressbar.setValue(0)
+            self.progressbar.setMaximum(len(self.manifest))
+            self.sec_progressbar.setValue(0)
+            for i, mod_ in enumerate(self.manifest):
+                mod = self.c.addon(mod_['projectID'])
+                self.log("Downloading mod %s out of %s" % (i, len(self.manifest)), 'info')
+                self.log("Mod name: %s" % mod.name, 'info')
+                self.log("Mod url: %s" % mod.url, 'info')
+                self.log("Mod author(s): %s" % mod.authors, 'info')
+                if mod_['required']:
+                    self.log("Mod is required", 'info')
+                    file = mod.file(mod_['fileID'])
+                    save_path = os.path.join(
+                        mods_folder, unquote(file.download_url.split['/'][-1])
+                        )
+                    self.download_raw(file.download_url, save_path, self.sec_progressbar)
+                else:
+                    self.log("Mod is optional", 'info')
+                    if self.download_optional:
+                        file = mod.file(mod_['fileID'])
+                        save_path = os.path.join(
+                            mods_folder, unquote(file.download_url.split['/'][-1])
+                            )
+                        self.download_raw(file.download_url, save_path, self.progressbar)
+                self.step(self.progressbar, 1)
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
             raise Exception("ModPack not initialized")
@@ -104,3 +139,10 @@ class ModPack:
                     f.flush()
                     self.step(pbar, 1)
         self.log('Downloaded %s to %s' % (link, path), 'debug')
+
+    def clean(self):
+        self.log("Cleaning up...", 'info')
+        if self.meth == 'ZIP':
+            shutil.rmtree(self.tempdir)
+        self.log("Successfully cleaned up", 'info')
+        self.ini = False
