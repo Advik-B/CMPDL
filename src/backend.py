@@ -79,3 +79,21 @@ class ModPack:
     
     def install(self):
         pass
+    
+    
+    def download_raw(self, link: str, path: str, pbar: QProgressBar):
+        r = requests.get(link, stream=True)
+        with open(path, 'wb') as f:
+            self.log('LINK: %s' % link, 'debug')
+            self.log('PATH: %s' % path, 'debug')
+            self.log('HEADERS: %s' % r.headers, 'debug')
+            total_length = int(r.headers.get('content-length'))
+            self.log('TOTAL LENGTH: %s' % total_length, 'debug')
+            for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length / 1024) + 1):
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
+                    self.step(pbar, 1)
+        self.log('Downloaded %s to %s' % (link, path), 'debug')
+        
+        
