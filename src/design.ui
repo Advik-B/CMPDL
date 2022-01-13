@@ -299,7 +299,7 @@
         <attribute name="title">
          <string>Logs and Debug</string>
         </attribute>
-        <widget class="QPlainTextEdit" name="logs_box">
+        <widget class="QTextEdit" name="logbox">
          <property name="geometry">
           <rect>
            <x>3</x>
@@ -307,15 +307,6 @@
            <width>411</width>
            <height>131</height>
           </rect>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="backgroundVisible">
-          <bool>false</bool>
-         </property>
-         <property name="placeholderText">
-          <string/>
          </property>
         </widget>
        </widget>
