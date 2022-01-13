@@ -36,7 +36,7 @@ class ModPack:
         start = now()
         self.c = CurseClient()
         stop = now()
-        self.log("Successfully initialized Curse client in %s seconds" % stop - start,
+        self.log("Successfully initialized Curse client in %s seconds" % str(stop - start),
                  'info')
         del stop, start
         self.log("Initializing ModPack...", 'info')
@@ -72,7 +72,7 @@ class ModPack:
             self.override_folder = os.path.join(self.tempdir, mani['overrides'])
         del mani
         stop = now()
-        self.log("Successfully initialized ModPack in %s seconds" % stop - start)
+        self.log("Successfully initialized ModPack in %s seconds" % str(stop - start), 'info')
         del stop, start
         self.ini = True
     
@@ -87,7 +87,12 @@ class ModPack:
                     if os.path.isfile(os.path.join(self.override_folder, file)):
                         shutil.copyfile(os.path.join(self.override_folder, file), self.output_dir)
                     else:
-                        shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
+                        try:
+                            shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
+                        except FileExistsError:
+                            shutil.rmtree(os.path.join(self.output_dir, file))
+                        finally:
+                            shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
                     
                 self.log("Successfully extracted overrides", 'info')
                 os.mkdir(os.path.join(self.output_dir, 'mods'))
@@ -109,8 +114,8 @@ class ModPack:
                     self.log("Mod is required", 'info')
                     file = mod.file(mod_['fileID'])
                     save_path = os.path.join(
-                        mods_folder, unquote(file.download_url.split['/'][-1])
-                        )
+                        mods_folder, unquote(file.download_url.split('/')[-1]
+                        ))
                     self.download_raw(file.download_url, save_path, self.sec_progressbar)
                 else:
                     self.log("Mod is optional", 'info')
@@ -123,7 +128,7 @@ class ModPack:
                 self.step(self.progressbar, 1)
                 self.secondry_log('Downloaded %s' % mod.name)
         stop = now()
-        self.log("Successfully installed ModPack in %s seconds" % stop - start)
+        self.log("Successfully installed ModPack in %s seconds" % str(stop - start))
     
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
