@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPlainTextEdit, QPushButton, QFileDialog
 from PyQt5 import uic
-from PyQt5.Qt import QCloseEvent
 from logger import Logger
 import sys
 
