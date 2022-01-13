@@ -3,3 +3,4 @@ cursepy
 requests
 clint
 termcolor
+PyQt5
