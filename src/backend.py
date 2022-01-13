@@ -28,8 +28,7 @@ class ModPack:
         self.ini = False
         self.path = path
         
-    @staticmethod
-    def step(pbar: QProgressBar, value: int):
+    def step(self, pbar: QProgressBar, value: int):
         pbar.setValue(pbar.value() + value)
 
     def init(self):
@@ -122,6 +121,9 @@ class ModPack:
                             )
                         self.download_raw(file.download_url, save_path, self.progressbar)
                 self.step(self.progressbar, 1)
+        stop = now()
+        self.log("Successfully installed ModPack in %s seconds" % stop - start)
+    
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
             raise Exception("ModPack not initialized")
