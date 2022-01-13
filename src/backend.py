@@ -1,5 +1,4 @@
 from cursepy import CurseClient
-from logger import Logger
 from tree_generator import gentree
 from urllib.parse import unquote
 from clint.textui import progress
@@ -15,27 +14,16 @@ import requests
 
 class ModPack:
     def __init__(self, path: str, **kwargs) -> None:
-        if type(kwargs) == dict and len(kwargs) > 0:
-            self.log = kwargs.get("log_func")
-            self.secondry_log = kwargs.get("secondry_log")
-            # Set up the progress bar
-            self.progressbar = kwargs.get("pbar")
-            self.progressbar.setValue(0)
-            self.progressbar.setMaximum(100)
-            
-            self.sec_progressbar = QProgressBar(kwargs.get("pbar2"))
-            self.output_dir = kwargs.get("output_dir")
-            self.download_optional = kwargs.get("download_optional_mods")
-            self.keep_config = kwargs.get("keep_config")
-        
-        else:
-            logger = Logger()
-            self.log = logger.log
-            self.secondry_log = logger.log
-            
-            self.progressbar = QProgressBar()
-            self.sec_progressbar = self.progressbar
-            self.output_dir = "."
+        self.log = kwargs.get("log_func")
+        self.secondry_log = kwargs.get("secondry_log")
+        # Set up the progress bar
+        self.progressbar = kwargs.get("pbar")
+        self.progressbar.setValue(0)
+
+        self.sec_progressbar = QProgressBar(kwargs.get("pbar2"))
+        self.output_dir = kwargs.get("output_dir")
+        self.download_optional = kwargs.get("download_optional_mods")
+        self.keep_config = kwargs.get("keep_config")
         
         self.ini = False
         self.path = path
@@ -56,6 +44,38 @@ class ModPack:
         start = now()
         if self.path.endswith('.zip'):
             self.tempdir = tempfile.mkdtemp(prefix='CMPDL')
-            
-            
+            self.log("Extracting modpack to %s" % self.tempdir, 'info')
+            with zipfile.ZipFile(self.path, 'r') as z:
+                z.extractall(self.tempdir)
+            self.log("Successfully extracted modpack", 'info')
+            self.log("ModPack file structure:\n%s" % gentree(self.tempdir), 'info')
+            self.manifest_path = os.path.join(self.tempdir, 'manifest.json')
+            self.meth = 'ZIP'
+        elif self.path.endswith('.json'):
+            self.manifest_path = self.path
+            self.meth = 'JSON'
+        
+        self.log("Manifest path set to %s" % self.manifest_path, 'info')
+        self.log("Loading manifest...", 'info')
+        with open(self.manifest_path, 'r') as f:
+            mani = json.load(f)
+        self.manifest = mani['files']
+        self.log("Minecraft version: %s" % mani['minecraft']['version'], 'info')
+        self.log("Modpack version: %s" % mani['version'], 'info')
+        self.log("Modpack name: %s" % mani['name'], 'info')
+        self.log("Modpack author(s): %s" % mani['author'], 'info')
+        self.log("Modpack description: %s" % mani.get('description'), 'info')
+        self.log("Modpack website: %s" % mani.get('website'), 'info')
+        self.log("Modpack modloader: %s" % mani['minecraft']["modLoaders"][0]['id'], 'info')
+        self.log("Modpack config/overrides: %s" % mani['overrides'], 'info')
+        self.log("Successfully loaded manifest", 'info')
+        if self.meth == 'ZIP':
+            self.override_folder = os.path.join(self.tempdir, mani['overrides'])
+        del mani
+        stop = now()
+        self.log("Successfully initialized ModPack in %s seconds" % stop - start)
+        del stop, start
         self.ini = True
+    
+    def install(self):
+        pass
