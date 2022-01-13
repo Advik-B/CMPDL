@@ -143,6 +143,6 @@ class ModPack:
     def clean(self):
         self.log("Cleaning up...", 'info')
         if self.meth == 'ZIP':
-            shutil.rmtree(self.tempdir)
+            shutil.rmtree(self.tempdir, ignore_errors=True)
         self.log("Successfully cleaned up", 'info')
         self.ini = False
