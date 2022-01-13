@@ -78,7 +78,14 @@ class ModPack:
         self.ini = True
     
     def install(self):
-        pass
+        self.log("Installing ModPack...", 'info')
+        start = now()
+        if self.meth == 'ZIP':
+            if not os.path.isdir(self.override_folder):
+                os.makedirs(self.override_folder)
+            self.log("Extracting overrides to %s" % self.output_dir, 'info')
+            
+            # for mod in self.manifest
     
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
