@@ -3,7 +3,9 @@ from distutils.extension import Extension
 from Cython.Distutils import build_ext
 ext_modules = [
 
-    Extension("source",  ["__main__.py", "backend.py", 'logger.py', 'tree_generator.py'])
+    Extension("backend",  ["backend.py"]),
+    Extension("logger", ["logger.py"]),
+    Extension('tree_generator', ['tree_generator.py']),
 ]
 
 setup(
