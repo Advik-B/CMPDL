@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
 from PyQt5 import uic
+from PyQt5.QtCore import QThread
 from logger import Logger
 from threading import Thread
 from backend import ModPack
@@ -7,12 +8,12 @@ import sys
 import os
 
 class UI(QMainWindow):
-    
+
     def __init__(self):
         super(UI, self).__init__()
         # Set up the logger
         self.logger = logger
-        
+
         # Load the UI
         uic.loadUi("design.ui", self)
         # Set up the window title and make it non-resizable
@@ -34,7 +35,7 @@ class UI(QMainWindow):
         self.output_dir_btn = self.findChild(QPushButton, "download_pth_browse")
         # Create a list of widgets, this is used to check if all widgets are found in the ui file and be deleted later to free up memory
         self.widgets = [
-            
+
             self.title_lbl,
             self.modpack_pth,
             self.output_dir,
@@ -47,7 +48,7 @@ class UI(QMainWindow):
             self.start_download,
             self.copy_logs,
             self.browse_modpack,
-            self.output_dir_btn,       
+            self.output_dir_btn,
         ]
         # Check if all widgets are defined properly
         # if the code below works then all widgets are defined properly
@@ -70,16 +71,16 @@ class UI(QMainWindow):
         self.log("Window sucessfully loaded", "info")
 
     def log(self, message: str, type_: str):
-        
+
         msg = self.logger.log(message, type_)
         try:
-            
+
             self.log_box.setReadOnly(False)
             self.log_box.setText(self.log_box.toPlainText() + str(msg)+ '\n')
             self.log_box.setReadOnly(True)
         except AttributeError:
             self.logger.log("Log box not found", "error")
-    
+
     def check_widgets(self):
         for widget in self.widgets:
             self.log(widget, "debug")
@@ -96,11 +97,11 @@ class UI(QMainWindow):
             initialFilter="ModPack (*.zip)",
             directory=os.path.expanduser("~"),
             )
-        
+
         if file_[0]:
             self.modpack_pth.setText(file_[0])
             self.log("Modpack path set to: %s" % file_[0], "info")
-    
+
     def browse_output_dir(self):
         """Browse for a directory"""
         directory = QFileDialog.getExistingDirectory(
@@ -117,12 +118,12 @@ class UI(QMainWindow):
         self.log_box.copy()
         self.log_box.undo()
         self.log("Logs copied to clipboard", "info")
-    
+
     def secondry_log(self, message: str):
         """Secondry log function"""
         self.log(message, "info")
         self.mod_list.addItem(message)
-    
+
     def start_payload(self):
         try:
             kwargs = {
@@ -139,19 +140,15 @@ class UI(QMainWindow):
 
             self.log("Starting payload", "info")
             modpack = ModPack(self.modpack_pth.text(), **kwargs)
-            t = Thread(target=modpack.init())
-            t.daemon = True
+            modpack.init()
+            t = Thread(target=modpack.install)
             t.start()
-            while t.is_alive():
-                pass
-            f = Thread(target=modpack.install())
-            f.daemon = True
-            f.start()
-            self.log("Payload finished", "info")
+
         except Exception as e:
             self.log('Error: %s' % e, 'error')
             self.log("Payload failed", "error")
-            # raise e
+            raise e
+        return
 
 def main():
     global logger
