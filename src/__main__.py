@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
 from PyQt5 import uic
+from PyQt5.Qt import QIcon
 from logger import Logger
 from threading import Thread
 from backend import ModPack
@@ -18,6 +19,8 @@ class UI(QMainWindow):
         # Set up the window title and make it non-resizable
         self.setWindowTitle("CMPDL by Advik-B")
         self.setMaximumSize(self.size())
+        # Icon
+        self.setWindowIcon(QIcon("assets/icon.png"))
         # Define widgets from ui file
         self.title_lbl = self.findChild(QLabel, "title_lbl")
         self.modpack_pth = self.findChild(QLineEdit, "modpack_pth")
@@ -151,7 +154,7 @@ class UI(QMainWindow):
         except Exception as e:
             self.log('Error: %s' % e, 'error')
             self.log("Payload failed", "error")
-            # raise e
+            raise e
 
 def main():
     global logger
