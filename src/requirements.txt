@@ -1,6 +1,6 @@
-pip
 cursepy
 requests
 clint
 termcolor
 PyQt5
+cx_Freeze
