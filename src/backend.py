@@ -136,7 +136,8 @@ class ModPack:
             self.secondry_log('%s' % mod.name)
         stop = now()
         self.log("Successfully installed ModPack in %s seconds" % str(stop - start), 'info')
-    
+        self.clean()
+        
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
             raise Exception("ModPack not initialized")
