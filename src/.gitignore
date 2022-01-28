@@ -1,3 +1,4 @@
 *.env
 *.jar
 *.log
+build/
