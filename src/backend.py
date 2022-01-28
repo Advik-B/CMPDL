@@ -53,8 +53,11 @@ class ModPack:
         elif self.path.endswith('.json'):
             self.manifest_path = self.path
             self.meth = 'JSON'
+        try:
+            self.log("Manifest path set to %s" % self.manifest_path, 'info')
+        except AttributeError:
+            self.log("Manifest path not set", 'info')
         
-        self.log("Manifest path set to %s" % self.manifest_path, 'info')
         self.log("Loading manifest...", 'info')
         with open(self.manifest_path, 'r') as f:
             mani = json.load(f)
@@ -77,58 +80,59 @@ class ModPack:
         self.ini = True
     
     def install(self):
+        global mods_folder
         self.log("Installing ModPack...", 'info')
         start = now()
-        if self.meth == 'ZIP':
-            if os.path.isdir(self.override_folder):
+        if self.meth == 'ZIP' and os.path.isdir(self.override_folder):
 
-                self.log("Extracting overrides to %s" % self.output_dir, 'info')
-                for file in os.listdir(self.override_folder):
-                    if os.path.isfile(os.path.join(self.override_folder, file)):
-                        shutil.copyfile(os.path.join(self.override_folder, file), self.output_dir)
-                    else:
-                        try:
-                            shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
-                        except FileExistsError:
-                            shutil.rmtree(os.path.join(self.output_dir, file))
-                        finally:
-                            shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
-                    
-                self.log("Successfully extracted overrides", 'info')
-                os.mkdir(os.path.join(self.output_dir, 'mods'))
-                mods_folder = os.path.join(self.output_dir, 'mods')
+            self.log("Extracting overrides to %s" % self.output_dir, 'info')
+            for file in os.listdir(self.override_folder):
+                if os.path.isfile(os.path.join(self.override_folder, file)):
+                    shutil.copyfile(os.path.join(self.override_folder, file), self.output_dir)
+                else:
+                    try:
+                        shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
+                    except FileExistsError:
+                        shutil.rmtree(os.path.join(self.output_dir, file))
+                    finally:
+                        shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
+
+            self.log("Successfully extracted overrides", 'info')
+            os.mkdir(os.path.join(self.output_dir, 'mods'))
+            mods_folder = os.path.join(self.output_dir, 'mods')
+
+        mods_folder = self.output_dir
+        self.log("Downloading mods to %s" % mods_folder, 'info')
+        # Adjust the progress bar(s)
+        self.progressbar.setValue(0)
+        self.progressbar.setMaximum(len(self.manifest))
+        self.sec_progressbar.setValue(0)
+        for i, mod_ in enumerate(self.manifest):
+            mod = self.c.addon(mod_['projectID'])
+            self.log("Downloading mod %s out of %s" % (i, len(self.manifest)), 'info')
+            self.log("Mod name: %s" % mod.name, 'info')
+            self.log("Mod url: %s" % mod.url, 'info')
+            self.log("Mod author(s): %s" % str(mod.authors), 'info')
+            if mod_['required']:
+                self.log("Mod is required", 'info')
+                file = mod.file(mod_['fileID'])
+                save_path = os.path.join(
+                    mods_folder, unquote(file.download_url.split('/')[-1]
+                    ))
+                self.download_raw(file.download_url, save_path, self.sec_progressbar)
             else:
-                mods_folder = self.output_dir
-            self.log("Downloading mods to %s" % mods_folder, 'info')
-            # Adjust the progress bar(s)
-            self.progressbar.setValue(0)
-            self.progressbar.setMaximum(len(self.manifest))
-            self.sec_progressbar.setValue(0)
-            for i, mod_ in enumerate(self.manifest):
-                mod = self.c.addon(mod_['projectID'])
-                self.log("Downloading mod %s out of %s" % (i, len(self.manifest)), 'info')
-                self.log("Mod name: %s" % mod.name, 'info')
-                self.log("Mod url: %s" % mod.url, 'info')
-                self.log("Mod author(s): %s" % mod.authors, 'info')
-                if mod_['required']:
-                    self.log("Mod is required", 'info')
+                self.log("Mod is optional", 'info')
+                if self.download_optional:
                     file = mod.file(mod_['fileID'])
                     save_path = os.path.join(
-                        mods_folder, unquote(file.download_url.split('/')[-1]
-                        ))
+                        mods_folder, unquote(file.download_url.split['/'][-1])
+                        )
                     self.download_raw(file.download_url, save_path, self.sec_progressbar)
-                else:
-                    self.log("Mod is optional", 'info')
-                    if self.download_optional:
-                        file = mod.file(mod_['fileID'])
-                        save_path = os.path.join(
-                            mods_folder, unquote(file.download_url.split['/'][-1])
-                            )
-                        self.download_raw(file.download_url, save_path, self.progressbar)
-                self.step(self.progressbar, 1)
-                self.secondry_log('Downloaded %s' % mod.name)
+                    self.sec_progressbar.setValue(0)
+            self.step(self.progressbar, 1)
+            self.secondry_log('%s' % mod.name)
         stop = now()
-        self.log("Successfully installed ModPack in %s seconds" % str(stop - start))
+        self.log("Successfully installed ModPack in %s seconds" % str(stop - start), 'info')
     
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
         if not self.ini:
