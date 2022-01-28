@@ -94,12 +94,15 @@ class ModPack:
                         shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
                     except FileExistsError:
                         shutil.rmtree(os.path.join(self.output_dir, file))
-                    finally:
                         shutil.copytree(os.path.join(self.override_folder, file), os.path.join(self.output_dir, file))
 
             self.log("Successfully extracted overrides", 'info')
-            os.mkdir(os.path.join(self.output_dir, 'mods'))
             mods_folder = os.path.join(self.output_dir, 'mods')
+            try:
+                os.makedirs(mods_folder)
+            except FileExistsError:
+                shutil.rmtree(mods_folder)
+                os.makedirs(mods_folder)
 
         mods_folder = self.output_dir
         self.log("Downloading mods to %s" % mods_folder, 'info')
