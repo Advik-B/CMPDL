@@ -4,3 +4,4 @@ requests
 clint
 termcolor
 PyQt5
+cement # for command line interface as requested by #4
