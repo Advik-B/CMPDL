@@ -22,6 +22,7 @@ build_exe_options = {
     "excludes": [
         
         'tkinter',
+        'PyQt5',
     ],
 
     "include_msvcr": True,
