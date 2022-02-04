@@ -4,3 +4,4 @@ requests
 clint
 termcolor
 PyQt5
+click
