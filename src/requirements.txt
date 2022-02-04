@@ -1,0 +1,7 @@
+pip
+cursepy
+requests
+clint
+termcolor
+PyQt5
+click
