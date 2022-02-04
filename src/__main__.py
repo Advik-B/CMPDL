@@ -104,11 +104,10 @@ class UI(QMainWindow):
 
     def browse_output_dir(self):
         """Browse for a directory"""
-        directory = QFileDialog.getExistingDirectory(
+        if directory := QFileDialog.getExistingDirectory(
             self,
             caption="Select output directory",
-            )
-        if directory:
+        ):
             self.output_dir.setText(directory)
             self.log("Output directory set to: %s" % directory, "info")
 
