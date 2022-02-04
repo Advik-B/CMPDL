@@ -32,7 +32,7 @@ build_exe_options = {
 
 setup(
     name = "CMPDL",
-    version = "2.5",
+    version = "1.5",
     description = "Cuseforge Modpack DownLoader",
     options = {"build_exe": build_exe_options,},
     executables = [
