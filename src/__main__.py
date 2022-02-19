@@ -1,4 +1,15 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
+from PyQt5.QtWidgets import (
+    QMainWindow,
+    QApplication,
+    QLabel,
+    QLineEdit,
+    QCheckBox,
+    QProgressBar,
+    QListWidget,
+    QPushButton,
+    QFileDialog,
+    QTextEdit,
+    )
 from PyQt5 import uic
 from PyQt5.QtCore import QThread
 from logger import Logger
@@ -49,7 +60,7 @@ class UI(QMainWindow):
             self.copy_logs,
             self.browse_modpack,
             self.output_dir_btn,
-        ]
+]
         # Check if all widgets are defined properly
         # if the code below works then all widgets are defined properly
         try:

@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-requirements",
+      "appliesTo": "requirements.txt",
+      "type": "launch"
+    }
+  ]
+}
