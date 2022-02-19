@@ -157,7 +157,7 @@ class UI(QMainWindow):
         except Exception as e:
             self.log('Error: %s' % e, 'error')
             self.log("Payload failed", "error")
-            raise e
+            raise e # Disable this in a production environment
         return
 
 def main():
