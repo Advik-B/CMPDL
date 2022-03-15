@@ -1,6 +1,6 @@
 import sys, os
-from PyQt5 import Qsci
-from PyQt5.QtWidgets import QApplication
+from PySide2 import Qsci
+from PySide2.QtWidgets import QApplication
 
 class Window(Qsci.QsciScintilla):
     def __init__(self):

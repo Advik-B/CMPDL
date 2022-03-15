@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
-from PyQt5 import uic
-from PyQt5.QtCore import QThread
+from PySide2.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
+from PySide2 import uic
+from PySide2.QtCore import QThread
 from logger import Logger
 from threading import Thread
 from backend import ModPack
@@ -146,7 +146,8 @@ class UI(QMainWindow):
         except Exception as e:
             self.log('Error: %s' % e, 'error')
             self.log("Payload failed", "error")
-            raise e
+            # Log the traceback
+            self.log(traceback.format_exc(), "error")
         return
 
 def main():

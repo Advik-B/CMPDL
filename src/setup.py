@@ -6,7 +6,7 @@ from cx_Freeze import setup, Executable
 build_exe_options = {
     "packages": [
         "os",
-        'PyQt5',
+        'PySide2',
         'threading',
         'sys',
         'clint',

@@ -3,5 +3,5 @@ cursepy
 requests
 clint
 termcolor
-PyQt5
+PySide2
 click

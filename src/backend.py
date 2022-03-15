@@ -2,7 +2,7 @@ from cursepy import CurseClient
 from tree_generator import gentree
 from urllib.parse import unquote
 from clint.textui import progress
-from PyQt5.QtWidgets import QProgressBar
+from PySide2.QtWidgets import QProgressBar
 from time import perf_counter as now
 import zipfile
 import tempfile
