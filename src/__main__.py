@@ -1,6 +1,16 @@
-from PySide2.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QCheckBox, QProgressBar, QListWidget, QPushButton, QFileDialog, QTextEdit
-from PySide2 import uic
-from PySide2.QtCore import QThread
+from PySide2.QtWidgets import (
+    QMainWindow,
+    QApplication,
+    QLabel,
+    QLineEdit,
+    QCheckBox,
+    QProgressBar,
+    QListWidget,
+    QPushButton,
+    QFileDialog,
+    QTextEdit
+    )
+from uiLoader import loadUi
 from logger import Logger
 from threading import Thread
 from backend import ModPack
@@ -13,9 +23,8 @@ class UI(QMainWindow):
         super(UI, self).__init__()
         # Set up the logger
         self.logger = logger
-
         # Load the UI
-        uic.loadUi("design.ui", self)
+        loadUi("design.ui", self)
         # Set up the window title and make it non-resizable
         self.setWindowTitle("CMPDL by Advik-B")
         self.setMaximumSize(self.size())
@@ -147,7 +156,7 @@ class UI(QMainWindow):
             self.log('Error: %s' % e, 'error')
             self.log("Payload failed", "error")
             # Log the traceback
-            self.log(traceback.format_exc(), "error")
+            self.log(e.format_exc(), "error")
         return
 
 def main():
