@@ -26,7 +26,7 @@ class UI(QMainWindow):
         # Load the UI
         loadUi("design.ui", self)
         # Set the style sheet
-        with open("dark.qss", "r") as f:
+        with open("stylesheets/dark.qss", "r") as f:
             self.setStyleSheet(f.read())
         # Set up the window title and make it non-resizable
         self.setWindowTitle("CMPDL by Advik-B")
