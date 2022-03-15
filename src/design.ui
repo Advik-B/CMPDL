@@ -39,7 +39,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: underline; color:#000000;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;Curseforge ModPack DownLoader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: underline; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Curseforge ModPack DownLoader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>
@@ -94,9 +94,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>80</y>
+        <y>70</y>
         <width>441</width>
-        <height>131</height>
+        <height>141</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -109,7 +109,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
+         <y>80</y>
          <width>181</width>
          <height>21</height>
         </rect>
@@ -128,7 +128,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>110</y>
          <width>181</width>
          <height>21</height>
         </rect>
@@ -147,7 +147,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
+         <y>40</y>
          <width>321</width>
          <height>31</height>
         </rect>
@@ -160,9 +160,9 @@
        <property name="geometry">
         <rect>
          <x>340</x>
-         <y>20</y>
+         <y>40</y>
          <width>93</width>
-         <height>28</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -180,7 +180,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>220</y>
+        <y>230</y>
         <width>441</width>
         <height>151</height>
        </rect>
@@ -237,6 +237,12 @@
        </property>
        <property name="value">
         <number>0</number>
+       </property>
+       <property name="invertedAppearance">
+        <bool>false</bool>
+       </property>
+       <property name="format">
+        <string>%p%</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
