@@ -9,17 +9,23 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QFileDialog,
     QTextEdit,
-    )
+)
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot
 from PyQt5 import uic
-from PyQt5.QtCore import QThread
 from logger import Logger
 from threading import Thread
 from backend import ModPack
 import sys
 import os
+import signal
+
+# Create a custom signal to be used to increment the progress bar.
+# This is used to update the progress bar in the main thread.
+# The signal is emitted from the backend thread.
+update_progress_bar = pyqtSignal(int)
+
 
 class UI(QMainWindow):
-
     def __init__(self):
         super(UI, self).__init__()
         # Set up the logger
@@ -29,7 +35,8 @@ class UI(QMainWindow):
         uic.loadUi("design.ui", self)
         # Set up the window title and make it non-resizable
         self.setWindowTitle("CMPDL by Advik-B")
-        self.setMaximumSize(self.size())
+        # Disable resizing
+        self.setFixedSize(self.size())
         # Define widgets from ui file
         self.title_lbl = self.findChild(QLabel, "title_lbl")
         self.modpack_pth = self.findChild(QLineEdit, "modpack_pth")
@@ -46,7 +53,6 @@ class UI(QMainWindow):
         self.output_dir_btn = self.findChild(QPushButton, "download_pth_browse")
         # Create a list of widgets, this is used to check if all widgets are found in the ui file and be deleted later to free up memory
         self.widgets = [
-
             self.title_lbl,
             self.modpack_pth,
             self.output_dir,
@@ -60,7 +66,7 @@ class UI(QMainWindow):
             self.copy_logs,
             self.browse_modpack,
             self.output_dir_btn,
-]
+        ]
         # Check if all widgets are defined properly
         # if the code below works then all widgets are defined properly
         try:
@@ -77,6 +83,8 @@ class UI(QMainWindow):
         self.output_dir_btn.clicked.connect(self.browse_output_dir)
         self.copy_logs.clicked.connect(self.copy_logs_func)
         self.start_download.clicked.connect(self.start_payload)
+        # Connect the signal to the progress bar
+        update_progress_bar.connect(self.update_progress_bar)
         # show the window
         self.show()
         self.log("Window sucessfully loaded", "info")
@@ -87,7 +95,7 @@ class UI(QMainWindow):
         try:
 
             self.log_box.setReadOnly(False)
-            self.log_box.setText(self.log_box.toPlainText() + str(msg)+ '\n')
+            self.log_box.setText(self.log_box.toPlainText() + str(msg) + "\n")
             self.log_box.setReadOnly(True)
         except AttributeError:
             self.logger.log("Log box not found", "error")
@@ -104,10 +112,9 @@ class UI(QMainWindow):
         file_ = QFileDialog.getOpenFileName(
             self,
             caption="Select modpack or a manifest file",
-            filter="Manifest (*.json);;ModPack (*.zip)",
-            initialFilter="ModPack (*.zip)",
+            filter="Manifest json or a ModPack zip (*.json;*.zip)",
             directory=os.path.expanduser("~"),
-            )
+        )
 
         if file_[0]:
             self.modpack_pth.setText(file_[0])
@@ -137,15 +144,13 @@ class UI(QMainWindow):
     def start_payload(self):
         try:
             kwargs = {
-
-                'log_func': self.log,
-                'secondry_log': self.secondry_log,
-                'pbar': self.overall_progress,
-                'pbar2': self.per_mod_progress,
-                'output_dir': self.output_dir.text(),
-                'download_optional_mods': self.optional_mods.isChecked(),
-                'keep_config': self.keep_config.isChecked(),
-
+                "log_func": self.log,
+                "secondry_log": self.secondry_log,
+                "pbar": self.overall_progress,
+                "pbar2": self.per_mod_progress,
+                "output_dir": self.output_dir.text(),
+                "download_optional_mods": self.optional_mods.isChecked(),
+                "keep_config": self.keep_config.isChecked(),
             }
 
             self.log("Starting payload", "info")
@@ -155,22 +160,35 @@ class UI(QMainWindow):
             t.start()
 
         except Exception as e:
-            self.log('Error: %s' % e, 'error')
+            self.log("Error: %s" % e, "error")
             self.log("Payload failed", "error")
             raise e
             # Disable this ^^ in a production environment
             # Enable this ^^ in debug mode
         return
 
+    @pyqtSlot(int)
+    def updateprogress_permod(self, val):
+        self.per_mod_progress.setValue(val)
+
+    def update_progress_bar(self, value: int, max_: int):
+        """Update the progress bar"""
+        self.overall_progress.setMaximum(max_)
+        self.overall_progress.setValue(value)
+        self.log("Progress bar updated", "debug")
+        self.log("Progress bar value: %s" % value, "debug")
+        self.log("Progress bar max: %s" % max_, "debug")
+
+
 def main():
     global logger
     logger = Logger()
     app = QApplication(sys.argv)
-    UIWindow = UI()
-    app.setActiveWindow(UIWindow)
-    app.exec_()
+    uiWindow = UI()
+    app.setActiveWindow(uiWindow)
+    EXIT_CODE = app.exec_()
     logger.quit()
-    sys.exit(0)
+    sys.exit(EXIT_CODE)
 
 
 if __name__ == "__main__":
