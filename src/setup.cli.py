@@ -5,42 +5,40 @@ from cx_Freeze import setup, Executable
 build_exe_options = {
     "packages": [
         "os",
-        'cursepy',
-        'urllib',
-        'clint',
-        'time',
-        'zipfile',
-        'tempfile',
-        'json',
-        'shutil',
-        'requests',
-        'click',
-        'datetime',
-        'termcolor',
-            
-        ],
-    "excludes": [
-        
-        'tkinter',
-        'PyQt5',
+        "cursepy",
+        "urllib",
+        "clint",
+        "time",
+        "zipfile",
+        "tempfile",
+        "json",
+        "shutil",
+        "requests",
+        "click",
+        "datetime",
+        "termcolor",
     ],
-
+    "excludes": [
+        "tkinter",
+        "PyQt5",
+    ],
     "include_msvcr": True,
-    
 }
 
 # base = "Win32GUI" if sys.platform == "win32" else None
 
 setup(
-    name = "CMPDL",
-    version = "1.5",
-    description = "Cuseforge Modpack DownLoader",
-    options = {"build_exe": build_exe_options,},
-    executables = [
+    name="CMPDL",
+    version="1.5",
+    description="Cuseforge Modpack DownLoader",
+    options={
+        "build_exe": build_exe_options,
+    },
+    executables=[
         Executable(
             "cli.py",
             # base=base,
-            icon='assets/icon.ico'
-            )
-        ]
-    )
+            icon="assets/icon.ico",
+        )
+    ],
+)
