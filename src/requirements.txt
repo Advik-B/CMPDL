@@ -1,7 +1,6 @@
-pip
-cursepy
-requests
-clint
-termcolor
-PyQt5
-click
+cursepy~=1.2.0
+requests~=2.27.1
+clint~=0.5.1
+termcolor~=1.1.0
+PyQt5~=5.15.6
+click~=8.1.3
