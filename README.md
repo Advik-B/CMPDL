@@ -36,4 +36,4 @@ And it will download them one by one & save it in your dest folder
 
 > CMPDL in standby
  
-![image](https://i.imgur.com/qeGoTVB.png)
+![image](./src/design.png)
