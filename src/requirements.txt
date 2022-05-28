@@ -1,4 +1,4 @@
-cursepy~=1.2.0
+cursepy~=1.3.1
 requests~=2.27.1
 clint~=0.5.1
 termcolor~=1.1.0
