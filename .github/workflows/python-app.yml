@@ -30,10 +30,10 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Do setup
       run: |
-        python /scr/setup.py
+        python scr/setup.py
     - name: Do setup (CLI)
       run: |
-        python /scr/setup.cli.py
+        python scr/setup.cli.py
     - name: List file
       run: |
         ls -l
