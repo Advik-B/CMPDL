@@ -32,6 +32,13 @@ jobs:
       run: |
         cd src
         python setup.cli.py build
-    - name: List file
+    - name: List file & try upload artifact
       run: |
+        cd src
         ls -l
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: CMPDL-Artifact
+        path: src/*.exe
+        
