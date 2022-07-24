@@ -34,11 +34,11 @@ jobs:
         python setup.cli.py build
     - name: List file & try upload artifact
       run: |
-        cd src/build
+        cd src/build/exe.linux-x86_64-3.10
         ls -l
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
       with:
         name: CMPDL-Artifact
-        path: src/build/*.exe
+        path: src/build/exe.linux-x86_64-3.10/*.exe
         
