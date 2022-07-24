@@ -28,9 +28,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install cx_Freeze
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
-    - name: Do setup
+    - name: Do setup (cli)
       run: |
-        python src/setup.py build
+        python src/setup.cli.py build
     - name: List file
       run: |
         ls -l
