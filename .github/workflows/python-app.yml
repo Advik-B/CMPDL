@@ -30,7 +30,8 @@ jobs:
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
     - name: Do setup (cli)
       run: |
-        python src/setup.cli.py build
+        cd src
+        python setup.cli.py build
     - name: List file
       run: |
         ls -l
