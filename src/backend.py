@@ -39,15 +39,16 @@ class ModPack:
         self.c = CTClient()
         stop = now()
         self.log(
-            "Successfully initialized Curse client in %s seconds" % str(stop - start),
+            f"Successfully initialized Curse client in {str(stop - start)} seconds",
             "info",
         )
+
         del stop, start
         self.log("Initializing ModPack...", "info")
         start = now()
         if self.path.endswith(".zip"):
             self.tempdir = tempfile.mkdtemp(prefix="CMPDL")
-            self.log("Extracting modpack to %s" % self.tempdir, "info")
+            self.log(f"Extracting modpack to {self.tempdir}", "info")
             with zipfile.ZipFile(self.path, "r") as z:
                 z.extractall(self.tempdir)
             self.log("Successfully extracted modpack", "info")
@@ -58,7 +59,7 @@ class ModPack:
             self.manifest_path = self.path
             self.meth = "JSON"
         try:
-            self.log("Manifest path set to %s" % self.manifest_path, "info")
+            self.log(f"Manifest path set to {self.manifest_path}", "info")
         except AttributeError:
             self.log("Manifest path not set", "info")
 
@@ -66,24 +67,28 @@ class ModPack:
         with open(self.manifest_path, "r") as f:
             mani = json.load(f)
         self.manifest = mani["files"]
-        self.log("Minecraft version: %s" % mani["minecraft"]["version"], "info")
-        self.log("Modpack version: %s" % mani["version"], "info")
-        self.log("Modpack name: %s" % mani["name"], "info")
-        self.log("Modpack author(s): %s" % mani["author"], "info")
-        self.log("Modpack description: %s" % mani.get("description"), "info")
-        self.log("Modpack website: %s" % mani.get("website"), "info")
+        self.log(f'Minecraft version: {mani["minecraft"]["version"]}', "info")
+        self.log(f'Modpack version: {mani["version"]}', "info")
+        self.log(f'Modpack name: {mani["name"]}', "info")
+        self.log(f'Modpack author(s): {mani["author"]}', "info")
+        self.log(f'Modpack description: {mani.get("description")}', "info")
+        self.log(f'Modpack website: {mani.get("website")}', "info")
         self.log(
-            "Modpack modloader: %s" % mani["minecraft"]["modLoaders"][0]["id"], "info"
+            f'Modpack modloader: {mani["minecraft"]["modLoaders"][0]["id"]}',
+            "info",
         )
-        self.log("Modpack config/overrides: %s" % mani["overrides"], "info")
+
+        self.log(f'Modpack config/overrides: {mani["overrides"]}', "info")
         self.log("Successfully loaded manifest", "info")
         if self.meth == "ZIP":
             self.override_folder = os.path.join(self.tempdir, mani["overrides"])
         del mani
         stop = now()
         self.log(
-            "Successfully initialized ModPack in %s seconds" % str(stop - start), "info"
+            f"Successfully initialized ModPack in {str(stop - start)} seconds",
+            "info",
         )
+
         del stop, start
         self.ini = True
 
@@ -93,7 +98,7 @@ class ModPack:
         start = now()
         if self.meth == "ZIP" and os.path.isdir(self.override_folder):
 
-            self.log("Extracting overrides to %s" % self.output_dir, "info")
+            self.log(f"Extracting overrides to {self.output_dir}", "info")
             for file in os.listdir(self.override_folder):
                 if os.path.isfile(os.path.join(self.override_folder, file)):
                     shutil.copyfile(
@@ -121,17 +126,17 @@ class ModPack:
                 os.makedirs(mods_folder)
 
         mods_folder = self.output_dir
-        self.log("Downloading mods to %s" % mods_folder, "info")
+        self.log(f"Downloading mods to {mods_folder}", "info")
         # Adjust the progress bar(s)
         self.progressbar.setValue(0)
         self.progressbar.setMaximum(len(self.manifest))
         self.sec_progressbar.setValue(0)
         for i, mod_ in enumerate(self.manifest):
             mod = self.c.addon(mod_["projectID"])
-            self.log("Downloading mod %s out of %s" % (i, len(self.manifest)), "info")
-            self.log("Mod name: %s" % mod.name, "info")
-            self.log("Mod url: %s" % mod.url, "info")
-            self.log("Mod author(s): %s" % str(mod.authors), "info")
+            self.log(f"Downloading mod {i} out of {len(self.manifest)}", "info")
+            self.log(f"Mod name: {mod.name}", "info")
+            self.log(f"Mod url: {mod.url}", "info")
+            self.log(f"Mod author(s): {str(mod.authors)}", "info")
             if mod_["required"]:
                 self.log("Mod is required", "info")
                 file = mod.file(mod_["fileID"])
@@ -151,11 +156,13 @@ class ModPack:
                     )
                     self.sec_progressbar.setValue(0)
             self.step(self.progressbar, 1)
-            self.secondry_log("%s" % mod.name)
+            self.secondry_log(f"{mod.name}")
         stop = now()
         self.log(
-            "Successfully installed ModPack in %s seconds" % str(stop - start), "info"
+            f"Successfully installed ModPack in {str(stop - start)} seconds",
+            "info",
         )
+
         self.clean()
 
     def download_raw(self, link: str, path: str, pbar: QProgressBar):
@@ -164,11 +171,11 @@ class ModPack:
 
         r = requests.get(link, stream=True)
         with open(path, "wb") as f:
-            self.log("LINK: %s" % link, "debug")
-            self.log("PATH: %s" % path, "debug")
-            self.log("HEADERS: %s" % r.headers, "debug")
+            self.log(f"LINK: {link}", "debug")
+            self.log(f"PATH: {path}", "debug")
+            self.log(f"HEADERS: {r.headers}", "debug")
             total_length = int(r.headers.get("content-length"))
-            self.log("TOTAL LENGTH: %s" % total_length, "debug")
+            self.log(f"TOTAL LENGTH: {total_length}", "debug")
             for chunk in progress.bar(
                 r.iter_content(chunk_size=1024), expected_size=(total_length / 1024) + 1
             ):
