@@ -1,4 +1,4 @@
-from cursepy import CurseClient
+from cursepy import CTClient
 from tree_generator import gentree
 from urllib.parse import unquote
 from clint.textui import progress
@@ -29,7 +29,7 @@ class ModPack:
     def init(self):
         self.log("Initializing Curse client...", "info")
         start = now()
-        self.c = CurseClient()
+        self.c = CTClient()
         stop = now()
         self.log(
             "Successfully initialized Curse client in %s seconds" % str(stop - start),
