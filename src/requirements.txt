@@ -1,6 +1,6 @@
 cursepy~=2.1.0
 requests~=2.28.1
 clint~=0.5.1
-termcolor~=1.1.0
+termcolor~=2.0.1
 PyQt5~=5.15.7
 click~=8.1.3
