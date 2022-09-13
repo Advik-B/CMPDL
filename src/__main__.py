@@ -84,7 +84,7 @@ class UI(QMainWindow):
         self.copy_logs.clicked.connect(self.copy_logs_func)
         self.start_download.clicked.connect(self.start_payload)
         # Connect the signal to the progress bar
-        update_progress_bar.connect(self.update_progress_bar)
+        # update_progress_bar.connect(self.update_progress_bar)
         # show the window
         self.show()
         self.log("Window sucessfully loaded", "info")
