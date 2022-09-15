@@ -1,0 +1,150 @@
+* {
+	 background-color: #27292e;
+	 color: #ccc;
+	 font-family: "JetBrains Mono";
+	/* font-weight: bold;
+	 */
+	 border: #ccc;
+}
+ body {
+	 margin-left: 1%;
+	 margin-top: 1%;
+}
+ h1, h2, h3, h4, h5, h6 {
+	 color: #00c8c8;
+}
+ .wide {
+	 width: 50%;
+}
+ .griffin-text {
+	 -webkit-text-stroke-width: 1px;
+	 -webkit-text-stroke-color: white;
+	 -webkit-text-fill-color: transparent;
+}
+ h1 {
+	 font-size: 3.5rem;
+}
+ h2 {
+	 font-size: 3rem;
+}
+ h3 {
+	 font-size: 2rem;
+}
+ h4 {
+	 font-size: 1.5rem;
+}
+ h5 {
+	 font-size: 1rem;
+}
+ h6 {
+	 font-size: 0.8rem;
+}
+ .center {
+	 text-align: center;
+}
+ .remove-dots {
+	 list-style: none;
+	 margin-left: 0px;
+}
+ p {
+	 font-size: 1.2rem;
+}
+ .center {
+	 text-align: center;
+}
+ .rainbow {
+	 background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+}
+ button, input[type=submit] {
+	/* background-color: rgb(0, 200, 200);
+	 */
+	 color: #00c8c8;
+	 padding: 14px 20px;
+	 margin: 8px 0;
+	 border: solid 0.15rem #00c8c8;
+	 cursor: pointer;
+	/* width: 100%;
+	 */
+	 border-radius: 5px;
+	 font-size: 16px;
+}
+ button:hover, input[type=submit]:hover {
+	 color: #00aadc;
+	 border: solid 0.15rem #00aadc;
+}
+ input {
+	/* width: 100%;
+	 */
+	 padding: 12px 20px;
+	 margin: 8px 0;
+	 display: inline-block;
+	 border: 1px solid #ccc;
+	 border-radius: 4px;
+	 box-sizing: border-box;
+	 font-size: 16px;
+	 width: 69%;
+}
+ textarea {
+	/* width: 100%;
+	 */
+	 padding: 12px 20px;
+	 margin: 8px 0;
+	 display: inline-block;
+	 border: 1px solid #ccc;
+	 border-radius: 4px;
+	 box-sizing: border-box;
+	 font-size: 16px;
+	 width: 69%;
+}
+ table {
+	 background-color: #00aadc;
+	 opacity: 100%;
+}
+ hr {
+	 border: 1px solid #00aadc;
+	 opacity: 100%;
+}
+ a {
+	 color: #009afa;
+	 text-decoration: none;
+	 font-size: 1.2rem;
+}
+ a:hover {
+	 color: #00c8c8;
+	 font-size: 1.4rem;
+}
+ a:visited {
+	 color: #009afa;
+}
+ table, th, td {
+	 border: 0.2rem solid #00aadc;
+	 border-collapse: collapse;
+	 padding: 0.5rem;
+	 text-align: center;
+	 font-size: 1.2rem;
+	 font-family: "JetBrains Mono";
+	/* color: rgb(0, 200, 200);
+	 */
+	/* background-color: rgb(0, 170, 220);
+	 */
+	 opacity: 100%;
+	 border-width: 0.2rem;
+}
+ tr:hover {
+	 background-color: #00aadc;
+	 opacity: 100%;
+}
+ input[type=radio] {
+	 width: 1.5rem;
+	 height: 1.5rem;
+	 opacity: 100%;
+	 padding: 1rem;
+	 cursor: pointer;
+	 text-decoration: none;
+	 vertical-align: middle;
+}
+ img:hover {
+	 background-color: #00c8c8;
+	 border-radius: 1rem;
+}
+ 
