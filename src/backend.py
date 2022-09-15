@@ -10,6 +10,8 @@ import zipfile
 import shutil
 import tempfile
 
+class ModPackNotFoundError(Exception): pass
+
 class ModPack:
     def __init__(
         self,
@@ -27,3 +29,17 @@ class ModPack:
 
 
         self.initilized = False
+        if os.path.isdir(self.path):
+            self.method = "DIR"
+
+        elif os.path.isfile(self.path):
+            if self.path.endswith(".zip"):
+                self.method = "ZIP"
+            elif self.path.endswith(".json"):
+                self.method = "JSON"
+
+        elif not os.path.exists(self.path):
+            raise ModPackNotFoundError(f"Modpack not found at {self.path}")
+
+    def initilize(self):
+        pass
