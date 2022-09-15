@@ -1,0 +1,29 @@
+from cursepy import CurseClient
+from tree_generator import gentree
+from time import perf_counter as now
+from rich.console import Console # For type hinting
+
+import v
+import os
+import json
+import zipfile
+import shutil
+import tempfile
+
+class ModPack:
+    def __init__(
+        self,
+        path: str,
+        console: Console,
+        output_dir: str,
+        download_optional_mods: bool = False,
+        keep_files: bool = False,
+        ):
+        self.log = console.log
+        self.keep_config = keep_files
+        self.path = path
+        self.output_dir = output_dir
+        self.optional_mod = download_optional_mods
+
+
+        self.initilized = False
