@@ -12,6 +12,8 @@ import tempfile
 
 class ModPackNotFoundError(Exception): pass
 
+class InternalModPackError(Exception): pass
+
 class ModPack:
     def __init__(
         self,
@@ -50,17 +52,29 @@ class ModPack:
 
     def initilize(self):
         self.log(f"Using the [b green]{self.method}[/] method")
-        if self.method == "ZIP":
-            self._ZIP()
+        methods = {
+            "ZIP": self._ZIP,
+            "DIR": self._DIR,
+            "JSON": self._JSON,
+        }
+        try:
+            # Call the method based on the method name string (self.method) (usally not buggy)
+            methods[self.method]()
+        except KeyError as e:
+            raise InternalModPackError(f"Invalid method {self.method}") from e
 
     def _ZIP(self):
         self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
         self.log(f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
-        os.system("explorer " + self.tempdir)
+        os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
-    def cleanUP(self):
+    def _DIR(self): pass
+
+    def _JSON(self): pass
+
+    def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
             self.log(f"Deleting [b red]temp[/] directory [b yellow]{self.tempdir}[/]")
             shutil.rmtree(self.tempdir, ignore_errors=True)
@@ -74,4 +88,4 @@ if __name__ == "__main__":
                     keep_files=True,
                     output_dir="output")
     mpack.initilize()
-    # mpack.cleanUP() # Uncomment this to clean up the temp directory (recommended)
+    # mpack.clean() # Uncomment this to clean up the temp directory (recommended)
