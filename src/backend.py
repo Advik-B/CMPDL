@@ -56,8 +56,20 @@ class ModPack:
         self.log(f"Extracting [green]zip[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
+        os.system("explorer " + self.tempdir)
 
     def cleanUP(self):
         if self.method == "ZIP" or self.method == "DIR":
             self.log(f"Deleting [b red]temp[/] directory [b yellow]{self.tempdir}[/]")
             shutil.rmtree(self.tempdir)
+
+if __name__ == "__main__":
+    console = Console()
+    console.log("Testing the modpack class")
+    mpack = ModPack(path="sample.manifest.json",
+                    console=console,
+                    download_optional_mods=True,
+                    keep_files=True,
+                    output_dir="output")
+    mpack.initilize()
+    mpack.cleanUP()
