@@ -1,4 +1,0 @@
-https://pyscript.net/alpha/pyscript.css
-https://pyscript.net/alpha/pyscript.js
-https://pyscript.net/alpha/pyscript.py
-https://pyscript.net/alpha/pyscript.js.map
