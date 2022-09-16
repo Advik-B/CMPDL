@@ -22,10 +22,17 @@ class ModPack:
         keep_files: bool = False,
         ):
         self.log = console.log
-        self.keep_config = keep_files
-        self.path = path
-        self.output_dir = output_dir
-        self.optional_mod = download_optional_mods
+        self.keep_config: bool = keep_files
+        self.path: str = path
+        self.output_dir: str = output_dir
+        self.optional_mod: bool = download_optional_mods
+
+        if "/" in self.path:
+            self.filename: str = self.path.split("/")[-1]
+        elif "\\" in self.path:
+            self.filename: str = self.path.split("\\")[-1]
+        else:
+            self.filename: str = self.path
 
 
         self.initilized = False
@@ -42,4 +49,15 @@ class ModPack:
             raise ModPackNotFoundError(f"Modpack not found at {self.path}")
 
     def initilize(self):
-        pass
+        self.log(f"Using the [b green]{self.method}[/] method")
+
+    def _ZIP(self):
+        self.tempdir = tempfile.mkdtemp(prefix="CMPDL")
+        self.log(f"Extracting [green]zip[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
+        with zipfile.ZipFile(self.path, "r") as zip_:
+            zip_.extractall(self.tempdir)
+
+    def cleanUP(self):
+        if self.method == "ZIP" or self.method == "DIR":
+            self.log(f"Deleting [b red]temp[/] directory [b yellow]{self.tempdir}[/]")
+            shutil.rmtree(self.tempdir)
