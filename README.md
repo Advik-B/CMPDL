@@ -7,6 +7,7 @@
 
 ---
 
+[Discord](https://discord.gg/AxfhEeTJMw)
 
 ## What is CMPDL
 
