@@ -10,9 +10,15 @@ import zipfile
 import shutil
 import tempfile
 
-class ModPackNotFoundError(Exception): pass
+class CompatableProgressBar:
+    """A general scaffold class for creating a progress bar to work with the backend"""
+    def step(self, val: int=1): pass
 
-class InternalModPackError(Exception): pass
+class ModPackNotFoundError(Exception):
+    """This error is raised when a modpack is not found on the local path provided by the user"""
+
+class InternalModPackError(Exception):
+    """This error is raised when the ModPack class encounters an error that is not the user's fault"""
 
 class ModPack:
     def __init__(
