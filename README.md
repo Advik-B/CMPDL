@@ -7,7 +7,8 @@
 
 ---
 
-[Discord](https://discord.gg/AxfhEeTJMw)
+[![img](https://img.shields.io/discord/931002932789399564?label=Discord&logo=discord&logoColor=5561f5&style=for-the-badge)](https://discord.gg/AxfhEeTJMw)
+
 
 ## What is CMPDL
 
