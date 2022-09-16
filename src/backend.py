@@ -76,7 +76,8 @@ class ModPack:
             zip_.extractall(self.tempdir)
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
-    def _DIR(self): pass
+    def _DIR(self):
+        self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
 
     def _JSON(self): pass
 
