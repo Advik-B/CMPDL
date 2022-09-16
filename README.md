@@ -1,7 +1,7 @@
 # CMPDL (Curseforge ModPack Downloader)
 > A better version of [Franckyi/CMPDL](https://github.com/Franckyi/CMPDL) rewritten in [python](https://python.org/about)
 
-## IMPORTANT ANNOUNCEMENT 
+## IMPORTANT ANNOUNCEMENT :warning:
 
 The development of CMPDL has resumed after the 2 month break. I am currently revamping the backend
 
