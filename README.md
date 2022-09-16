@@ -65,9 +65,3 @@ python -m pyinstaller --icon assets/icon.ico __main__.py
 ```
 python .
 ```
-
-## Images
-
-> CMPDL in standby
- 
-![image](./src/design.png)
