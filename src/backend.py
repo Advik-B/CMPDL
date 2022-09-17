@@ -2,6 +2,7 @@ from cursepy import CurseClient
 from tree_generator import gentree
 from time import perf_counter as now
 from rich.console import Console # For type hinting
+from urllib.parse import unquote
 
 import v
 import os
@@ -13,6 +14,12 @@ import tempfile
 class CompatableProgressBar:
     """A general scaffold class for creating a progress bar to work with the backend"""
     def step(self, val: int=1): pass
+
+    def setTotalValue(self, val: int): pass
+
+class ModPackError(Exception):
+    """A general exception for modpack errors, usally caused by the user"""
+    pass
 
 class ModPackNotFoundError(Exception):
     """This error is raised when a modpack is not found on the local path provided by the user"""
@@ -26,6 +33,8 @@ class ModPack:
         path: str,
         console: Console,
         output_dir: str,
+        progress_bar_overall: CompatableProgressBar,
+        progress_bar_current: CompatableProgressBar,
         download_optional_mods: bool = False,
         keep_files: bool = False,
         ):
@@ -34,6 +43,9 @@ class ModPack:
         self.path: str = path
         self.output_dir: str = output_dir
         self.optional_mod: bool = download_optional_mods
+
+        self.progress_bar_overall: CompatableProgressBar = progress_bar_overall
+        self.progress_bar_current: CompatableProgressBar = progress_bar_current
 
         if "/" in self.path:
             self.filename: str = self.path.split("/")[-1]
@@ -68,6 +80,8 @@ class ModPack:
             methods[self.method]()
         except KeyError as e:
             raise InternalModPackError(f"Invalid method {self.method}") from e
+
+        self.curseClient = CurseClient(v.api_key)
 
     def makedtemp(self) -> str:
         """Make a temporary directory and return the path to it"""
@@ -107,10 +121,57 @@ class ModPack:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
+        self.manifest_path = os.path.join(self.tempdir, "manifest.json")
+
+        # Read the manifest file
+        self.log(f"Reading [b green]manifest[/] file [b]{self.manifest_path}[/]")
+        try:
+            self.manifest = json.load(open(self.manifest_path, "r"))
+        except json.decoder.JSONDecodeError as e:
+            raise ModPackError("Invalid manifest file") from e
+
+        total = len(self.manifest["files"])
+        for index, _mod in enumerate(self.manifest):
+            mod = self.curseClient.addon(_mod["projectID"])
+            self.log(f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]")
+            self.log(f"Mod name: {mod.name}")
+            self.log(f"Mod ID: {mod.id}")
+            self.log(f"Mod author(s): {str(mod.authors)}")
+            if mod_["required"]:
+                self.log(f"Mod is [b green]required[/]")
+                file = mod.file(mod_["fileID"])
+                save_path = os.path.join(
+                    self.output_dir,
+                    unquote(
+                        file.download_url.split("/")[-1]
+                    )
+                )
+
+        self.log(f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]")
+
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
             self.log(f"Deleting [b red]temp[/] directory [b yellow]{self.tempdir}[/]")
             shutil.rmtree(self.tempdir, ignore_errors=True)
+
+    def download(self, url: str, path: str, progress_bar: CompatableProgressBar):
+        if not self.ini:
+            raise Exception("ModPack not initialized")
+
+        r = requests.get(link, stream=True)
+        with open(path, "wb") as f:
+            self.log(f"LINK: {link}", "debug")
+            self.log(f"PATH: {path}", "debug")
+            self.log(f"HEADERS: {r.headers}", "debug")
+            total_length = int(r.headers.get("content-length"))
+            self.log(f"TOTAL LENGTH: {total_length}", "debug")
+            progress_bar.setTotalValue(total_length)
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
+                    progress_bar.step()
+        self.log(f"Downloaded {link} to %s" % path.replace("\\", "/"), "debug")
 
 if __name__ == "__main__":
     console = Console()
