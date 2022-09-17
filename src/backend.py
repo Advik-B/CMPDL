@@ -100,6 +100,8 @@ class ModPack:
         self.log(gentree(self.tempdir))
         self.opendtemp() #TODO: Remove this in production
 
+    def install(self): pass
+
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
             self.log(f"Deleting [b red]temp[/] directory [b yellow]{self.tempdir}[/]")
