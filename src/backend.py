@@ -1,7 +1,7 @@
 from cursepy import CurseClient
 from tree_generator import gentree
 from time import perf_counter as now
-from rich.console import Console # For type hinting
+from rich.console import Console  # For type hinting
 from urllib.parse import unquote
 
 import v
@@ -11,6 +11,7 @@ import zipfile
 import shutil
 import tempfile
 
+
 class CompatableProgressBar:
     """A general scaffold class for creating a progress bar to work with the backend"""
 
@@ -18,8 +19,7 @@ class CompatableProgressBar:
         self.value = 0
         self.total = 0
 
-
-    def step(self, val: int=1):
+    def step(self, val: int = 1):
         self.value += val
         if self.value > self.total:
             self.value = self.total
@@ -32,15 +32,20 @@ class CompatableProgressBar:
         if self.value > self.total:
             self.value = self.total
 
+
 class ModPackError(Exception):
     """A general exception for modpack errors, usally caused by the user"""
+
     pass
+
 
 class ModPackNotFoundError(Exception):
     """This error is raised when a modpack is not found on the local path provided by the user"""
 
+
 class InternalModPackError(Exception):
     """This error is raised when the ModPack class encounters an error that is not the user's fault"""
+
 
 class ModPack:
     def __init__(
@@ -52,7 +57,7 @@ class ModPack:
         progress_bar_current: CompatableProgressBar,
         download_optional_mods: bool = False,
         keep_files: bool = False,
-        ):
+    ):
         self.log = console.log
         self.keep_config: bool = keep_files
         self.path: str = path
@@ -62,7 +67,6 @@ class ModPack:
         self.progress_bar_overall: CompatableProgressBar = progress_bar_overall
         self.progress_bar_current: CompatableProgressBar = progress_bar_current
 
-
         self.seperator = "="
 
         if "/" in self.path:
@@ -71,7 +75,6 @@ class ModPack:
             self.filename: str = self.path.split("\\")[-1]
         else:
             self.filename: str = self.path
-
 
         self.initilized = False
         if os.path.isdir(self.path):
@@ -113,26 +116,32 @@ class ModPack:
 
     def _ZIP(self):
         self.makedtemp()
-        self.log(f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
+        self.log(
+            f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]"
+        )
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
 
         self.log(gentree(self.tempdir))
-        self.opendtemp() #TODO: Remove this in production
+        self.opendtemp()  # TODO: Remove this in production
 
     def _DIR(self):
         self.makedtemp()
-        self.log(f"Copying [b green]DIR[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
+        self.log(
+            f"Copying [b green]DIR[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]"
+        )
         O = shutil.copytree(self.path, self.tempdir)
         self.log(gentree(O))
-        self.opendtemp() #TODO: Remove this in production
+        self.opendtemp()  # TODO: Remove this in production
 
     def _JSON(self):
         self.makedtemp()
-        self.log(f"Copying [b green]JSON[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
+        self.log(
+            f"Copying [b green]JSON[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]"
+        )
         shutil.copy(self.path, self.tempdir)
         self.log(gentree(self.tempdir))
-        self.opendtemp() #TODO: Remove this in production
+        self.opendtemp()  # TODO: Remove this in production
 
     def install(self):
         if not self.initilized:
@@ -155,12 +164,16 @@ class ModPack:
             for _ in self.manifest["files"]:
                 if _["optional"]:
                     total -= 1
-        self.log(f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]")
+        self.log(
+            f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]"
+        )
 
         self.progress_bar_overall.setTotalValue(total)
         for index, _mod in enumerate(self.manifest):
             mod = self.curseClient.addon(_mod["projectID"])
-            self.log(f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]")
+            self.log(
+                f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
+            )
             self.log(f"Mod name: {mod.name}")
             self.log(f"Mod ID: {mod.id}")
             self.log(f"Mod author(s): {str(mod.authors)}")
@@ -168,16 +181,11 @@ class ModPack:
                 self.log(f"Mod is [b green]required[/]")
                 file = mod.file(mod_["fileID"])
                 save_path = os.path.join(
-                    self.output_dir,
-                    unquote(
-                        file.download_url.split("/")[-1]
-                    )
+                    self.output_dir, unquote(file.download_url.split("/")[-1])
                 )
                 self.download(file.download_url, save_path, self.progress_bar_current)
                 self.progress_bar_current.set(0)
                 self.log(f"{self.seperator * os.get_terminal_size().columns}")
-
-
 
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
@@ -203,13 +211,16 @@ class ModPack:
                     progress_bar.step()
         self.log(f"Downloaded {link} to %s" % path.replace("\\", "/"))
 
+
 if __name__ == "__main__":
     console = Console()
     console.log("Testing the modpack class")
-    mpack = ModPack(path="sample.manifest.zip",
-                    console=console,
-                    download_optional_mods=True,
-                    keep_files=True,
-                    output_dir="output")
+    mpack = ModPack(
+        path="sample.manifest.zip",
+        console=console,
+        download_optional_mods=True,
+        keep_files=True,
+        output_dir="output",
+    )
     mpack.initilize()
     # mpack.clean() # Uncomment this to clean up the temp directory (recommended)
