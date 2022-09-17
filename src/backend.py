@@ -69,8 +69,12 @@ class ModPack:
         except KeyError as e:
             raise InternalModPackError(f"Invalid method {self.method}") from e
 
+    def makedtemp(self) -> str:
+        """Make a temporary directory and return the path to it"""
+        return tempfile.mkdtemp(prefix="CMPDL.TEMPORARY.")
+
     def _ZIP(self):
-        self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
+        self.tempdir = self.makedtemp()
         self.log(f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
@@ -79,13 +83,15 @@ class ModPack:
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
     def _DIR(self):
-        self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
+        self.tempdir = self.makedtemp()
+        self.log(f"Copying [b green]DIR[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
         O = shutil.copytree(self.path, self.tempdir)
         self.log(gentree(O))
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
     def _JSON(self):
-        self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
+        self.tempdir = self.makedtemp()
+        self.log(f"Copying [b green]JSON[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
         shutil.copy(self.path, self.tempdir)
         self.log(gentree(self.tempdir))
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
