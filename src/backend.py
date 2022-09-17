@@ -27,6 +27,11 @@ class CompatableProgressBar:
     def setTotalValue(self, val: int):
         self.total = val
 
+    def set(self, val: int):
+        self.value = val
+        if self.value > self.total:
+            self.value = self.total
+
 class ModPackError(Exception):
     """A general exception for modpack errors, usally caused by the user"""
     pass
@@ -57,6 +62,9 @@ class ModPack:
         self.progress_bar_overall: CompatableProgressBar = progress_bar_overall
         self.progress_bar_current: CompatableProgressBar = progress_bar_current
 
+
+        self.seperator = "="
+
         if "/" in self.path:
             self.filename: str = self.path.split("/")[-1]
         elif "\\" in self.path:
@@ -77,6 +85,8 @@ class ModPack:
 
         elif not os.path.exists(self.path):
             raise ModPackNotFoundError(f"Modpack not found at {self.path}")
+
+        self.console = console
 
     def initilize(self):
         self.log(f"Using the [b green]{self.method}[/] method")
@@ -141,6 +151,13 @@ class ModPack:
             raise ModPackError("Invalid manifest file") from e
 
         total = len(self.manifest["files"])
+        if self.optional_mod is False:
+            for _ in self.manifest["files"]:
+                if _["optional"]:
+                    total -= 1
+        self.log(f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]")
+
+        self.progress_bar_overall.setTotalValue(total)
         for index, _mod in enumerate(self.manifest):
             mod = self.curseClient.addon(_mod["projectID"])
             self.log(f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]")
@@ -156,8 +173,11 @@ class ModPack:
                         file.download_url.split("/")[-1]
                     )
                 )
+                self.download(file.download_url, save_path, self.progress_bar_current)
+                self.progress_bar_current.set(0)
+                self.log(f"{self.seperator * os.get_terminal_size().columns}")
 
-        self.log(f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]")
+
 
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
