@@ -74,10 +74,15 @@ class ModPack:
         self.log(f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
+
+        self.log(gentree(self.tempdir))
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
     def _DIR(self):
         self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
+        O = shutil.copytree(self.path, self.tempdir)
+        self.log(gentree(O))
+        os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
     def _JSON(self): pass
 
