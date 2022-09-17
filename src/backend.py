@@ -84,7 +84,11 @@ class ModPack:
         self.log(gentree(O))
         os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
-    def _JSON(self): pass
+    def _JSON(self):
+        self.tempdir = tempfile.mkdtemp(prefix="CMPDL~")
+        shutil.copy(self.path, self.tempdir)
+        self.log(gentree(self.tempdir))
+        os.system("explorer " + self.tempdir) #TODO: Remove this in production
 
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
