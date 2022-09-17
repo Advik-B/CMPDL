@@ -13,9 +13,19 @@ import tempfile
 
 class CompatableProgressBar:
     """A general scaffold class for creating a progress bar to work with the backend"""
-    def step(self, val: int=1): pass
 
-    def setTotalValue(self, val: int): pass
+    def _init_(self):
+        self.value = 0
+        self.total = 0
+
+
+    def step(self, val: int=1):
+        self.value += val
+        if self.value > self.total:
+            self.value = self.total
+
+    def setTotalValue(self, val: int):
+        self.total = val
 
 class ModPackError(Exception):
     """A general exception for modpack errors, usally caused by the user"""
