@@ -71,13 +71,14 @@ class ModPack:
 
     def makedtemp(self) -> str:
         """Make a temporary directory and return the path to it"""
-        return tempfile.mkdtemp(prefix="CMPDL.TEMPORARY.")
+        self.tempdir = tempfile.mkdtemp(prefix="CMPDL.TEMPORARY.")
+        return self.tempdir
 
     def opendtemp(self):
         os.system("explorer " + self.tempdir)
 
     def _ZIP(self):
-        self.tempdir = self.makedtemp()
+        self.makedtemp()
         self.log(f"Extracting [bold green]ZIP[/] file [b]{self.filename}[/] to [b yellow]{self.tempdir}[/]")
         with zipfile.ZipFile(self.path, "r") as zip_:
             zip_.extractall(self.tempdir)
@@ -86,14 +87,14 @@ class ModPack:
         self.opendtemp() #TODO: Remove this in production
 
     def _DIR(self):
-        self.tempdir = self.makedtemp()
+        self.makedtemp()
         self.log(f"Copying [b green]DIR[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
         O = shutil.copytree(self.path, self.tempdir)
         self.log(gentree(O))
         self.opendtemp() #TODO: Remove this in production
 
     def _JSON(self):
-        self.tempdir = self.makedtemp()
+        self.makedtemp()
         self.log(f"Copying [b green]JSON[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]")
         shutil.copy(self.path, self.tempdir)
         self.log(gentree(self.tempdir))
