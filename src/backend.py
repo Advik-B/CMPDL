@@ -170,18 +170,18 @@ class ModPack:
 
         r = requests.get(link, stream=True)
         with open(path, "wb") as f:
-            self.log(f"LINK: {link}", "debug")
-            self.log(f"PATH: {path}", "debug")
-            self.log(f"HEADERS: {r.headers}", "debug")
+            self.log(f"LINK: {link}")
+            self.log(f"PATH: {path}")
+            self.log(f"HEADERS: {r.headers}")
             total_length = int(r.headers.get("content-length"))
-            self.log(f"TOTAL LENGTH: {total_length}", "debug")
+            self.log(f"TOTAL LENGTH: {total_length}")
             progress_bar.setTotalValue(total_length)
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
                     f.flush()
                     progress_bar.step()
-        self.log(f"Downloaded {link} to %s" % path.replace("\\", "/"), "debug")
+        self.log(f"Downloaded {link} to %s" % path.replace("\\", "/"))
 
 if __name__ == "__main__":
     console = Console()
