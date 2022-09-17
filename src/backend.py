@@ -100,7 +100,12 @@ class ModPack:
         self.log(gentree(self.tempdir))
         self.opendtemp() #TODO: Remove this in production
 
-    def install(self): pass
+    def install(self):
+        if not self.initilized:
+            raise InternalModPackError("ModPack not initilized")
+
+        if not os.path.exists(self.output_dir):
+            os.makedirs(self.output_dir)
 
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
