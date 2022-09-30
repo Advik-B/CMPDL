@@ -9,6 +9,7 @@ from backend import (
 from rich.console import Console
 from rich.progress import Progress
 from rich.traceback import install
+from threading import Thread
 
 import click
 import random
@@ -47,14 +48,25 @@ with Progress(transient=True) as progress:
             super().step(val)
             progress.update(overall, advance=val)
 
+    pmb = per_mod_bar()
+    ob = overall_bar()
     m = ModPack(
         "sample.manifest.zip",
         console=c,
         output_dir="output",
-        progress_bar_overall=per_mod_bar(),
-        progress_bar_current=overall_bar(),
+        progress_bar_overall=pmb,
+        progress_bar_current=ob,
         download_optional_mods=True,
         )
+    def _refresh_progresss():
+        while True:
+            progress.update(per_mod, completed=pmb.value, total=pmb.total)
+            progress.update(overall, completed=ob.value, total=ob.total)
+            progress.refresh()
+
+
+    Thread(target=_refresh_progresss, daemon=True).start()
+
     m.initilize()
     m.install()
     m.clean()
