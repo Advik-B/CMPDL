@@ -105,6 +105,8 @@ class ModPack:
             raise InternalModPackError(f"Invalid method {self.method}") from e
 
         self.curseClient = CurseClient(v.api_key)
+        # self.opendtemp()  # TODO: Remove this in production
+        self.initilized = True
 
     def makedtemp(self) -> str:
         """Make a temporary directory and return the path to it"""
@@ -123,7 +125,6 @@ class ModPack:
             zip_.extractall(self.tempdir)
 
         self.log(gentree(self.tempdir))
-        self.opendtemp()  # TODO: Remove this in production
 
     def _DIR(self):
         self.makedtemp()
@@ -132,7 +133,6 @@ class ModPack:
         )
         O = shutil.copytree(self.path, self.tempdir)
         self.log(gentree(O))
-        self.opendtemp()  # TODO: Remove this in production
 
     def _JSON(self):
         self.makedtemp()
@@ -141,7 +141,6 @@ class ModPack:
         )
         shutil.copy(self.path, self.tempdir)
         self.log(gentree(self.tempdir))
-        self.opendtemp()  # TODO: Remove this in production
 
     def install(self):
         if not self.initilized:
@@ -159,18 +158,25 @@ class ModPack:
         except json.decoder.JSONDecodeError as e:
             raise ModPackError("Invalid manifest file") from e
 
-        total = len(self.manifest["files"])
+        # This codeblock iterates through the files and gets the actual length of the files
+        # (Not the length of the list)
+        total = len(self.manifest["files"]) # Allegedly the total number of files
         if self.optional_mod is False:
+            # execute ONLY if:
+            # The user does not want to download optional mods
             for _ in self.manifest["files"]:
-                if _["optional"]:
-                    total -= 1
+                # "_" is the current file
+                if _["optional"]: # If the file is optional
+                    total -= 1 # Subtract 1 from the total
+        #--------------------------------------
         self.log(
             f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]"
         )
 
         self.progress_bar_overall.setTotalValue(total)
-        for index, _mod in enumerate(self.manifest):
-            mod = self.curseClient.addon(_mod["projectID"])
+        for index, _mod in enumerate(self.manifest["files"]):
+            self.log(_mod)
+            mod = self.curseClient.addon(_temp_projectID)
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
             )
@@ -213,6 +219,8 @@ class ModPack:
 
 
 if __name__ == "__main__":
+    from rich.traceback import install
+    install(extra_lines=5, show_locals=True)
     console = Console()
     console.log("Testing the modpack class")
     mpack = ModPack(
@@ -220,7 +228,11 @@ if __name__ == "__main__":
         console=console,
         download_optional_mods=True,
         keep_files=True,
+        progress_bar_overall=CompatableProgressBar(),
+        progress_bar_current=CompatableProgressBar(),
+        # HACK: This is just a trick to make it think it's a progress bar
         output_dir="output",
     )
     mpack.initilize()
+    mpack.install()
     # mpack.clean() # Uncomment this to clean up the temp directory (recommended)
