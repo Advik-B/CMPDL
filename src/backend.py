@@ -10,6 +10,7 @@ import json
 import zipfile
 import shutil
 import tempfile
+import requests
 
 
 class CompatableProgressBar:
@@ -154,17 +155,17 @@ class ModPack:
         # Read the manifest file
         self.log(f"Reading [b green]manifest[/] file [b]{self.manifest_path}[/]")
         try:
-            self.manifest = json.load(open(self.manifest_path, "r"))
+            manifest = json.load(open(self.manifest_path, "r"))
         except json.decoder.JSONDecodeError as e:
             raise ModPackError("Invalid manifest file") from e
 
         # This codeblock iterates through the files and gets the actual length of the files
         # (Not the length of the list)
-        total = len(self.manifest["files"]) # Allegedly the total number of files
+        total = len(manifest["files"]) # Allegedly the total number of files
         if self.optional_mod is False:
             # execute ONLY if:
             # The user does not want to download optional mods
-            for _ in self.manifest["files"]:
+            for _ in manifest["files"]:
                 # "_" is the current file
                 if _["optional"]: # If the file is optional
                     total -= 1 # Subtract 1 from the total
@@ -174,18 +175,22 @@ class ModPack:
         )
 
         self.progress_bar_overall.setTotalValue(total)
-        for index, _mod in enumerate(self.manifest["files"]):
+        self._iter_manifest(manifest, total) # Main installation function
+
+    def _iter_manifest(self, manifest: dict, total:int):
+
+        for index, _mod in enumerate(manifest["files"]):
             self.log(_mod)
-            mod = self.curseClient.addon(_temp_projectID)
+            mod = self.curseClient.addon(_mod["projectID"])
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
             )
             self.log(f"Mod name: {mod.name}")
             self.log(f"Mod ID: {mod.id}")
             self.log(f"Mod author(s): {str(mod.authors)}")
-            if mod_["required"]:
+            if _mod["required"]:
                 self.log(f"Mod is [b green]required[/]")
-                file = mod.file(mod_["fileID"])
+                file = mod.file(_mod["fileID"])
                 save_path = os.path.join(
                     self.output_dir, unquote(file.download_url.split("/")[-1])
                 )
@@ -199,7 +204,7 @@ class ModPack:
             shutil.rmtree(self.tempdir, ignore_errors=True)
 
     def download(self, url: str, path: str, progress_bar: CompatableProgressBar):
-        if not self.ini:
+        if not self.initilized:
             raise Exception("ModPack not initialized")
 
         r = requests.get(link, stream=True)
