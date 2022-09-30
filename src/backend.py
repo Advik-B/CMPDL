@@ -161,23 +161,23 @@ class ModPack:
 
         # This codeblock iterates through the files and gets the actual length of the files
         # (Not the length of the list)
-        total = len(manifest["files"]) # Allegedly the total number of files
+        total = len(manifest["files"])  # Allegedly the total number of files
         if self.optional_mod is False:
             # execute ONLY if:
             # The user does not want to download optional mods
             for _ in manifest["files"]:
                 # "_" is the current file
-                if _["optional"]: # If the file is optional
-                    total -= 1 # Subtract 1 from the total
-        #--------------------------------------
+                if _["optional"]:  # If the file is optional
+                    total -= 1  # Subtract 1 from the total
+        # --------------------------------------
         self.log(
             f"Installing [b green]{self.method}[/] modpack [b]{self.filename}[/] to [b yellow]{self.output_dir}[/]"
         )
 
         self.progress_bar_overall.setTotalValue(total)
-        self._iter_manifest(manifest, total) # Main installation function
+        self._iter_manifest(manifest, total)  # Main installation function
 
-    def _iter_manifest(self, manifest: dict, total:int):
+    def _iter_manifest(self, manifest: dict, total: int):
 
         for index, _mod in enumerate(manifest["files"]):
             self.log(_mod)
@@ -222,16 +222,18 @@ class ModPack:
                     progress_bar.step()
         self.log(f"Downloaded {url} to %s" % path.replace("\\", "/"))
 
+
 # Test code
 if __name__ == "__main__":
     from rich.traceback import install
+
     install(extra_lines=5, show_locals=True)
     console = Console()
     console.log("Testing the modpack class")
     _p1 = CompatableProgressBar()
-    _p1._init_() # Get the progress bar ready
+    _p1._init_()  # Get the progress bar ready
     _p2 = CompatableProgressBar()
-    _p2._init_() # Get the progress bar ready
+    _p2._init_()  # Get the progress bar ready
     mpack = ModPack(
         path="sample.manifest.zip",
         console=console,
