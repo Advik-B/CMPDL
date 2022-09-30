@@ -180,14 +180,16 @@ class ModPack:
     def _iter_manifest(self, manifest: dict, total: int):
 
         for index, _mod in enumerate(manifest["files"]):
-            self.log(_mod)
             mod = self.curseClient.addon(_mod["projectID"])
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
             )
             self.log(f"Mod name: {mod.name}")
             self.log(f"Mod ID: {mod.id}")
-            self.log(f"Mod author(s): {str(mod.authors)}")
+            _names = ""
+            for _name in mod.authors:
+                _names += _name.name + ", "
+            self.log(f"Mod author(s): {_names[:-2] if _names else 'Unknown'}")
             if _mod["required"]:
                 self.log(f"Mod is [b green]required[/]")
                 file = mod.file(_mod["fileID"])
@@ -196,7 +198,6 @@ class ModPack:
                 )
                 self.download(file.download_url, save_path, self.progress_bar_current)
                 self.progress_bar_current.set(0)
-                self.log(f"{self.seperator * os.get_terminal_size().columns}")
 
     def clean(self):
         if self.method == "ZIP" or self.method == "DIR":
@@ -210,8 +211,6 @@ class ModPack:
         r = requests.get(url, stream=True)
         with open(path, "wb") as f:
             self.log(f"URL: {url}")
-            self.log(f"PATH: {path}")
-            self.log(f"HEADERS: {r.headers}")
             total_length = int(r.headers.get("content-length"))
             self.log(f"TOTAL LENGTH: {total_length}")
             progress_bar.setTotalValue(total_length)
@@ -220,7 +219,6 @@ class ModPack:
                     f.write(chunk)
                     f.flush()
                     progress_bar.step()
-        self.log(f"Downloaded {url} to %s" % path.replace("\\", "/"))
 
 
 # Test code
