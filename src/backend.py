@@ -228,16 +228,21 @@ if __name__ == "__main__":
     install(extra_lines=5, show_locals=True)
     console = Console()
     console.log("Testing the modpack class")
+    _p1 = CompatableProgressBar()
+    _p1._init_() # Get the progress bar ready
+    _p2 = CompatableProgressBar()
+    _p2._init_() # Get the progress bar ready
     mpack = ModPack(
         path="sample.manifest.zip",
         console=console,
         download_optional_mods=True,
         keep_files=True,
-        progress_bar_overall=CompatableProgressBar(),
-        progress_bar_current=CompatableProgressBar(),
+        progress_bar_overall=_p1,
+        progress_bar_current=_p2,
         # HACK: This is just a trick to make it think it's a progress bar
         output_dir="output",
     )
     mpack.initilize()
     mpack.install()
+    mpack.clean()
     # mpack.clean() # Uncomment this to clean up the temp directory (recommended)
