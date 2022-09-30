@@ -222,7 +222,7 @@ class ModPack:
                     progress_bar.step()
         self.log(f"Downloaded {url} to %s" % path.replace("\\", "/"))
 
-
+# Test code
 if __name__ == "__main__":
     from rich.traceback import install
     install(extra_lines=5, show_locals=True)
