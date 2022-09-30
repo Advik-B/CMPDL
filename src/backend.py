@@ -207,9 +207,9 @@ class ModPack:
         if not self.initilized:
             raise Exception("ModPack not initialized")
 
-        r = requests.get(link, stream=True)
+        r = requests.get(url, stream=True)
         with open(path, "wb") as f:
-            self.log(f"LINK: {link}")
+            self.log(f"URL: {url}")
             self.log(f"PATH: {path}")
             self.log(f"HEADERS: {r.headers}")
             total_length = int(r.headers.get("content-length"))
@@ -220,7 +220,7 @@ class ModPack:
                     f.write(chunk)
                     f.flush()
                     progress_bar.step()
-        self.log(f"Downloaded {link} to %s" % path.replace("\\", "/"))
+        self.log(f"Downloaded {url} to %s" % path.replace("\\", "/"))
 
 
 if __name__ == "__main__":
