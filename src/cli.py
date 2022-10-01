@@ -27,26 +27,11 @@ with Progress(transient=True) as progress:
             super().__init__()
             self._init_()
 
-        def setTotalValue(self, val):
-            super().setTotalValue(val)
-            progress.update(per_mod, total=val)
-
-        def step(self, val: int = 1):
-            super().step(val)
-            progress.update(per_mod, advance=val)
 
     class overall_bar(CompatableProgressBar):
         def __init__(self) -> None:
             super().__init__()
             self._init_()
-
-        def setTotalValue(self, val):
-            super().setTotalValue(val)
-            progress.update(overall, total=val)
-
-        def step(self, val: int = 1):
-            super().step(val)
-            progress.update(overall, advance=val)
 
     pmb = per_mod_bar()
     ob = overall_bar()
