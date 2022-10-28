@@ -78,6 +78,6 @@ class DirectoryTree:
         return "".join(ents)
 
 
-def gentree(root_dir):
+def gentree(root_dir: str) -> str:
     tree = DirectoryTree(root_dir)
     return tree.generate()
