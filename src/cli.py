@@ -16,42 +16,16 @@ import random
 import time
 
 c = Console()
-install(console=c, extra_lines=5, show_locals=True, indent_guides=True)
+install(console=c, show_locals=True, extra_lines=4)
 
-with Progress(transient=True) as progress:
-    overall = progress.add_task("[b green]Overall[/]-[cyan]Progress[/]", total=1)
-    per_mod = progress.add_task("[b yellow]Individual[/]-[cyan]Progress[/]", total=1)
+@click.command(context_settings={"help_option_names": ["-h", "--help"]}, no_args_is_help=True)
+@click.argument("path", type=click.Path(exists=True, file_okay=True, dir_okay=True))
+@click.argument("output_dir", type=click.Path(exists=True, file_okay=False, dir_okay=True))
+@click.option("-c", "--chunk-size", type=int, default=1024, help="Chunk size for downloads")
+@click.option("-d","--download-optional", is_flag=True, default=True, help="Download optional files")
+@click.option("--no-clean", is_flag=True, default=False, help="Don't delete temp directory after install")
 
-    class per_mod_bar(CompatableProgressBar):
-        def __init__(self) -> None:
-            super().__init__()
-            self._init_()
+def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no_clean: bool):
+    pass
 
-
-    class overall_bar(CompatableProgressBar):
-        def __init__(self) -> None:
-            super().__init__()
-            self._init_()
-
-    pmb = per_mod_bar()
-    ob = overall_bar()
-    m = ModPack(
-        "sample.manifest.zip",
-        console=c,
-        output_dir="output",
-        progress_bar_overall=pmb,
-        progress_bar_current=ob,
-        download_optional_mods=True,
-        )
-    def _refresh_progresss():
-        while True:
-            progress.update(per_mod, completed=pmb.value, total=pmb.total)
-            progress.update(overall, completed=ob.value, total=ob.total)
-            progress.refresh()
-
-
-    Thread(target=_refresh_progresss, daemon=True).start()
-
-    m.initilize()
-    m.install()
-    m.clean()
+cli()
