@@ -1,4 +1,4 @@
-from cursepy import CurseClient, CurseAddon  # type: ignore
+from cursepy import CurseClient
 from tree_generator import gentree
 from time import perf_counter as now
 from rich.console import Console  # For type hinting
@@ -105,7 +105,7 @@ class ModPack:
         except KeyError as e:
             raise InternalModPackError(f"Invalid method {self.method}") from e
 
-        self.curseClient: CurseAddon = CurseClient(v.api_key)
+        self.curseClient = CurseClient(v.api_key)
         # self.opendtemp()  # TODO: Remove this in production
         self.initilized = True
 
@@ -180,7 +180,7 @@ class ModPack:
     def _iter_manifest(self, manifest: dict, total: int):
 
         for index, _mod in enumerate(manifest["files"]):
-            mod: CurseAddon = self.curseClient.addon(_mod["projectID"])
+            mod= self.curseClient.addon(_mod["projectID"])
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
             )
