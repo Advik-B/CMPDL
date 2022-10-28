@@ -58,6 +58,7 @@ class ModPack:
         progress_bar_current: CompatableProgressBar,
         download_optional_mods: bool = False,
         keep_files: bool = False,
+        chunk_size: int = 1024,
     ):
         self.log = console.log
         self.keep_config: bool = keep_files
@@ -91,6 +92,7 @@ class ModPack:
             raise ModPackNotFoundError(f"Modpack not found at {self.path}")
 
         self.console = console
+        self.chunk_size = chunk_size
 
     def initilize(self):
         self.log(f"Using the [b green]{self.method}[/] method")
@@ -214,7 +216,7 @@ class ModPack:
             total_length = int(r.headers.get("content-length"))  # type: ignore
             self.log(f"TOTAL LENGTH: {total_length}")
             progress_bar.setTotalValue(total_length)
-            for chunk in r.iter_content(chunk_size=1024):
+            for chunk in r.iter_content(chunk_size=self.chunk_size):
                 if chunk:
                     f.write(chunk)
                     f.flush()
