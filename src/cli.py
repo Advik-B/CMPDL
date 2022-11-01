@@ -18,20 +18,40 @@ c = Console()
 install(console=c, show_locals=True, extra_lines=4)
 
 
+# class ProgressBar(CompatableProgressBar):
+#     def __init__(self):
+#         self._init_()
+#         self.bar = alive_bar()
+
+
+#     def setTotalValue(self, value: int):
+#         self.bar = alive_bar(total=value)
+
+#     def step(self):
+#         self.bar()
+
+#     def set(self, value: int):
+#         self.bar.update(value)  # type: ignore
 class ProgressBar(CompatableProgressBar):
     def __init__(self):
         self._init_()
-        self.bar = alive_bar()
-
 
     def setTotalValue(self, value: int):
-        self.bar = alive_bar(total=value)
+        self.cm = alive_bar(total=value)
+        self.bar = self.cm.__enter__()
 
     def step(self):
         self.bar()
+        self.check_until_done()
 
-    def set(self, value: int):
-        self.bar.update(value)  # type: ignore
+    def check_until_done(self):
+        # if self.bar.current > self.cm.total:
+        #     self.close()
+        pass
+
+    def close(self):
+        self.cm.__exit__(None, None, None)
+
 
 @click.command(context_settings={"help_option_names": ["-h", "--help"]}, no_args_is_help=True)
 @click.argument("path", type=click.Path(exists=True, file_okay=True, dir_okay=True))
