@@ -1,5 +1,4 @@
 cursepy~=2.1.0
 rich~=12.6.0
-alive_progress~=2.4.1
 requests
 click
