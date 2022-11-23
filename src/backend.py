@@ -196,9 +196,8 @@ class ModPack:
                 self.log(f"Mod is [b green]required[/]")
                 file = mod.file(_mod["fileID"])
                 if file.download_url is None:
-                    self.log(f"Mod is [b red]not downloadable[/] [b]{file.id}[/] [b]{file.name}[/] due to API error")
+                    self.log(f"Mod is [b red]not downloadable[/] [b]{file.id}[/] [b]{mod.name}[/] due to API error")
                     self.log("See https://github.com/Advik-B/CMPDL/issues/25 for more info")
-                    self.progress_bar_overall.step()
                     continue
                 save_path = os.path.join(
                     self.output_dir, unquote(file.download_url.split("/")[-1])
