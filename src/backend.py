@@ -137,13 +137,7 @@ class ModPack:
         O = shutil.copytree(self.path, self.tempdir)
         self.log(gentree(O))
 
-    def _JSON(self):
-        self.makedtemp()
-        self.log(
-            f"Copying [b green]JSON[/] [b]{self.path}[/] to [b yellow]{self.tempdir}[/]"
-        )
-        shutil.copy(self.path, self.tempdir)
-        self.log(gentree(self.tempdir))
+    def _JSON(self): pass
 
     def install(self):
         if not self.initilized:
@@ -152,7 +146,10 @@ class ModPack:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
-        self.manifest_path = os.path.join(self.tempdir, "manifest.json")
+        try:
+            self.manifest_path = os.path.join(self.tempdir, "manifest.json")
+        except AttributeError:
+            self.manifest_path = self.path
 
         # Read the manifest file
         self.log(f"Reading [b green]manifest[/] file [b]{self.manifest_path}[/]")
@@ -160,6 +157,9 @@ class ModPack:
             manifest = json.load(open(self.manifest_path, "r"))
         except json.decoder.JSONDecodeError as e:
             raise ModPackError("Invalid manifest file") from e
+
+        except FileNotFoundError as e:
+            manifest = json.load(open(self.path, "r"))
 
         # This codeblock iterates through the files and gets the actual length of the files
         # (Not the length of the list)
