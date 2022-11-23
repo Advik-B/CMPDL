@@ -11,8 +11,6 @@ from rich.traceback import install
 from rich.progress import Progress, TaskID, BarColumn, TimeRemainingColumn
 
 import click
-import random
-import time
 
 c = Console()
 install(console=c, show_locals=True, extra_lines=4)
