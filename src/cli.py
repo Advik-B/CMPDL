@@ -115,7 +115,6 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
     try:
         _temp_bar = CompatableProgressBar()
         _temp_bar._init_()
-        _overall_bar = OverallProgressBar()
         modpack = ModPack(
                 console=c,
                 download_optional_mods=download_optional,
@@ -123,7 +122,7 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
                 output_dir=output_dir,
                 path=path,
                 progress_bar_current=ProgressBar(),
-                progress_bar_overall=_overall_bar,
+                progress_bar_overall=_temp_bar,
                 chunk_size=chunk_size,
             )
         modpack.initilize()
