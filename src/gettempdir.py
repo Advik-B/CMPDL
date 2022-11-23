@@ -4,7 +4,7 @@ import os
 
 sys = system()
 if sys == "Windows":
-    os.startfile(gettempdir())
+    os.startfile(gettempdir())  # type: ignore
 elif sys == "Linux":
     os.system("xdg-open " + gettempdir())
 elif sys == "Darwin":
