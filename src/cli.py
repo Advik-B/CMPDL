@@ -8,7 +8,7 @@ from backend import (
 
 from rich.console import Console
 from rich.traceback import install
-from alive_progress import alive_bar
+from rich.progress import Progress, TaskID, BarColumn, TimeRemainingColumn
 
 import click
 import random
@@ -16,6 +16,45 @@ import time
 
 c = Console()
 install(console=c, show_locals=True, extra_lines=4)
+
+
+class ProgressBar(CompatableProgressBar):
+    def __init__(self):
+        self.barColumn = BarColumn(bar_width=c.width - 40)
+        self.timeRemainingColumn = TimeRemainingColumn()
+        self.progress = Progress(
+            self.barColumn,
+            "[progress.percentage]{task.percentage:>3.0f}%",
+            "•",
+            "ETA:",
+            self.timeRemainingColumn,
+            console=c,
+        )
+        self.task: TaskID | None = None
+        self.firstTime = True
+
+    def setTotalValue(self, val: int):
+        super().setTotalValue(val)
+        self.value = 0
+        self.progress.start()
+        if self.firstTime:
+            self.firstTime = False
+            self.task = self.progress.add_task(
+            "Downloading Mod", total=val // 1024,)
+            self.progress.update(self.task, advance=0)
+        else:
+            # Remove the old task
+            self.progress.remove_task(self.task) # type: ignore
+            self.task = self.progress.add_task(
+            "Downloading Mod", total=val // 1024,)
+            self.progress.update(self.task, advance=0)
+
+    def step(self, val: int = 1):
+        super().step(val)
+        self.progress.update(self.task, advance=val)  # type: ignore
+
+    def set(self, val: int):
+        super().set(val)
 
 
 # class ProgressBar(CompatableProgressBar):
@@ -32,25 +71,6 @@ install(console=c, show_locals=True, extra_lines=4)
 
 #     def set(self, value: int):
 #         self.bar.update(value)  # type: ignore
-class ProgressBar(CompatableProgressBar):
-    def __init__(self):
-        self._init_()
-
-    def setTotalValue(self, value: int):
-        self.cm = alive_bar(total=value)
-        self.bar = self.cm.__enter__()
-
-    def step(self):
-        self.bar()
-        self.check_until_done()
-
-    def check_until_done(self):
-        # if self.bar.current > self.cm.total:
-        #     self.close()
-        pass
-
-    def close(self):
-        self.cm.__exit__(None, None, None)
 
 
 @click.command(context_settings={"help_option_names": ["-h", "--help"]}, no_args_is_help=True)
