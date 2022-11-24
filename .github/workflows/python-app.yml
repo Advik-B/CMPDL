@@ -26,4 +26,4 @@ jobs:
       run: cd src && pip install -r requirements.txt
     
     - name: Test the CLI App
-      run: cd src && python cli.py examples/World+of+Dragons+Lite-10.1.83.zip output
+      run: cd src && python cli.py sample.manifest.json output
