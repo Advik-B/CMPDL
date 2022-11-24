@@ -187,6 +187,9 @@ class ModPack:
             self.log("Some mods was not able to be downloaded, please download them manually:")
         for missed_mod in self.missed_mods:
             self.log(f"Mod: [b]{missed_mod.name}[/] LINK: [b]{missed_mod.url}[/]")
+        self.progress_bar_current.complete()
+        self.progress_bar_overall.complete()
+
 
     def _iter_manifest(self, manifest: dict, total: int):
 
