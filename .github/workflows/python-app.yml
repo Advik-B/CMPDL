@@ -3,9 +3,9 @@
 
 name: Python application
 
-on:
-  workflow_run:
-    branches: ["RewriteOnceMore"]
+on: workflow_dispatch
+
+  
 
 permissions:
   contents: read
