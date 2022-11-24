@@ -140,5 +140,10 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
         c.print_exception()
         c.print("[red]An error occured, please report this to the developer[/red]")
 
+    except Exception:
+        c.print_exception()
+        c.print("[red]An error occured, please report this to the developer[/]")
+        c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
+
 
 cli() # type: ignore
