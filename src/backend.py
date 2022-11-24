@@ -188,7 +188,13 @@ class ModPack:
     def _iter_manifest(self, manifest: dict, total: int):
 
         for index, _mod in enumerate(manifest["files"]):
-            mod= self.curseClient.addon(_mod["projectID"])
+            try:
+                mod= self.curseClient.addon(_mod["projectID"])
+            except TypeError as e:
+                self.log(f"Skipping mod with projectID: [yellow]{_mod['projectID']}[/]")
+                self.log("This is an issue with cursepy and not CMPDL")
+                self.log("Please report this issue to the cursepy github:")
+                continue
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
             )
