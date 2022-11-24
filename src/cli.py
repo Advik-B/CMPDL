@@ -102,6 +102,9 @@ class OverallProgressBar(CompatableProgressBar):
 #     def set(self, value: int):
 #         self.bar.update(value)  # type: ignore
 
+def printDeveloperMessage(c: Console):
+    c.print("[red]An error occured, please report this to the developer[/]")
+    c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
 
 @click.command(context_settings={"help_option_names": ["-h", "--help"]}, no_args_is_help=True)
 @click.argument("path", type=click.Path(exists=True, file_okay=True, dir_okay=True))
@@ -130,20 +133,19 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
 
     except ModPackError:
         c.print_exception()
-        c.print("[red]An error occured, please report this to the developer[/red]")
+        printDeveloperMessage(c)
 
     except InternalModPackError:
         c.print_exception()
-        c.print("[red]An error occured, please report this to the developer[/red]")
+        printDeveloperMessage(c)
 
     except ModPackNotFoundError:
         c.print_exception()
-        c.print("[red]An error occured, please report this to the developer[/red]")
+        printDeveloperMessage(c)
 
     except Exception:
         c.print_exception()
-        c.print("[red]An error occured, please report this to the developer[/]")
-        c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
+        printDeveloperMessage(c)
 
 
 cli() # type: ignore
