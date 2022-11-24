@@ -56,6 +56,11 @@ class ProgressBar(CompatableProgressBar):
     def set(self, val: int):
         super().set(val)
 
+    def complete(self):
+        super().complete()
+        self.progress.stop()
+        self.task = None
+
 def printDeveloperMessage(c: Console):
     c.print("[red]An error occured, please report this to the developer[/]")
     c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
