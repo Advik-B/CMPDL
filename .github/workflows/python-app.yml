@@ -23,11 +23,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
-    - name: Change directories to src
-      run: cd src
     
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: cd src && pip install -r requirements.txt
     
     - name: Test the CLI App
-      run: python cli.py examples/World+of+Dragons+Lite-10.1.83.zip output
+      run: cd src && python cli.py examples/World+of+Dragons+Lite-10.1.83.zip output
