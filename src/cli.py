@@ -17,7 +17,7 @@ install(console=c, show_locals=True, extra_lines=4)
 
 
 class ProgressBar(CompatableProgressBar):
-    def __init__(self):
+    def _init_(self, chunkSize: int = 1024):
         self.barColumn = BarColumn(bar_width=c.width - 40)
         self.timeRemainingColumn = TimeRemainingColumn()
         self.progress = Progress(
@@ -31,6 +31,7 @@ class ProgressBar(CompatableProgressBar):
         )
         self.task: TaskID | None = None
         self.firstTime = True
+        self.chunkSize: int = chunkSize
 
     def setTotalValue(self, val: int):
         super().setTotalValue(val)
@@ -39,13 +40,13 @@ class ProgressBar(CompatableProgressBar):
         if self.firstTime:
             self.firstTime = False
             self.task = self.progress.add_task(
-            "Downloading Mod", total=val // 1024,)
+            "Downloading Mod", total=val // self.chunkSize,)
             self.progress.update(self.task, advance=0)
         else:
             # Remove the old task
             self.progress.remove_task(self.task) # type: ignore
             self.task = self.progress.add_task(
-            "Downloading Mod", total=val // 1024,)
+            "Downloading Mod", total=val // self.chunkSize,)
             self.progress.update(self.task, advance=0)
 
     def step(self, val: int = 1):
@@ -100,6 +101,9 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
     try:
         _temp_bar = CompatableProgressBar()
         _temp_bar._init_()
+
+        pbar = ProgressBar()
+        pbar._init_()
         modpack = ModPack(
                 console=c,
                 download_optional_mods=download_optional,
