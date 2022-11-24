@@ -34,6 +34,9 @@ class CompatableProgressBar:
         if self.value > self.total:
             self.value = self.total
 
+    def complete(self):
+        self.value = self.total
+
 
 class ModPackError(Exception):
     """A general exception for modpack errors, usally caused by the user"""
