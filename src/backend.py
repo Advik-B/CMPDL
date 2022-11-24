@@ -75,6 +75,7 @@ class ModPack:
 
         self.seperator = "="
         self.missed_mods: list[CurseAddon] = []
+        self.missed_projectIDs: list[int] = []
 
         if "/" in self.path:
             self.filename: str = self.path.split("/")[-1]
@@ -187,6 +188,11 @@ class ModPack:
             self.log("Some mods was not able to be downloaded, please download them manually:")
         for missed_mod in self.missed_mods:
             self.log(f"Mod: [b]{missed_mod.name}[/] LINK: [b]{missed_mod.url}[/]")
+        if len(self.missed_projectIDs) > 0:
+            self.log("Some mods was not able comprehend the projectID, please download them manually:")
+        for missed_projectID in self.missed_projectIDs:
+            self.log(f"ProjectID: [b]{missed_projectID}[/]")
+
         self.progress_bar_current.complete()
         self.progress_bar_overall.complete()
 
@@ -200,6 +206,7 @@ class ModPack:
                 self.log(f"Skipping mod with projectID: [yellow]{_mod['projectID']}[/]")
                 self.log("This is an issue with cursepy and not CMPDL")
                 self.log("Please report this issue to the cursepy github:")
+                self.missed_projectIDs.append(int(_mod["projectID"]))
                 continue
             self.log(
                 f"Downloading [b green]{mod.name}[/] ({mod.id}) [b]{index + 1}[/] of [b]{total}[/]"
