@@ -110,7 +110,7 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
                 keep_files=no_clean,
                 output_dir=output_dir,
                 path=path,
-                progress_bar_current=ProgressBar(),
+                progress_bar_current=pbar,
                 progress_bar_overall=_temp_bar,
                 chunk_size=chunk_size,
             )
