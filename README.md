@@ -3,11 +3,14 @@
 
 
 ---
-[![CodeQL](https://github.com/Advik-B/CMPDL/actions/workflows/codeql-analysis.yml/badge.svg?branch=Master)](https://github.com/Advik-B/CMPDL/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/Advik-B/CMPDL/actions/workflows/codeql.yml/badge.svg?branch=RewriteOnceMore)](https://github.com/Advik-B/CMPDL/actions/workflows/codeql.yml)
+[![Python application](https://github.com/Advik-B/CMPDL/actions/workflows/python-app.yml/badge.svg?branch=RewriteOnceMore)](https://github.com/Advik-B/CMPDL/actions/workflows/python-app.yml)
 
 ---
 
 [![img](https://img.shields.io/discord/931002932789399564?label=Discord&logo=discord&logoColor=5561f5&style=for-the-badge)](https://discord.gg/AxfhEeTJMw)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 
 
 ## What is CMPDL
