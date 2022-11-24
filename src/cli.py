@@ -103,7 +103,7 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
         _temp_bar._init_()
 
         pbar = ProgressBar()
-        pbar._init_()
+        pbar._init_(chunkSize=chunk_size)
         modpack = ModPack(
                 console=c,
                 download_optional_mods=download_optional,
