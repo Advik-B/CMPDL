@@ -4,10 +4,8 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "RewriteOnceMore" ]
-  pull_request:
-    branches: [ "RewriteOnceMore" ]
+  workflow_run:
+    branches: ["RewriteOnceMore"]
 
 permissions:
   contents: read
