@@ -131,5 +131,5 @@ def cli(path: str, chunk_size: int, output_dir: str, download_optional: bool, no
         c.print_exception()
         printDeveloperMessage(c)
 
-
-cli() # type: ignore
+if __name__ == "__main__":
+    cli()
