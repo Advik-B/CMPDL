@@ -1,4 +1,5 @@
 from cursepy import CurseClient
+from cursepy.classes.base import CurseAddon
 from tree_generator import gentree
 from time import perf_counter as now
 from rich.console import Console  # For type hinting
@@ -70,6 +71,7 @@ class ModPack:
         self.progress_bar_current: CompatableProgressBar = progress_bar_current
 
         self.seperator = "="
+        self.missed_mods: list[CurseAddon] = []
 
         if "/" in self.path:
             self.filename: str = self.path.split("/")[-1]
@@ -178,6 +180,10 @@ class ModPack:
 
         self.progress_bar_overall.setTotalValue(total)
         self._iter_manifest(manifest, total)  # Main installation function
+        if len(self.missed_mods) > 0:
+            self.log("Some mods was not able to be downloaded, please download them manually:")
+        for missed_mod in self.missed_mods:
+            self.log(f"Mod: [b]{missed_mod.name}[/] LINK: [b]{missed_mod.url}[/]")
 
     def _iter_manifest(self, manifest: dict, total: int):
 
@@ -198,6 +204,7 @@ class ModPack:
                 if file.download_url is None:
                     self.log(f"Mod is [b red]not downloadable[/] [b]{file.id}[/] [b]{mod.name}[/] due to API error")
                     self.log("See https://github.com/Advik-B/CMPDL/issues/25 for more info")
+                    self.missed_mods.append(mod)
                     continue
                 save_path = os.path.join(
                     self.output_dir, unquote(file.download_url.split("/")[-1])
