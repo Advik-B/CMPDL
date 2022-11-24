@@ -86,22 +86,6 @@ class OverallProgressBar(CompatableProgressBar):
     def set(self, val: int):
         super().set(val)
 
-
-# class ProgressBar(CompatableProgressBar):
-#     def __init__(self):
-#         self._init_()
-#         self.bar = alive_bar()
-
-
-#     def setTotalValue(self, value: int):
-#         self.bar = alive_bar(total=value)
-
-#     def step(self):
-#         self.bar()
-
-#     def set(self, value: int):
-#         self.bar.update(value)  # type: ignore
-
 def printDeveloperMessage(c: Console):
     c.print("[red]An error occured, please report this to the developer[/]")
     c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
