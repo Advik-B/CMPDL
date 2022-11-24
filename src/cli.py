@@ -56,37 +56,6 @@ class ProgressBar(CompatableProgressBar):
     def set(self, val: int):
         super().set(val)
 
-class OverallProgressBar(CompatableProgressBar):
-
-    def __init__(self) -> None:
-        self._init_()
-        self.barColumn = BarColumn(bar_width=c.width - 40)
-        self.timeRemainingColumn = TimeRemainingColumn()
-        self.progress = Progress(
-            "[progress.description]{task.description}",
-            self.barColumn,
-            "[progress.percentage]{task.percentage:>3.0f}%",
-            "-",
-            "ETA:",
-            self.timeRemainingColumn,
-            console=c,
-        )
-        self.task: TaskID | None = None
-
-    def setTotalValue(self, val: int):
-        super().setTotalValue(val)
-        self.value = 0
-        self.progress.start()
-        self.task = self.progress.add_task("Installing Modpack",total=val // 1024,)
-        self.progress.update(self.task, advance=0)
-
-    def step(self, val: int = 1):
-        super().step(val)
-        self.progress.update(self.task, advance=val) # type: ignore
-
-    def set(self, val: int):
-        super().set(val)
-
 def printDeveloperMessage(c: Console):
     c.print("[red]An error occured, please report this to the developer[/]")
     c.print("[italic cyan]https://github.com/Advik-B/CMPDL/issues[/]")
