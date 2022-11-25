@@ -17,6 +17,56 @@
                 "&&",
                 "rm -rf build",
             ]
+        },
+        {
+            "label": "Build CLI app - Windows",
+            "type": "shell",
+            "command": [
+                "venv\\Scripts\\activate",
+                "&&",
+                "pyinstaller cli.spec",
+                "&&",
+                "move dist\\cli\\* dist",
+                "&&",
+                "rmdir /s /q dist\\cli",
+                "&&",
+                "rmdir /s /q build",
+            ]
+        },
+
+        {
+            "label":"Build CLI app - Any OS",
+            "type": "shell",
+            "command": [
+                "mkdir temp",
+                "&&",
+                "mkdir dist",
+                "&&",
+                "cp *.py temp",
+                "&&",
+                "cp -r venv/lib/python3.11/site-packages/* temp",
+                "&&",
+                "rm -rf temp/__pycache__",
+                "&&",
+                "rm -rf temp/pip*",
+                "&&",
+                "rm -rf temp/setuptools*",
+                "&&",
+                "rm -rf temp/wheel*",
+                "&&",
+                "rm -rf temp/PyInstaller*",
+                "&&",
+                "rm -rf temp/PyQt5*",
+                "&&",
+                "rm -rf temp/_*",
+                "&&",
+                "7zr a -tzip -r CMPDL.CLI-ZipApp.zip temp/*",
+                "&&",
+                "mv CMPDL.CLI-ZipApp.zip dist",
+                "&&",
+                "rm -rf temp",
+            ]
         }
+
     ]
 }
