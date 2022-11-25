@@ -1,22 +1,27 @@
 {
   "minecraft": {
-    "version": "1.16.5",
+    "version": "1.18.2",
     "modLoaders": [
       {
-        "id": "forge-36.2.0",
+        "id": "forge-40.1.84",
         "primary": true
       }
     ]
   },
   "manifestType": "minecraftModpack",
   "manifestVersion": 1,
-  "name": "Origin server modpack",
-  "version": "1.5",
-  "author": "",
+  "name": "Sample CMPDL Testing modpack",
+  "version": "6.9.4.2.0",
+  "author": "Advik",
   "files": [
     {
       "projectID": 319596,
       "fileID": 3457597,
+      "required": true
+    },
+    {
+      "projectID": 400012,
+      "fileID": 4083676,
       "required": true
     },
     {
@@ -25,53 +30,13 @@
       "required": true
     },
     {
+      "projectID":552574,
+      "fileID": 4019567,
+      "required": true
+    },
+    {
       "projectID": 419699,
       "fileID": 3442690,
-      "required": true
-    },
-    {
-      "projectID": 474438,
-      "fileID": 3426062,
-      "required": true
-    },
-    {
-      "projectID": 502940,
-      "fileID": 3385645,
-      "required": true
-    },
-    {
-      "projectID": 478492,
-      "fileID": 3404203,
-      "required": true
-    },
-    {
-      "projectID": 308989,
-      "fileID": 3403876,
-      "required": true
-    },
-    {
-      "projectID": 404465,
-      "fileID": 3456644,
-      "required": true
-    },
-    {
-      "projectID": 478902,
-      "fileID": 3349474,
-      "required": true
-    },
-    {
-      "projectID": 321117,
-      "fileID": 3412115,
-      "required": true
-    },
-    {
-      "projectID": 348521,
-      "fileID": 3311352,
-      "required": true
-    },
-    {
-      "projectID": 404468,
-      "fileID": 3460043,
       "required": true
     }
   ],
