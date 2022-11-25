@@ -1,0 +1,305 @@
+{
+    "data": {
+        "id": 552574,
+        "gameId": 432,
+        "name": "Hostile Neural Networks",
+        "slug": "hostile-neural-networks",
+        "links": {
+            "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/hostile-neural-networks",
+            "wikiUrl": null,
+            "issuesUrl": "https://github.com/Shadows-of-Fire/Hostile-Neural-Networks/issues",
+            "sourceUrl": "https://github.com/Shadows-of-Fire/Hostile-Neural-Networks"
+        },
+        "summary": "Server friendly mob loot acquisition.",
+        "status": 4,
+        "downloadCount": 3470116,
+        "isFeatured": false,
+        "primaryCategoryId": 412,
+        "categories": [
+            {
+                "id": 413,
+                "gameId": 432,
+                "name": "Processing",
+                "slug": "technology-processing",
+                "url": "https://www.curseforge.com/minecraft/mc-mods/technology/technology-processing",
+                "iconUrl": "https://media.forgecdn.net/avatars/6/28/635351495219610266.png",
+                "dateModified": "2014-05-08T17:38:41.96Z",
+                "isClass": false,
+                "classId": 6,
+                "parentCategoryId": 412
+            },
+            {
+                "id": 4843,
+                "gameId": 432,
+                "name": "Automation",
+                "slug": "technology-automation",
+                "url": "https://www.curseforge.com/minecraft/mc-mods/technology/technology-automation",
+                "iconUrl": "https://media.forgecdn.net/avatars/352/517/637508115731820565.png",
+                "dateModified": "2021-03-08T14:46:13.24Z",
+                "isClass": false,
+                "classId": 6,
+                "parentCategoryId": 412
+            },
+            {
+                "id": 416,
+                "gameId": 432,
+                "name": "Farming",
+                "slug": "technology-farming",
+                "url": "https://www.curseforge.com/minecraft/mc-mods/technology/technology-farming",
+                "iconUrl": "https://media.forgecdn.net/avatars/6/31/635351495615556933.png",
+                "dateModified": "2014-05-08T17:39:21.57Z",
+                "isClass": false,
+                "classId": 6,
+                "parentCategoryId": 412
+            },
+            {
+                "id": 412,
+                "gameId": 432,
+                "name": "Technology",
+                "slug": "technology",
+                "url": "https://www.curseforge.com/minecraft/mc-mods/technology",
+                "iconUrl": "https://media.forgecdn.net/avatars/6/27/635351494745973439.png",
+                "dateModified": "2014-05-08T17:37:54.597Z",
+                "isClass": false,
+                "classId": 6,
+                "parentCategoryId": 6
+            }
+        ],
+        "classId": 6,
+        "authors": [
+            {
+                "id": 472549,
+                "name": "Shadows_of_Fire",
+                "url": "https://www.curseforge.com/members/10368195-shadows_of_fire?username=shadows_of_fire"
+            }
+        ],
+        "logo": null,
+        "screenshots": [],
+        "mainFileId": 4055955,
+        "latestFiles": [
+            {
+                "id": 3549891,
+                "gameId": 432,
+                "modId": 552574,
+                "isAvailable": true,
+                "displayName": "HostileNeuralNetworks-1.16.5-1.0.0.jar",
+                "fileName": "HostileNeuralNetworks-1.16.5-1.0.0.jar",
+                "releaseType": 3,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "ad413346982b245a62b43c3934f0ce491c84ee13",
+                        "algo": 1
+                    },
+                    {
+                        "value": "6ce3acc53d730f12cc285173b695ca1a",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2021-12-05T05:32:44.203Z",
+                "fileLength": 178191,
+                "downloadCount": 24,
+                "downloadUrl": "https://edge.forgecdn.net/files/3549/891/HostileNeuralNetworks-1.16.5-1.0.0.jar",
+                "gameVersions": [
+                    "1.16.5",
+                    "Forge"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "1.16.5",
+                        "gameVersionPadded": "0000000001.0000000016.0000000005",
+                        "gameVersion": "1.16.5",
+                        "gameVersionReleaseDate": "2021-01-15T14:14:48.91Z",
+                        "gameVersionTypeId": 70886
+                    },
+                    {
+                        "gameVersionName": "Forge",
+                        "gameVersionPadded": "0",
+                        "gameVersion": "",
+                        "gameVersionReleaseDate": "2019-08-01T00:00:00Z",
+                        "gameVersionTypeId": 68441
+                    }
+                ],
+                "dependencies": [
+                    {
+                        "modId": 283644,
+                        "relationType": 3
+                    }
+                ],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "fileFingerprint": 3466171403,
+                "modules": [
+                    {
+                        "name": "META-INF",
+                        "fingerprint": 3949975960
+                    },
+                    {
+                        "name": "shadows",
+                        "fingerprint": 2519847440
+                    },
+                    {
+                        "name": "assets",
+                        "fingerprint": 1146099760
+                    },
+                    {
+                        "name": "data",
+                        "fingerprint": 2984599764
+                    },
+                    {
+                        "name": "hostilenetworks.mixins.json",
+                        "fingerprint": 3738553820
+                    },
+                    {
+                        "name": "pack.mcmeta",
+                        "fingerprint": 4240240382
+                    },
+                    {
+                        "name": "hostilenetworks.refmap.json",
+                        "fingerprint": 903100039
+                    }
+                ]
+            },
+            {
+                "id": 4055955,
+                "gameId": 432,
+                "modId": 552574,
+                "isAvailable": true,
+                "displayName": "HostileNeuralNetworks-1.19.2-4.0.1.jar",
+                "fileName": "HostileNeuralNetworks-1.19.2-4.0.1.jar",
+                "releaseType": 1,
+                "fileStatus": 4,
+                "hashes": [
+                    {
+                        "value": "55a0becadbf0dd32ffd333d244162e07d49781a0",
+                        "algo": 1
+                    },
+                    {
+                        "value": "f4839b8a976dc583bf08df09c3f8478b",
+                        "algo": 2
+                    }
+                ],
+                "fileDate": "2022-10-29T04:35:25.1Z",
+                "fileLength": 189559,
+                "downloadCount": 87032,
+                "downloadUrl": "https://edge.forgecdn.net/files/4055/955/HostileNeuralNetworks-1.19.2-4.0.1.jar",
+                "gameVersions": [
+                    "1.19.2",
+                    "Forge"
+                ],
+                "sortableGameVersions": [
+                    {
+                        "gameVersionName": "1.19.2",
+                        "gameVersionPadded": "0000000001.0000000019.0000000002",
+                        "gameVersion": "1.19.2",
+                        "gameVersionReleaseDate": "2022-08-05T14:12:22.413Z",
+                        "gameVersionTypeId": 73407
+                    },
+                    {
+                        "gameVersionName": "Forge",
+                        "gameVersionPadded": "0",
+                        "gameVersion": "",
+                        "gameVersionReleaseDate": "2019-08-01T00:00:00Z",
+                        "gameVersionTypeId": 68441
+                    }
+                ],
+                "dependencies": [
+                    {
+                        "modId": 283644,
+                        "relationType": 3
+                    }
+                ],
+                "alternateFileId": 0,
+                "isServerPack": false,
+                "fileFingerprint": 2606332762,
+                "modules": [
+                    {
+                        "name": "META-INF",
+                        "fingerprint": 3928327608
+                    },
+                    {
+                        "name": "shadows",
+                        "fingerprint": 119783790
+                    },
+                    {
+                        "name": "assets",
+                        "fingerprint": 1728180189
+                    },
+                    {
+                        "name": "data",
+                        "fingerprint": 4192122084
+                    },
+                    {
+                        "name": "hostilenetworks.mixins.json",
+                        "fingerprint": 1606597348
+                    },
+                    {
+                        "name": "pack.mcmeta",
+                        "fingerprint": 4240240382
+                    },
+                    {
+                        "name": "hostilenetworks.refmap.json",
+                        "fingerprint": 4042403197
+                    }
+                ]
+            }
+        ],
+        "latestFilesIndexes": [
+            {
+                "gameVersion": "1.19.2",
+                "fileId": 4055955,
+                "filename": "HostileNeuralNetworks-1.19.2-4.0.1.jar",
+                "releaseType": 1,
+                "gameVersionTypeId": 73407,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.18.2",
+                "fileId": 4019567,
+                "filename": "HostileNeuralNetworks-1.18.2-3.2.2.jar",
+                "releaseType": 1,
+                "gameVersionTypeId": 73250,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.16.5",
+                "fileId": 3770374,
+                "filename": "HostileNeuralNetworks-1.16.5-1.0.7.jar",
+                "releaseType": 1,
+                "gameVersionTypeId": 70886,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.18.1",
+                "fileId": 3641732,
+                "filename": "HostileNeuralNetworks-1.18.1-3.0.8.jar",
+                "releaseType": 1,
+                "gameVersionTypeId": 73250,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.17.1",
+                "fileId": 3567058,
+                "filename": "HostileNeuralNetworks-1.17.1-2.0.2.jar",
+                "releaseType": 1,
+                "gameVersionTypeId": 73242,
+                "modLoader": 1
+            },
+            {
+                "gameVersion": "1.16.5",
+                "fileId": 3549891,
+                "filename": "HostileNeuralNetworks-1.16.5-1.0.0.jar",
+                "releaseType": 3,
+                "gameVersionTypeId": 70886,
+                "modLoader": 1
+            }
+        ],
+        "dateCreated": "2021-12-05T05:23:20.57Z",
+        "dateModified": "2022-10-29T04:46:33.26Z",
+        "dateReleased": "2022-10-29T04:35:25.1Z",
+        "allowModDistribution": true,
+        "gamePopularityRank": 703,
+        "isAvailable": true,
+        "thumbsUpCount": 0
+    }
+}
