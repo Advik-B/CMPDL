@@ -1,7 +1,8 @@
 # CMPDL (Curseforge ModPack Downloader)
 > A better version of [Franckyi/CMPDL](https://github.com/Franckyi/CMPDL) rewritten in [python](https://python.org/about)
 
-
+**IMPORTANT ANNOUNCEMENT :warning:** 
+> I will slowly drop the use of [cursepy](https://github.com/Owen-Cochell/cursepy) and move towards [curseforge](https://github.com/Advik-B/CurseForge-API)
 ---
 [![CodeQL](https://github.com/Advik-B/CMPDL/actions/workflows/codeql.yml/badge.svg?branch=RewriteOnceMore)](https://github.com/Advik-B/CMPDL/actions/workflows/codeql.yml)
 [![Python application](https://github.com/Advik-B/CMPDL/actions/workflows/python-app.yml/badge.svg?branch=RewriteOnceMore)](https://github.com/Advik-B/CMPDL/actions/workflows/python-app.yml)
