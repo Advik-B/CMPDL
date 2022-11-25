@@ -149,6 +149,7 @@ class ModPack:
         if not self.initilized:
             raise InternalModPackError("ModPack not initilized")
 
+        start = now()
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
@@ -195,6 +196,8 @@ class ModPack:
 
         self.progress_bar_current.complete()
         self.progress_bar_overall.complete()
+        stop = now()
+        self.log(f"Finished in [b green]{stop - start}[/] seconds")
 
 
     def _iter_manifest(self, manifest: dict, total: int):
