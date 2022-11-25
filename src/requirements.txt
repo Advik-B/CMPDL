@@ -1,4 +1,4 @@
-cursepy~=2.1.0
+cursepy~=2.2.0
 rich~=12.6.0
 requests
 click
