@@ -15,7 +15,7 @@
                 "&&",
                 "rm -rf dist/cli",
                 "&&",
-                "rm -rf build",
+                "rm -rf build"
             ]
         },
         {
@@ -30,12 +30,11 @@
                 "&&",
                 "rmdir /s /q dist\\cli",
                 "&&",
-                "rmdir /s /q build",
+                "rmdir /s /q build"
             ]
         },
-
         {
-            "label":"Build CLI app - Any OS",
+            "label": "Build CLI app - Any OS",
             "type": "shell",
             "command": [
                 "mkdir temp",
@@ -64,9 +63,13 @@
                 "&&",
                 "mv CMPDL.CLI-ZipApp.zip dist",
                 "&&",
-                "rm -rf temp",
-            ]
+                "rm -rf temp"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
-
     ]
 }
