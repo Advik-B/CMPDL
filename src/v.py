@@ -1,1 +1,2 @@
-api_key = "$2a$10$Xd6HXOwpxR5Q2/Xjrf0dP.aH1ZD19OzQd/fVuM.OxArI/MCNVm4va"
+import base64
+api_key = base64.b64decode("JDJhJDEwJFhkNkhYT3dweFI1UTIvWGpyZjBkUC5hSDFaRDE5T3pRZC9mVnVNLk94QXJJL01DTlZtNHZh")
