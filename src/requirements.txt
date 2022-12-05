@@ -2,3 +2,4 @@ cursepy~=2.2.0
 rich~=12.6.0
 requests
 click
+curseforge
