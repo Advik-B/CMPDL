@@ -9,7 +9,7 @@ class CurseForgeModPack(BaseModPack):
             file_path: str,
             client: CurseClient,
             download_only_required: bool = True,
-            on_download: Optional[Callable] = lambda file_id, mod_id, json: None,
+            on_download: Optional[callable] = lambda file_id, mod_id, json: None,
     ):
         self.file_path = file_path
         self.client = client
