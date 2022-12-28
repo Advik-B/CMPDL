@@ -33,7 +33,7 @@ def main():
         os.mkdir("mods")
     console = Console()
 
-    with codecs.open("Sample-Modpack.json", "r", encoding="utf-8") as f:
+    with codecs.open("./Sample-Modpack.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
 
