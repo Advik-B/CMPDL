@@ -9,7 +9,7 @@ import json
 import os
 import codecs
 
-CLIENT = CurseClient(api_key)
+CLIENT = CurseClient(api_key, cache=True)
 
 def download(url: str, chunk_size: int = 1024):
 
