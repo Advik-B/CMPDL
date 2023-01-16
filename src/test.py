@@ -29,9 +29,16 @@ def download(url: str, chunk_size: int = 1024):
 
         print(f"Finished downloading {fname}")
 
+def mkdir(path: str):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+
 def main():
-    if not os.path.exists("mods"):
-        os.mkdir("mods")
+    if len(argv) < 2:
+        print("Please specify a modpack file")
+        return
+    mkdir("mods")
     console = Console()
 
     with codecs.open(argv[1], "r", encoding="utf-8") as f:
