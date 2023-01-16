@@ -1,5 +1,5 @@
 cursepy~=2.2.0
-rich~=13.0.0
+rich~=13.1.0
 requests
 click
 curseforge
