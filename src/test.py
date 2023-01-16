@@ -4,6 +4,7 @@ from rich.console import Console
 from requests import get
 from multiprocessing import Pool
 from time import perf_counter as now
+from sys import argv
 
 import json
 import os
@@ -33,7 +34,7 @@ def main():
         os.mkdir("mods")
     console = Console()
 
-    with codecs.open("./Sample-Modpack.json", "r", encoding="utf-8") as f:
+    with codecs.open(argv[1], "r", encoding="utf-8") as f:
         data = json.load(f)
 
 
