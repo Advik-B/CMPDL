@@ -46,3 +46,8 @@ And it will download them one by one & save it in your dest folder
   ```
   python ZipApp.zip
   ```
+  *or*
+  ```
+  python ZipApp.pyz
+  python ZipApp.pyzw
+  ```
