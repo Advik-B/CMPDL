@@ -41,3 +41,8 @@ And it will download them one by one & save it in your dest folder
 ## How to build/run on **ANY** OS:
 
 - Install python
+- Download the ZipApp
+- Run it with python, eg:
+  ```
+  python ZipApp.zip
+  ```
