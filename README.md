@@ -10,8 +10,8 @@
 ---
 
 [![img](https://img.shields.io/discord/931002932789399564?label=Discord&logo=discord&logoColor=5561f5&style=for-the-badge)](https://discord.gg/AxfhEeTJMw)
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://python.org)
+[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://pornhub.com)
 
 
 ## What is CMPDL
@@ -38,34 +38,6 @@ In `manifest.json` there is info about:
 My Program will collect the above info and generate direct download links for the mods
 And it will download them one by one & save it in your dest folder
 
-## How to build/run on other OS
+## How to build/run on **ANY** OS:
 
-Download the source code
-
-### Windows
-
-1. Unzip it
-2. Open a terminal (powershell) as admin
-3. cd onto the the unzipped directory
-4. `cd src`
-5. run:
-```ps1
-pip install virtualenv
-python -m virtualenv venv
-Set-ExecutionPolicy bypass
-venv\Scripts\Activate.ps1
-```
-6. run:
-```
-pip install -r requirements.txt
-```
-7.
-#### To build
-```
-pip install pyinstaller
-python -m pyinstaller --icon assets/icon.ico __main__.py
-```
-#### To run
-```
-python .
-```
+- Install python
