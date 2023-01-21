@@ -13,34 +13,30 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>60</y>
-     <width>271</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>2</number>
-   </property>
-   <widget class="QWidget" name="cf">
-    <attribute name="title">
-     <string>CurseForge</string>
-    </attribute>
-   </widget>
-   <widget class="QWidget" name="mr">
-    <attribute name="title">
-     <string>Modrinth</string>
-    </attribute>
-   </widget>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Feed The Beast</string>
-    </attribute>
-   </widget>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <widget class="QWidget" name="cf">
+      <attribute name="title">
+       <string>CurseForge</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="mr">
+      <attribute name="title">
+       <string>Modrinth</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Feed The Beast</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
