@@ -39,7 +39,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffffff;&quot;&gt;Curseforge ModPack Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:24pt; text-decoration: none; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffffff;&quot;&gt;Curseforge ModPack Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
