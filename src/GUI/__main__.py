@@ -1,10 +1,17 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.uic import loadUi
+from PyQt6.QtWidgets import QApplication, QWidget
 
-app = QApplication([])
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        loadUi("GUI/form.ui", self)
+        self.setup_ui()
 
-window = QMainWindow()
-window.resize(250, 150)
-window.setWindowTitle("CMPDL")
-window.show()
+    def setup_ui(self):
+        self.show()
 
-app.exec()
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = MainWindow()
+    app.exec()
