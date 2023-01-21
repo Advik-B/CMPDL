@@ -1,3 +1,2 @@
 pyinstaller
-pylint
-tqdm
+pyqt5-tools
