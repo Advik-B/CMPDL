@@ -1,3 +1,2 @@
-QtPy
 PyQt6
 curseforge
