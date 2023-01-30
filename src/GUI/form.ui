@@ -14,33 +14,126 @@
    <string>CMPDL by Advik</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <widget class="QWidget" name="cf">
-      <attribute name="title">
-       <string>CurseForge</string>
-      </attribute>
-     </widget>
-     <widget class="QWidget" name="mr">
-      <attribute name="title">
-       <string>Modrinth</string>
-      </attribute>
-     </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>Feed The Beast</string>
-      </attribute>
-     </widget>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:24pt; font-weight:700; color:#ffffff; text-decoration: none;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#ffffff;&quot;&gt;Curseforge ModPack Downloader&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>3</number>
+     </property>
+     <widget class="QWidget" name="tab_cf">
+      <attribute name="title">
+       <string>CurseForge</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_mr">
+      <attribute name="title">
+       <string>Modrinth</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_ftb">
+      <attribute name="title">
+       <string>Feed The Beast</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_launcher">
+      <attribute name="title">
+       <string>Other Launchers</string>
+      </attribute>
+      <widget class="QWidget" name="formLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>30</y>
+         <width>441</width>
+         <height>391</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Launcher:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string>MultiMC</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="maxCount">
+           <number>2147483645</number>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+          <item>
+           <property name="text">
+            <string>MultiMC</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Prism Launcher</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>GDLauncher</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Mode:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>Download/Extract Mods</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Extract Config</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Download/Extract Mods &amp; Config</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
    </item>
   </layout>
