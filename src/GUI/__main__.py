@@ -1,4 +1,6 @@
-from .backend import client
+from .backend import client, DownloadWidget
+from PyQt6.QtWidgets import QApplication
+
 
 # from PyQt6.uic import loadUi
 # from PyQt6.QtWidgets import QApplication, QWidget
@@ -17,3 +19,9 @@ from .backend import client
 #     app = QApplication([])
 #     window = MainWindow()
 #     app.exec()
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = DownloadWidget(None, 319596, 3457597, ".")
+    window.show()
+    app.exec()
