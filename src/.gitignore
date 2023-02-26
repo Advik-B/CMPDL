@@ -1,5 +1,4 @@
 *.env
-*.jar
 *.log
 build/
 dist/
