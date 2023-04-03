@@ -8,8 +8,39 @@ from urllib3.exceptions import InsecureRequestWarning
 from warnings import simplefilter
 from os.path import join as path_join
 
+class ModDownloadItem(QStandardItem):
+    """
+    A QStandardItem that represents a mod download.
+    This class is used in ModDownloadList, and uses a ModDownloadThread to download the mod.
+    """
+
+    def __init__(self, mod_id: int, modfile_id: int, parent: QWidget):
+        super().__init__()
+
+        self.mod_id = mod_id
+        self.modfile_id = modfile_id
+        self.save_path = parent.save_path
+        self.chunk_size = parent.chunk_size
+        self.API = parent.API
+
+        self.thread = ModDownloadThread(self)
+        self.thread.finished.connect(self.finished)
+        self.progress_bar = QProgressBar()
+        self.mod_name = QLabel()
+        self.mod_name.setText("Loading...")
+        self.progress_bar.setRange(0, 0)
+        self.thread.parse()
+
+
+    def finished(self):
+        self.progress_bar.setValue(self.progress_bar.maximum())
+
+    def start(self):
+        self.thread.start()
+
+
 class ModDownloadThread(QThread):
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: ModDownloadItem):
         super().__init__(parent)
 
         self.parent = parent
@@ -69,30 +100,15 @@ class ModDownloadThread(QThread):
     run = download # Alias for download
 
 
-class ModDownloadItem(QStandardItem):
-    """
-    A QStandardItem that represents a mod download.
-    This class is used in ModDownloadList, and uses a ModDownloadThread to download the mod.
-    """
-
-    def __init__(self, mod_id: int, modfile_id: int, save_path: str, chunk_size: int = None):
-        super().__init__()
-
-        self.mod_id = mod_id
-        self.modfile_id = modfile_id
-        self.save_path = save_path
-        self.chunk_size = chunk_size
-
-        self.thread = ModDownloadThread(self)
-
-
-
 class ModDownloadList(QListView):
-    def __init__(self, parent: QWidget, API: Union[CurseClient, str]):
+    def __init__(self, parent: QWidget, API: Union[CurseClient, str], save_path: str, chunk_size: int = 2048):
         super().__init__(parent)
 
         self.model = QStandardItemModel()
         self.setModel(self.model)
+        self.save_path = save_path
+        self.chunk_size = chunk_size
+
 
         if isinstance(API, str):
             self.API = CurseClient(API)
@@ -103,3 +119,4 @@ class ModDownloadList(QListView):
 
     def add_item(self, item: QStandardItem):
         self.model.appendRow(item)
+
