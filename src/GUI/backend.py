@@ -1,29 +1,23 @@
 from curseforge import CurseClient
-from curseforge.classes import CurseModFile
-from .v import api_key
-from PyQt6.QtWidgets import QWidget, QProgressBar, QLabel
 from PyQt6.QtCore import QThread, pyqtSignal
-from requests import get
+from PyQt6.QtWidgets import QWidget, QProgressBar, QListView
+from PyQt6.QtGui import QStandardItemModel, QStandardItem
+from typing import Union
 
-class DownloadThread(QThread):
-    progress = pyqtSignal(int)
-    def __init__(self, parent: QWidget, client: CurseClient, project_id: int, file_id: int, folder_name: str):
+
+class ModDownloadList(QListView):
+    def __init__(self, parent: QWidget = None, API: Union[CurseClient, str] = None):
         super().__init__(parent)
-        self.client = client
-        self.project_id = project_id
-        self.file_id = file_id
-        self.folder_name = folder_name
-        self.progress.connect(parent.update_progress)
-    def run(self):
-        mod: CurseModFile = self.client.get_mod_file(self.project_id, self.file_id)
-        download_url: str = mod.download_url
-        file_name: str = mod.file_name
-        display_name: str = mod.display_name
-        file_size: int = mod.file_length
 
-        r = get(download_url, stream=True)
-        with open(f"{self.folder_name}/{file_name}", "wb") as mod_file:
-            # Download the mod while updating the progress bar
-            downloaded = 0
-            for chunk in r.iter_content(chunk_size=1024):
-                pass
+        self.model = QStandardItemModel()
+        self.setModel(self.model)
+
+        if isinstance(API, str):
+            self.API = CurseClient(API)
+        elif isinstance(API, CurseClient):
+            self.API = API
+        else:
+            raise TypeError("API must be an instance of CurseClient or a string containing the API key.")
+
+    def add_item(self, item: QStandardItem):
+        self.model.appendRow(item)
