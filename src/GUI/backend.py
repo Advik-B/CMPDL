@@ -6,7 +6,7 @@ from typing import Union
 
 
 class ModDownloadList(QListView):
-    def __init__(self, parent: QWidget = None, API: Union[CurseClient, str] = None):
+    def __init__(self, parent: QWidget, API: Union[CurseClient, str]):
         super().__init__(parent)
 
         self.model = QStandardItemModel()
