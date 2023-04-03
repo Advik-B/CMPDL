@@ -69,6 +69,22 @@ class ModDownloadThread(QThread):
     run = download # Alias for download
 
 
+class ModDownloadItem(QStandardItem):
+    """
+    A QStandardItem that represents a mod download.
+    This class is used in ModDownloadList, and uses a ModDownloadThread to download the mod.
+    """
+
+    def __init__(self, mod_id: int, modfile_id: int, save_path: str, chunk_size: int = None):
+        super().__init__()
+
+        self.mod_id = mod_id
+        self.modfile_id = modfile_id
+        self.save_path = save_path
+        self.chunk_size = chunk_size
+
+        self.thread = ModDownloadThread(self)
+
 
 
 class ModDownloadList(QListView):
