@@ -45,94 +45,93 @@
       <attribute name="title">
        <string>Other Launchers</string>
       </attribute>
-      <widget class="QWidget" name="formLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>30</y>
-         <width>441</width>
-         <height>391</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Launcher:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <property name="currentText">
-           <string>MultiMC</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <property name="maxCount">
-           <number>2147483645</number>
-          </property>
-          <property name="placeholderText">
-           <string/>
-          </property>
-          <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
            <property name="text">
+            <string>Launcher:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="comboBox">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="editable">
+            <bool>false</bool>
+           </property>
+           <property name="currentText">
             <string>MultiMC</string>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Prism Launcher</string>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>GDLauncher</string>
+           <property name="maxCount">
+            <number>2147483645</number>
            </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Mode:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <item>
-           <property name="text">
-            <string>Download/Extract Mods</string>
+           <property name="placeholderText">
+            <string/>
            </property>
-          </item>
-          <item>
+           <item>
+            <property name="text">
+             <string>MultiMC</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>CurseForge Launcher</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Prism Launcher</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GD Launcher</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Extract Config</string>
+            <string>Mode:</string>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Download/Extract Mods &amp; Config</string>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboBox_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+           <item>
+            <property name="text">
+             <string>Download/Extract Mods</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Download/Extract Mods &amp; Config</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Extract Config</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
