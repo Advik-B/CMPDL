@@ -1,3 +1,7 @@
+# This file contains the backend for the CurseForge tab.
+# It contains the ModDownloadItem and ModDownloadThread classes, which are used to download mods from CurseForge.
+# It is vaguely named "cf.py" to avoid confusion with the "curseforge" module.
+
 from curseforge import CurseClient
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QWidget, QProgressBar, QListView, QLabel
