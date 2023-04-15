@@ -45,18 +45,9 @@ class CMPDL(QWidget):
         loadUi("resources/main.ui", self)
         # Set window icon
         self.setWindowIcon(QIcon("resources/icon.png"))
-        self.theme()
 
 
-    def theme(self):
-
-        if isDark():
-            self.st = random_choice(dark_themes)
-
-        else:
-            self.st = random_choice(light_themes)
-
-        apply_stylesheet(self, self.st)
+        # apply_stylesheet(self, random_choice(dark_themes))
 
 
 
