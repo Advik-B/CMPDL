@@ -56,7 +56,7 @@ class CMPDL(QWidget):
         widget_to_replace.deleteLater()
         # Set the default view to the curseforge view
         self.utils_tab.setCurrentIndex(0)
-        
+
 
 
 
