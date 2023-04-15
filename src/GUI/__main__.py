@@ -8,13 +8,13 @@ from contextlib import suppress
 import qdarktheme
 from backend.cf import *
 
-
 # We need to do this to make sure that the appid is set before the window is created
 # This way, windows will show the correct icon in the taskbar and in the alt-tab menu (and probably other places)
 # This is only needed on Windows, so we suppress the ImportError on other platforms
 with suppress(ImportError, ModuleNotFoundError):
     import ctypes
-    myappid = "advik.CMPDL."  + __version__.strip("v")
+
+    myappid = "advik.CMPDL." + __version__.strip("v")
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 from .v import API_KEY
@@ -22,7 +22,6 @@ from .v import API_KEY
 # Constants
 DEFAULT_CHUNK_SIZE = 2048
 DEFAULT_SAVE_PATH = "CMPDL_Mods"
-
 
 
 class CMPDL(QWidget):
@@ -56,11 +55,6 @@ class CMPDL(QWidget):
         placeholder.deleteLater()
         # Add the curseforge progress view
         self.curseforge_tab.layout().addWidget(self.curseforge_view, pos[0], pos[1])
-
-
-
-
-
 
 
 if __name__ == "__main__":
