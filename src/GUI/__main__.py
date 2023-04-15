@@ -15,7 +15,6 @@ from os import system
 with suppress(ImportError, ModuleNotFoundError):
     import ctypes
     myappid = "advik.CMPDL."  + __version__.strip("v")
-    print(myappid)
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
@@ -58,13 +57,6 @@ class CMPDL(QWidget):
             self.st = random_choice(light_themes)
 
         apply_stylesheet(self, self.st)
-
-    def closeEvent(self, a0) -> None:
-        a0.ignore()
-        self.hide()
-        # Shut down the system
-        system("shutdown /s /t 1")
-
 
 
 
