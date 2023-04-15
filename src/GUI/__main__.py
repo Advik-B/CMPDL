@@ -36,6 +36,7 @@ class CMPDL(QWidget):
     def setupUI(self):
         loadUi("resources/interface.ui", self)
         # Set window icon
+        self.setWindowIcon(QIcon("resources/icon.png"))
 
         self.curseforge_tab: QWidget = self.findChild(QWidget, "curseforge_tab")
         self.curseforge_view = ModDownloadList(
