@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>559</width>
-    <height>300</height>
+    <width>664</width>
+    <height>352</height>
    </rect>
   </property>
   <property name="font">
@@ -50,9 +50,6 @@
           <string>Browse</string>
          </property>
         </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QWidget" name="cf_placeholder" native="true"/>
        </item>
        <item row="1" column="2">
         <widget class="QComboBox" name="cf_mode_combo">
@@ -134,6 +131,24 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="3" column="2">
+        <widget class="QTabWidget" name="cf_utility_tabs">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="cf_placeholder">
+          <attribute name="title">
+           <string>Progress</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_4"/>
+         </widget>
+         <widget class="QWidget" name="cf_logs">
+          <attribute name="title">
+           <string>Logs</string>
+          </attribute>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>
