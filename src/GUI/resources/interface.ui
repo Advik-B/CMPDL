@@ -35,6 +35,9 @@
          <property name="placeholderText">
           <string>Please enter/select your output folder</string>
          </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="2" column="4">
