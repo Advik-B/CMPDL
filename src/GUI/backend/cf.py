@@ -8,8 +8,6 @@ from PyQt6.QtWidgets import QWidget, QProgressBar, QListView, QLabel
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from typing import Union
 from requests import get
-from urllib3.exceptions import InsecureRequestWarning
-from warnings import simplefilter
 from os.path import join as path_join
 
 class ModDownloadItem(QStandardItem):
@@ -105,9 +103,8 @@ class ModDownloadThread(QThread):
 
 
 class ModDownloadList(QListView):
-    def __init__(self, parent: QWidget, API: Union[CurseClient, str], save_path: str, chunk_size: int = 2048):
-        super().__init__(parent)
-
+    def __init__(self, API: Union[CurseClient, str], save_path: str, chunk_size: int = 2048):
+        super().__init__()
         self.model = QStandardItemModel()
         self.setModel(self.model)
         self.save_path = save_path
