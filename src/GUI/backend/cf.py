@@ -110,6 +110,8 @@ class ModDownloadList(QListView):
         self.save_path = save_path
         self.chunk_size = chunk_size
 
+        self.testlbl = QLabel("Test") # TODO: Remove this after testing
+
 
         if isinstance(API, str):
             self.API = CurseClient(API)
