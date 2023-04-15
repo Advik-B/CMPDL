@@ -48,14 +48,15 @@ class CMPDL(QWidget):
         self.curseforge_start_btn = self.findChild(QPushButton, "cf_start_btn")
 
         # Replace the curseforge_view placeholder with the actual view
-        placeholder = self.curseforge_tab.findChild(QWidget, "cf_placeholder")
+        placeholder: QWidget = self.curseforge_tab.findChild(QWidget, "cf_placeholder")
         # Get the grid position of the placeholder
-        pos = self.curseforge_tab.layout().getItemPosition(placeholder)
-        # Remove the placeholder
+        pos: tuple = self.curseforge_tab.layout().getItemPosition(self.curseforge_tab.layout().indexOf(placeholder))
+        # Remove the placeholder from the layout and delete it
         self.curseforge_tab.layout().removeWidget(placeholder)
         placeholder.deleteLater()
-        # Add the view
+        # Add the curseforge progress view
         self.curseforge_tab.layout().addWidget(self.curseforge_view, pos[0], pos[1])
+        
 
 
 
