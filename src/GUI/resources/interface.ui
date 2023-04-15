@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>220</height>
+    <width>559</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="font">
@@ -37,6 +37,23 @@
        <string>CurseForge</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="cf_output_folder_le">
+         <property name="placeholderText">
+          <string>Please enter/select your output folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="cf_output_folder_btn">
+         <property name="text">
+          <string>Browse</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QWidget" name="cf_placeholder" native="true"/>
+       </item>
        <item row="1" column="2">
         <widget class="QComboBox" name="cf_mode_combo">
          <item>
@@ -63,7 +80,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
+       <item row="0" column="4">
         <widget class="QPushButton" name="cf_input_file_btn">
          <property name="text">
           <string>Browse</string>
@@ -97,19 +114,26 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="cf_output_folder_le">
-         <property name="placeholderText">
-          <string>Please enter/select your output folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QPushButton" name="cf_output_folder_btn">
-         <property name="text">
-          <string>Browse</string>
-         </property>
-        </widget>
+       <item row="3" column="4">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="1">
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Copy Logs</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="cf_start_btn">
+           <property name="text">
+            <string>Start</string>
+           </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
