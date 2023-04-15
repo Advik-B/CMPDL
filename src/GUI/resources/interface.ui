@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>UMPDL</class>
+ <widget class="QWidget" name="UMPDL">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>689</width>
-    <height>565</height>
+    <width>550</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="font">
@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>CMPDL by Advik</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -36,6 +36,82 @@
       <attribute name="title">
        <string>CurseForge</string>
       </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="2">
+        <widget class="QComboBox" name="cf_mode_combo">
+         <item>
+          <property name="text">
+           <string>Download Mods</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Extract Configuration</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Download Mods  &amp; Extract Configuration</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Modpack file:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="cf_input_file_btn">
+         <property name="text">
+          <string>Browse</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Mode:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="cf_input_file_le">
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Please enter/select your modpack file path</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Output Folder:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="cf_output_folder_le">
+         <property name="placeholderText">
+          <string>Please enter/select your output folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="cf_output_folder_btn">
+         <property name="text">
+          <string>Browse</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="modrinth_tab">
       <attribute name="title">
