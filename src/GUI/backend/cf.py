@@ -111,7 +111,7 @@ class ModDownloadList(QListView):
         self.chunk_size = chunk_size
 
         self.testlbl = QLabel(
-            "If you are seeing this\n"
+            "If you are seeing this...\n"
             "then replacing the placeholder widget worked!",
             self
         ) # TODO: Remove this after testing
