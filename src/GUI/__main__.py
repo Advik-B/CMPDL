@@ -22,8 +22,6 @@ from .v import API_KEY
 class CMPDL(QWidget):
     def __init__(self):
         super().__init__()
-        self.st: str = ""
-
         self.setupUI()
         self.show()
 
