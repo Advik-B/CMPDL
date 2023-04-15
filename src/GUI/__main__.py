@@ -56,7 +56,8 @@ class CMPDL(QWidget):
         placeholder.deleteLater()
         # Add the curseforge progress view
         self.curseforge_tab.layout().addWidget(self.curseforge_view, pos[0], pos[1])
-        
+
+
 
 
 
