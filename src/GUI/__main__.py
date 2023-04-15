@@ -1,11 +1,10 @@
 __version__ = "v2.6.0"
 
-from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton
 from PyQt6.QtGui import QIcon
 from PyQt6.uic import loadUi
 from sys import argv
 from contextlib import suppress
-from os import environ
 import qdarktheme
 
 
