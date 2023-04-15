@@ -46,17 +46,17 @@ class CMPDL(QWidget):
         )
         self.curseforge_save_path = self.findChild(QLineEdit, "cf_output_folder_le")
         self.curseforge_start_btn = self.findChild(QPushButton, "cf_start_btn")
-        self.utils_tab: QTabWidget = self.curseforge_tab.findChild(QTabWidget, "cf_utility_tabs")
 
-        # Get the first tab in the utility tab widget
-        widget_to_replace = self.utils_tab.widget(0)
-        # Replace it with the mod download list
-        self.utils_tab.removeTab(0)
-        self.utils_tab.insertTab(0, self.curseforge_view, "Progress")
-        # Delete the old widget (the replaced one)
-        widget_to_replace.deleteLater()
-        # Set the default view to the curseforge view
-        self.utils_tab.setCurrentIndex(0)
+        # Replace the curseforge_view placeholder with the actual view
+        placeholder = self.curseforge_tab.findChild(QWidget, "cf_placeholder")
+        # Get the grid position of the placeholder
+        pos = self.curseforge_tab.layout().getItemPosition(placeholder)
+        # Remove the placeholder
+        self.curseforge_tab.layout().removeWidget(placeholder)
+        placeholder.deleteLater()
+        # Add the view
+        self.curseforge_tab.layout().addWidget(self.curseforge_view, pos[0], pos[1])
+
 
 
 
