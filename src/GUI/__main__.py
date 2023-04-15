@@ -42,7 +42,7 @@ class CMPDL(QWidget):
         self.show()
 
     def setupUI(self):
-        loadUi("resources/main.ui", self)
+        loadUi("resources/interface.ui", self)
         # Set window icon
         self.setWindowIcon(QIcon("resources/icon.png"))
 
