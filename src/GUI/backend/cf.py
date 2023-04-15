@@ -110,7 +110,7 @@ class ModDownloadList(QListView):
         self.save_path = save_path
         self.chunk_size = chunk_size
 
-        self.testlbl = QLabel("Test") # TODO: Remove this after testing
+        self.testlbl = QLabel("Test", self) # TODO: Remove this after testing
 
 
         if isinstance(API, str):
