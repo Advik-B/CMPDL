@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>664</width>
-    <height>352</height>
+    <width>652</width>
+    <height>379</height>
    </rect>
   </property>
   <property name="font">
@@ -20,13 +20,6 @@
    <string>CMPDL by Advik</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:20pt; text-decoration: none; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -111,43 +104,14 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="4">
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Copy Logs</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="cf_start_btn">
-           <property name="text">
-            <string>Start</string>
-           </property>
-           <property name="default">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="3" column="2">
-        <widget class="QTabWidget" name="cf_utility_tabs">
-         <property name="currentIndex">
-          <number>0</number>
+        <widget class="QWidget" name="cf_placeholder" native="true"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Progress:</string>
          </property>
-         <widget class="QWidget" name="cf_placeholder">
-          <attribute name="title">
-           <string>Progress</string>
-          </attribute>
-          <layout class="QGridLayout" name="gridLayout_4"/>
-         </widget>
-         <widget class="QWidget" name="cf_logs">
-          <attribute name="title">
-           <string>Logs</string>
-          </attribute>
-         </widget>
         </widget>
        </item>
       </layout>
@@ -168,6 +132,34 @@
       </attribute>
      </widget>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:20pt; text-decoration: none; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Copy Logs</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="cf_start_btn">
+       <property name="text">
+        <string>Start</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
