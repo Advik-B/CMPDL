@@ -1,6 +1,6 @@
 __version__ = "v2.6.0"
 
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QTabWidget
 from PyQt6.QtGui import QIcon
 from PyQt6.uic import loadUi
 from sys import argv
@@ -45,16 +45,18 @@ class CMPDL(QWidget):
         )
         self.curseforge_save_path = self.findChild(QLineEdit, "cf_output_folder_le")
         self.curseforge_start_btn = self.findChild(QPushButton, "cf_start_btn")
-        # Replace the placeholder widget with the actual widget
-        # Find the placeholder widget
-        placeholder: QWidget = self.curseforge_tab.findChild(QWidget, "cf_placeholder")
-        # Get the placeholder widget's x and y grid positions
-        x = self.curseforge_tab.layout().getItemPosition(self.curseforge_tab.layout().indexOf(placeholder))
-        # Remove the placeholder widget
-        self.curseforge_tab.layout().removeWidget(placeholder)
-        # Add the actual widget
-        self.curseforge_tab.layout().addWidget(self.curseforge_view, x[0], x[1])
-        self.setWindowIcon(QIcon("resources/icon.png"))
+        self.utils_tab: QTabWidget = self.curseforge_tab.findChild(QTabWidget, "cf_utility_tabs")
+
+        # Get the first tab in the utility tab widget
+        widget_to_replace = self.utils_tab.widget(0)
+        # Replace it with the mod download list
+        self.utils_tab.removeTab(0)
+        self.utils_tab.insertTab(0, self.curseforge_view, "Progress")
+        # Delete the old widget (the replaced one)
+        widget_to_replace.deleteLater()
+        # Set the default view to the curseforge view
+        self.utils_tab.setCurrentIndex(0)
+        
 
 
 
