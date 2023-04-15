@@ -6,13 +6,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>435</height>
+    <width>689</width>
+    <height>565</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <stylestrategy>PreferAntialias</stylestrategy>
+    <kerning>true</kerning>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/Advik-B/CMPDL&quot;&gt;&lt;span style=&quot; font-size:20pt; text-decoration: none; color:#ffffff;&quot;&gt;C.M.P.D.L&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="curseforge_tab">
+      <attribute name="title">
+       <string>CurseForge</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="modrinth_tab">
+      <attribute name="title">
+       <string>Modrinth</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="feedthebeast_tab">
+      <attribute name="title">
+       <string>Feed the beast</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="other_tab">
+      <attribute name="title">
+       <string>Other Launchers</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
