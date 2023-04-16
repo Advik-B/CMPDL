@@ -2,6 +2,7 @@
 > A better version of [Franckyi/CMPDL](https://github.com/Franckyi/CMPDL) rewritten in [python](https://python.org/about)
 
 **IMPORTANT ANNOUNCEMENT :warning:** 
+
 Due to a misssing library (A console-like GUI logs viewer). I have paused development on this project and started writing the missing library from scratch
 
 ---
