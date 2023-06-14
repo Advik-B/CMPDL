@@ -2,3 +2,4 @@ PyQt6
 curseforge
 qt_material
 darkdetect
+QtLogger
