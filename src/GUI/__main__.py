@@ -5,6 +5,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.uic import loadUi
 from sys import argv
 from contextlib import suppress
+from QtLogger import QtLogger
 import qdarktheme
 from backend.cf import *
 
@@ -55,7 +56,23 @@ class CMPDL(QWidget):
         placeholder.deleteLater()
         # Add the curseforge progress view
         self.curseforge_tab.layout().addWidget(self.curseforge_view, pos[0], pos[1])
+        # Get the grid position of the log placeholder
+        logger_placeholder: QWidget = self.layout().findChild(QWidget, "logger_ph")
+        print(logger_placeholder)
+        # Get the grid position of the placeholder
+        pos: tuple = self.layout().getItemPosition(self.curseforge_tab.layout().indexOf(logger_placeholder))
+        # Remove the log placeholder from the layout and delete it
+        self.curseforge_tab.layout().removeWidget(logger_placeholder)
+        logger_placeholder.deleteLater()
+        # Add the logger
+        self.logger = QtLogger()
+        self.curseforge_tab.layout().addWidget(self.logger, pos[0], pos[1])
+        self.curseforge_tab.layout().setColumnStretch(0, 1)
+        self.curseforge_tab.layout().setColumnStretch(1, 1)
+        self.curseforge_tab.layout().setRowStretch(0, 1)
 
+        self.logger.start()
+        # Connect signals
 
 if __name__ == "__main__":
     app = QApplication(argv)
